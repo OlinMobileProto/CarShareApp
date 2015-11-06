@@ -11,6 +11,10 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -25,6 +29,7 @@ public class loginFacebook extends Fragment {
 
     public LoginButton loginButton;
     public CallbackManager callbackManager;
+    public AccessToken accessToken;
     @Override
     public View onCreateView(
             LayoutInflater inflater,
@@ -43,8 +48,24 @@ public class loginFacebook extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                Log.d("Access token: ", AccessToken.getCurrentAccessToken().toString());
+//                Log.d("Access token: ", AccessToken.getCurrentAccessToken().toString());
+                Log.d("Access token: ", loginResult.getAccessToken().getToken());
+                accessToken = loginResult.getAccessToken();
                 Log.d("Profile: ", Profile.getCurrentProfile().toString());
+
+                GraphRequestAsyncTask request = new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me/friends",
+                        null,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+            /* handle the result */
+                                Log.d("Response", response.toString());
+                            }
+                        }
+                ).executeAsync();
+
             }
 
             @Override
@@ -58,7 +79,6 @@ public class loginFacebook extends Fragment {
             }
 
 
-
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +87,6 @@ public class loginFacebook extends Fragment {
                 LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
             }
         });
-
-
 
     return rootview;
     }
