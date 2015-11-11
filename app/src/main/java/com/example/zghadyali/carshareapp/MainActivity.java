@@ -19,28 +19,29 @@ public class MainActivity extends AppCompatActivity {
     public loginFacebook loginfb;
     public VenmoPayment venmoPayment;
     private View view;
-    private String appId = getString(R.string.appId);
-    private String appName = getString(R.string.app_name);
-    private String recipient = "venmo@venmo.com";
-    private String amount = "0.10";
-    private String note = "Thanks!";
-    private String txn = "pay";
-    private final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.getInteger(getString(R.string.appId));
-    private String app_secret = getString(R.string.appSecret);
-    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
-        startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+        String appId = getString(R.string.appId);
+        String appName = getString(R.string.app_name);
+        String recipient = "venmo@venmo.com";
+        String amount = "0.10";
+        String note = "Thanks!";
+        String txn = "pay";
+        final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
+        String app_secret = getString(R.string.appSecret);
+        if(VenmoLibrary.isVenmoInstalled(getApplicationContext())) {
+            Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
+            startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+        }
 
-//        loginfb = new loginFacebook();
+        loginfb = new loginFacebook();
 //        venmoPayment = new VenmoPayment();
-////        transitionToFragment(loginfb);
-//        transitionToFragment(venmoPayment);
+        transitionToFragment(loginfb);
+//        transitionToFragment(venmoPayment);}
     }
 
     public void transitionToFragment(Fragment fragment){
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
 //        loginfb.callbackManager.onActivityResult(requestCode, resultCode, data);
+        final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
+        String app_secret = getString(R.string.appSecret);
         if (requestCode == REQUEST_CODE_VENMO_APP_SWITCH) {
             if (resultCode == RESULT_OK) {
                 String signedrequest = data.getStringExtra("signedrequest");
