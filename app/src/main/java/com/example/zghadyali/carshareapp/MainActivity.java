@@ -14,7 +14,7 @@ import com.facebook.FacebookSdk;
 
 public class MainActivity extends AppCompatActivity {
 
-    public loginFacebook loginfb;
+    private loginFacebook loginfb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +60,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public loginFacebook getLoginfb() {
+        return loginfb;
     }
 }
