@@ -26,6 +26,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -43,8 +44,9 @@ public class loginFacebook extends Fragment {
     public ArrayAdapter<String> friendsAdapter;   //use the array adapter to update the view of
     public EditText searchFriends;
     public ArrayList<String> friends;
-    public ArrayList<String> approved_list;
+    public ArrayList<Integer> approved_list = new ArrayList<>();
     public Button next;
+    private JSONArray friendsJSON;
 
     @Override
     public View onCreateView(
@@ -83,8 +85,10 @@ public class loginFacebook extends Fragment {
                                     friends = new ArrayList<String>();
                                     JSONObject res = response.getJSONObject();
 //                                    Log.d("Response", res.toString());
-                                    JSONArray friendsJSON = res.getJSONArray("data");
+//                                    JSONArray friendsJSON = res.getJSONArray("data");
+                                    friendsJSON = res.getJSONArray("data");
                                     Log.d("friendsJSON: ", friendsJSON.toString());
+
                                     if (friendsJSON != null) {
                                         int len = friendsJSON.length();
                                         Log.d("length friendsJSON", String.valueOf(len));
@@ -95,9 +99,7 @@ public class loginFacebook extends Fragment {
                                             friends.add(test.get("name").toString());
                                         }
                                         Log.d("Friends List: ", friends.toString());
-//                                        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, friends);
-//                                        friendsList.setAdapter(friendsAdapter);
-                                        MyCustomAdapter adapter = new MyCustomAdapter(friends, getActivity());
+                                        MyCustomAdapter adapter = new MyCustomAdapter(friends, loginFacebook.this, getActivity());
                                         friendsList.setAdapter(adapter);
                                     }
                                 } catch (Exception e) {
@@ -158,4 +160,48 @@ public class loginFacebook extends Fragment {
 
     return rootview;
     }
+
+
+
+//    public void addIDToApprovedList(String id) {
+//        approved_list.add(id);
+//    }
+
+//    public String IDToName(String id) {
+//
+//    }
+
+    public void addPosToApprovedList(int pos) {
+        approved_list.add(pos);
+        Log.d("new approved list", approved_list.toString());
+    }
+
+    public void removePosFromApprovedList(int pos) {
+        approved_list.remove((Object) pos);
+        Log.d("new approved list", approved_list.toString());
+    }
+
+    public String getIDAtPosition(int pos) {
+        try {
+            return friendsJSON.getJSONObject(pos).get("id").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "0";
+        }
+//        Log.d("test: ", test.toString());
+//        Log.d("test get name: ", test.get("name").toString());
+//        friends.add(test.get("name").toString());
+    }
+
+//    public boolean IDIsInApprovedList(String id) {
+//        return approved_list.contains(id);
+//    }
+
+    public boolean PosIsApproved(int pos) {
+//        if (approved_list == null) {
+//            return false;
+//        }
+        return approved_list.contains(pos);
+    }
+
 }
