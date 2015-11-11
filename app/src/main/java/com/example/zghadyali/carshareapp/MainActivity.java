@@ -9,20 +9,38 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.facebook.FacebookSdk;
 
 public class MainActivity extends AppCompatActivity {
 
     public loginFacebook loginfb;
+    public VenmoPayment venmoPayment;
+    private View view;
+    private String appId = getString(R.string.appId);
+    private String appName = getString(R.string.app_name);
+    private String recipient = "venmo@venmo.com";
+    private String amount = "0.10";
+    private String note = "Thanks!";
+    private String txn = "pay";
+    private final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.getInteger(getString(R.string.appId));
+    private String app_secret = getString(R.string.appSecret);
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        loginfb = new loginFacebook();
-        transitionToFragment(loginfb);
+        Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
+        startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+
+//        loginfb = new loginFacebook();
+//        venmoPayment = new VenmoPayment();
+////        transitionToFragment(loginfb);
+//        transitionToFragment(venmoPayment);
     }
 
     public void transitionToFragment(Fragment fragment){
@@ -36,8 +54,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        loginfb.callbackManager.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
+//        loginfb.callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_VENMO_APP_SWITCH) {
+            if (resultCode == RESULT_OK) {
+                String signedrequest = data.getStringExtra("signedrequest");
+                if (signedrequest != null) {
+                    VenmoLibrary.VenmoResponse response = (new VenmoLibrary()).validateVenmoPaymentResponse(signedrequest, app_secret);
+                    if (response.getSuccess().equals("1")) {
+                        //Payment successful.  Use data from response object to display a success message
+                        String note = response.getNote();
+                        String amount = response.getAmount();
+                    }
+                } else {
+                    String error_message = data.getStringExtra("error_message");
+                    //An error ocurred.  Make sure to display the error_message to the user
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                //The user cancelled the payment
+            }
+        }
     }
 
     @Override
