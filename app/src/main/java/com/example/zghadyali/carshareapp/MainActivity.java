@@ -1,6 +1,8 @@
 package com.example.zghadyali.carshareapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        SharedPreferences preferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        preferences.edit().clear().apply();
         loginfb = new loginFacebook();
         transitionToFragment(loginfb);
     }

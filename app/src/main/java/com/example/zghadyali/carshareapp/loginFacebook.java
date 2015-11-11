@@ -1,5 +1,7 @@
 package com.example.zghadyali.carshareapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +45,7 @@ public class loginFacebook extends Fragment {
     public ArrayAdapter<String> friendsAdapter;   //use the array adapter to update the view of
     public EditText searchFriends;
     public ArrayList<String> friends;
-    public ArrayList<String> approved_list;
+    public JSONArray approved_list;
     public Button next;
 
     @Override
@@ -65,45 +67,79 @@ public class loginFacebook extends Fragment {
             public void onSuccess(LoginResult loginResult) {
                 // App code
 //                Log.d("Access token: ", AccessToken.getCurrentAccessToken().toString());
-                friendsList.setVisibility(View.VISIBLE);
-                searchFriends.setVisibility(View.VISIBLE);
-                next.setVisibility(View.VISIBLE);
-                Log.d("Access token: ", loginResult.getAccessToken().getToken());
-                accessToken = loginResult.getAccessToken();
-                Log.d("Profile: ", Profile.getCurrentProfile().toString());
+                SharedPreferences preferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+                if (preferences.contains("HAS_BEEN_RUN_FLAG")){
+                    //
+                }
+                else {
+                    //do the facebook authentication
+                    preferences.edit().putBoolean("HAS_BEEN_RUN_FLAG", true).apply();
+                    friendsList.setVisibility(View.VISIBLE);
+                    searchFriends.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.VISIBLE);
+                    Log.d("Access token: ", loginResult.getAccessToken().getToken());
+                    accessToken = loginResult.getAccessToken();
+                    Log.d("Profile: ", Profile.getCurrentProfile().toString());
 
-                GraphRequestAsyncTask request = new GraphRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        "/me/friends",
-                        null,
-                        HttpMethod.GET,
-                        new GraphRequest.Callback() {
-                            public void onCompleted(GraphResponse response) {
-                                try {
-                                    friends = new ArrayList<String>();
-                                    JSONObject res = response.getJSONObject();
-//                                    Log.d("Response", res.toString());
-                                    JSONArray friendsJSON = res.getJSONArray("data");
-                                    Log.d("friendsJSON: ", friendsJSON.toString());
-                                    if (friendsJSON != null) {
-                                        int len = friendsJSON.length();
-                                        Log.d("length friendsJSON", String.valueOf(len));
-                                        for (int i = 0; i < len; i++) {
-                                            JSONObject test = friendsJSON.getJSONObject(i);
-                                            Log.d("test: ", test.toString());
-                                            Log.d("test get name: ", test.get("name").toString());
-                                            friends.add(test.get("name").toString());
-                                        }
-                                        Log.d("Friends List: ", friends.toString());
-                                        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, friends);
-                                        friendsList.setAdapter(friendsAdapter);
+                /* make the API call */
+                    GraphRequestAsyncTask userid_request = new GraphRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            "/me",
+                            null,
+                            HttpMethod.GET,
+                            new GraphRequest.Callback() {
+                                public void onCompleted(GraphResponse response) {
+                                    try {
+                                        JSONObject user_id = response.getJSONObject();
+                                        Log.d("USER ID JSON", user_id.toString());
+                                    } catch (Exception e) {
+                                        Log.e("ERROR: ", e.getMessage());
                                     }
-                                } catch (Exception e) {
-                                    Log.e("Error: ", e.getMessage());
                                 }
                             }
-                        }
-                ).executeAsync();
+                    ).executeAsync();
+
+                    GraphRequestAsyncTask request = new GraphRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            "/me/friends",
+                            null,
+                            HttpMethod.GET,
+                            new GraphRequest.Callback() {
+                                public void onCompleted(GraphResponse response) {
+                                    try {
+                                        friends = new ArrayList<String>();
+                                        approved_list = new JSONArray();
+                                        JSONObject res = response.getJSONObject();
+//                                    Log.d("Response", res.toString());
+                                        final JSONArray friendsJSON = res.getJSONArray("data");
+                                        Log.d("friendsJSON: ", friendsJSON.toString());
+                                        if (friendsJSON != null) {
+                                            int len = friendsJSON.length();
+                                            for (int i = 0; i < len; i++) {
+                                                JSONObject test = friendsJSON.getJSONObject(i);
+                                                friends.add(test.get("name").toString());
+                                            }
+                                            friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, friends);
+                                            friendsList.setAdapter(friendsAdapter);
+                                            friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                    try {
+                                                        approved_list.put(friendsJSON.get(position));
+                                                        Log.d("approved list: ", approved_list.toString());
+                                                    } catch (Exception e) {
+                                                        Log.e("Error: ", e.getMessage());
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    } catch (Exception e) {
+                                        Log.e("Error: ", e.getMessage());
+                                    }
+                                }
+                            }
+                    ).executeAsync();
+                }
             }
 
             @Override
@@ -125,8 +161,8 @@ public class loginFacebook extends Fragment {
                 if (accessToken == null) {
                     LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
                 } else {
-                    LoginManager.getInstance().logOut();
                     accessToken = null;
+                    LoginManager.getInstance().logOut();
                     friends = new ArrayList<String>();
                     searchFriends.setVisibility(View.GONE);
                     friendsList.setVisibility(View.GONE);
@@ -141,18 +177,6 @@ public class loginFacebook extends Fragment {
         friendsList.setVisibility(View.GONE);
         next = (Button) rootview.findViewById(R.id.next);
         next.setVisibility(View.GONE);
-
-//        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, friends);
-//        friendsList.setAdapter(friendsAdapter);
-//        friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (friends != null) {
-//                    approved_list.add(friends.get(position));
-//                    Log.d("approved list: ", approved_list.toString());
-//                }
-//            }
-//        });
 
     return rootview;
     }
