@@ -95,8 +95,10 @@ public class loginFacebook extends Fragment {
                                             friends.add(test.get("name").toString());
                                         }
                                         Log.d("Friends List: ", friends.toString());
-                                        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, friends);
-                                        friendsList.setAdapter(friendsAdapter);
+//                                        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, friends);
+//                                        friendsList.setAdapter(friendsAdapter);
+                                        MyCustomAdapter adapter = new MyCustomAdapter(friends, getActivity());
+                                        friendsList.setAdapter(adapter);
                                     }
                                 } catch (Exception e) {
                                     Log.e("Error: ", e.getMessage());
