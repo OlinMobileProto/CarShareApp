@@ -84,8 +84,6 @@ public class loginFacebook extends Fragment {
                                 try {
                                     friends = new ArrayList<String>();
                                     JSONObject res = response.getJSONObject();
-//                                    Log.d("Response", res.toString());
-//                                    JSONArray friendsJSON = res.getJSONArray("data");
                                     friendsJSON = res.getJSONArray("data");
                                     Log.d("friendsJSON: ", friendsJSON.toString());
 
@@ -161,16 +159,6 @@ public class loginFacebook extends Fragment {
     return rootview;
     }
 
-
-
-//    public void addIDToApprovedList(String id) {
-//        approved_list.add(id);
-//    }
-
-//    public String IDToName(String id) {
-//
-//    }
-
     public void addPosToApprovedList(int pos) {
         approved_list.add(pos);
         Log.d("new approved list", approved_list.toString());
@@ -181,26 +169,7 @@ public class loginFacebook extends Fragment {
         Log.d("new approved list", approved_list.toString());
     }
 
-    public String getIDAtPosition(int pos) {
-        try {
-            return friendsJSON.getJSONObject(pos).get("id").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "0";
-        }
-//        Log.d("test: ", test.toString());
-//        Log.d("test get name: ", test.get("name").toString());
-//        friends.add(test.get("name").toString());
-    }
-
-//    public boolean IDIsInApprovedList(String id) {
-//        return approved_list.contains(id);
-//    }
-
     public boolean PosIsApproved(int pos) {
-//        if (approved_list == null) {
-//            return false;
-//        }
         return approved_list.contains(pos);
     }
 

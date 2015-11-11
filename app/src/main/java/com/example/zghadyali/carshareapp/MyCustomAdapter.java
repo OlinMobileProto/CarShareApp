@@ -52,20 +52,11 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
 
         //Handle TextView and display string from your list
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
-        String name = list.get(position);
-        listItemText.setText(name);
+        listItemText.setText(list.get(position));
 
-//        String thisID = ((MainActivity)context).getLoginfb().getIDAtPosition(position);
-//        String thisID = loginfb.getIDAtPosition(position);
-//        Log.d("ADAPTER thisID is ",thisID);
-
-//        final boolean isApproved = loginfb.IDIsInApprovedList(thisID);
         final boolean isApproved = loginfb.PosIsApproved(position);
 
-
         //Handle buttons and add onClickListeners
-//        Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
-//        Button addBtn = (Button)view.findViewById(R.id.add_btn);
         Button addDelBtn = (Button)view.findViewById(R.id.add_del_btn);
         if (isApproved) {
             addDelBtn.setText("Remove");
@@ -89,22 +80,6 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
                 notifyDataSetChanged();
             }
         });
-
-//        deleteBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                //do something
-//                list.remove(position); //or some other task
-//                notifyDataSetChanged();
-//            }
-//        });
-//        addBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                //do something
-//                notifyDataSetChanged();
-//            }
-//        });
 
         return view;
     }
