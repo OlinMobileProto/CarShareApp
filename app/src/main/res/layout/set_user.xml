@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.example.zghadyali.carshareapp.loginFacebook">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Are you a ..."
+    android:textSize="25sp"
+    android:layout_marginTop="20dp"
+    android:id="@+id/context"
+    android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Car Owner?"
+        android:id="@+id/set_owner"
+        android:layout_below="@id/context"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Car Borrower?"
+        android:id="@+id/set_borrower"
+        android:layout_below="@id/set_owner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
+
