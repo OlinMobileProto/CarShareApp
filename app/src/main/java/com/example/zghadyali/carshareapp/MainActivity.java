@@ -1,6 +1,9 @@
 package com.example.zghadyali.carshareapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +20,6 @@ import com.facebook.FacebookSdk;
 public class MainActivity extends AppCompatActivity {
 
     public loginFacebook loginfb;
-    public VenmoPayment venmoPayment;
     private View view;
 
     @Override
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
         String appId = getString(R.string.appId);
         String appName = getString(R.string.app_name);
         String recipient = "venmo@venmo.com";
@@ -36,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
         if(VenmoLibrary.isVenmoInstalled(getApplicationContext())) {
             Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
             startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=com.venmo"));
+            startActivity(intent);
+
         }
 
         loginfb = new loginFacebook();
-//        venmoPayment = new VenmoPayment();
         transitionToFragment(loginfb);
-//        transitionToFragment(venmoPayment);}
     }
 
     public void transitionToFragment(Fragment fragment){
@@ -51,6 +57,41 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
+    }
+
+    public void venmoPaymentFunction() {
+        String appId = getString(R.string.appId);
+        String appName = getString(R.string.app_name);
+        String recipient = "venmo@venmo.com";
+        String amount = "0.10";
+        String note = "Thanks!";
+        String txn = "pay";
+        final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
+        String app_secret = getString(R.string.appSecret);
+        if(VenmoLibrary.isVenmoInstalled(getApplicationContext())) {
+            Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
+            startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+        } else {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+            alertDialog.setTitle("Install Venmo");
+
+            alertDialog.setPositiveButton("Google Play Store", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.venmo"));
+                    startActivity(intent);
+                }
+            });
+
+            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            });
+            alertDialog.create();
+        }
     }
 
     @Override
