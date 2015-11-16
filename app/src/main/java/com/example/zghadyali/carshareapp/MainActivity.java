@@ -20,6 +20,7 @@ import com.facebook.FacebookSdk;
 public class MainActivity extends AppCompatActivity {
 
     public loginFacebook loginfb;
+    private Payment venmoPayment = new Payment();
     private View view;
 
     @Override
@@ -36,18 +37,20 @@ public class MainActivity extends AppCompatActivity {
         String txn = "pay";
         final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
         String app_secret = getString(R.string.appSecret);
-        if(VenmoLibrary.isVenmoInstalled(getApplicationContext())) {
-            Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
-            startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=com.venmo"));
-            startActivity(intent);
+//        if(VenmoLibrary.isVenmoInstalled(getApplicationContext())) {
+//            Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
+//            startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+//        } else {
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(Uri.parse("market://details?id=com.venmo"));
+//            startActivity(intent);
+//
+//        }
 
-        }
 
         loginfb = new loginFacebook();
-        transitionToFragment(loginfb);
+//        transitionToFragment(loginfb);
+        transitionToFragment(venmoPayment);
     }
 
     public void transitionToFragment(Fragment fragment){
