@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,7 +19,6 @@ public class loginFacebook extends Fragment {
 
     public LoginButton loginButton;
     public setUser setuser;
-
 
     @Override
     public View onCreateView(
@@ -58,4 +56,19 @@ public class loginFacebook extends Fragment {
 
     return rootview;
     }
+
+    public void addPosToApprovedList(int pos) {
+        approved_list.add(pos);
+        Log.d("new approved list", approved_list.toString());
+    }
+
+    public void removePosFromApprovedList(int pos) {
+        approved_list.remove((Object) pos);
+        Log.d("new approved list", approved_list.toString());
+    }
+
+    public boolean PosIsApproved(int pos) {
+        return approved_list.contains(pos);
+    }
+
 }

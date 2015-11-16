@@ -151,4 +151,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public loginFacebook getLoginfb() {
+        return loginfb;
+    }
 }
