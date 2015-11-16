@@ -27,7 +27,7 @@ public class setApprovedList extends Fragment {
     public ListView friendsList;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
-    public JSONArray approved_list;
+    public ArrayList<Integer> approved_list;
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
@@ -42,20 +42,11 @@ public class setApprovedList extends Fragment {
         searchFriends = (EditText) rootview.findViewById(R.id.search_friends_list);
         next = (Button) rootview.findViewById(R.id.next_to_details);
 
-        approved_list = new JSONArray();
+        approved_list = new ArrayList<Integer>();
         friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, ((MainActivity)getActivity()).friends);
-        friendsList.setAdapter(friendsAdapter);
-        friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    approved_list.put(((MainActivity)getActivity()).friendsJSON.get(position));
-                    Log.d("approved list: ", approved_list.toString());
-                } catch (Exception e) {
-                    Log.e("Error: ", e.getMessage());
-                }
-            }
-        });
+
+        MyCustomAdapter adapter = new MyCustomAdapter(((MainActivity)getActivity()).friends, setApprovedList.this, getActivity());
+        friendsList.setAdapter(adapter);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +71,20 @@ public class setApprovedList extends Fragment {
         });
 
         return rootview;
+    }
+
+    public void addPosToApprovedList(int pos) {
+        approved_list.add(pos);
+        Log.d("new approved list", approved_list.toString());
+    }
+
+    public void removePosFromApprovedList(int pos) {
+        approved_list.remove((Object) pos);
+        Log.d("new approved list", approved_list.toString());
+    }
+
+    public boolean PosIsApproved(int pos) {
+        return approved_list.contains(pos);
     }
 
 
