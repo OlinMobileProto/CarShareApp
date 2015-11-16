@@ -57,18 +57,4 @@ public class loginFacebook extends Fragment {
     return rootview;
     }
 
-    public void addPosToApprovedList(int pos) {
-        approved_list.add(pos);
-        Log.d("new approved list", approved_list.toString());
-    }
-
-    public void removePosFromApprovedList(int pos) {
-        approved_list.remove((Object) pos);
-        Log.d("new approved list", approved_list.toString());
-    }
-
-    public boolean PosIsApproved(int pos) {
-        return approved_list.contains(pos);
-    }
-
 }
