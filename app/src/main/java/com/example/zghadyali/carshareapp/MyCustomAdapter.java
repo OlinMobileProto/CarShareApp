@@ -15,14 +15,12 @@ import java.util.ArrayList;
 public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
-    private loginFacebook loginfb;
+    private setApprovedList setAL;
 
-
-
-    public MyCustomAdapter(ArrayList<String> list, loginFacebook loginfb,Context context) {
+    public MyCustomAdapter(ArrayList<String> list, setApprovedList setAL,Context context) {
         this.list = list;
         this.context = context;
-        this.loginfb = loginfb;
+        this.setAL = setAL;
     }
 
     @Override
@@ -54,7 +52,7 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
         listItemText.setText(list.get(position));
 
-        final boolean isApproved = loginfb.PosIsApproved(position);
+        final boolean isApproved = setAL.PosIsApproved(position);
 
         //Handle buttons and add onClickListeners
         Button addDelBtn = (Button)view.findViewById(R.id.add_del_btn);
@@ -71,11 +69,11 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
                 // TODO check if this is add or delete, do the action
                 if (isApproved) {
                     // Remove from approved list
-                    loginfb.removePosFromApprovedList(position);
+                    setAL.removePosFromApprovedList(position);
                 }
                 else {
                     // Add to approved list
-                    loginfb.addPosToApprovedList(position);
+                    setAL.addPosToApprovedList(position);
                 }
                 notifyDataSetChanged();
             }
