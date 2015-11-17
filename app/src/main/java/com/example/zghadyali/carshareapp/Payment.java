@@ -35,14 +35,12 @@ public class Payment extends Fragment {
                 final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
                 String app_secret = getString(R.string.appSecret);
                 if(VenmoLibrary.isVenmoInstalled(getContext())) {
-//                    Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
-//                    startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
-                    Log.d("VENMO INSTALLED", "INSTALLED");
+                    Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
+                    startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
                 } else {
-//                    Intent intent = new Intent(Intent.ACTION_VIEW);
-//                    intent.setData(Uri.parse("market://details?id=com.venmo"));
-//                    startActivity(intent);
-                    Log.d("VENMO NOT INSTALLED", "NOT INSTALLED");
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.venmo"));
+                    startActivity(intent);
 
                 }
             }
