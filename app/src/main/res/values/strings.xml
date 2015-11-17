@@ -2,4 +2,10 @@
     <string name="app_name">CarShareApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="car_location">Where is your car parked?</string>
+    <string name="key_location">Where can borrowers find your keys?</string>
+    <string name="hourly_rate">What hourly rate do you charge?</string>
+    <string name="dollar">$</string>
+    <string name="per_hour">/ hour</string>
+    <string name="done">Done</string>
 </resources>

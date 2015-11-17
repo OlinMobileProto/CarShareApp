@@ -19,39 +19,41 @@ public class setUser extends Fragment {
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public setApprovedList setAL;
+    private MainActivity mainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootview = inflater.inflate(R.layout.set_user, container, false);
+        View rootView = inflater.inflate(R.layout.set_user, container, false);
 
-        setOwner = (Button) rootview.findViewById(R.id.set_owner);
-        setBorrower = (Button) rootview.findViewById(R.id.set_borrower);
+        mainActivity = (MainActivity) getActivity();
+        setOwner = (Button) rootView.findViewById(R.id.set_owner);
+        setBorrower = (Button) rootView.findViewById(R.id.set_borrower);
 
         setOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setAL = new setApprovedList();
-                ((MainActivity)getActivity()).transitionToFragment(setAL);
+                mainActivity.transitionToFragment(setAL);
             }
         });
 
-        loginButton = (LoginButton) rootview.findViewById(R.id.login_button);
+        loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         loginButton.setFragment(this);
 
         //should always be logging you out and log out should return you to first screen
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).accessToken = null;
+                mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
-                ((MainActivity)getActivity()).friends = new ArrayList<String>();
+                mainActivity.friends = new ArrayList<String>();
                 loginfb = new loginFacebook();
-                ((MainActivity)getActivity()).transitionToFragment(loginfb);
+                mainActivity.transitionToFragment(loginfb);
             }
         });
 
-        return rootview;
+        return rootView;
     }
 }
