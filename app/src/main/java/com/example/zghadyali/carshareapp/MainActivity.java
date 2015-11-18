@@ -22,6 +22,7 @@ import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -38,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
     public JSONObject userid;
     public JSONArray friendsJSON;
     public ArrayList<String> friends;
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        LoginManager.getInstance().logOut();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

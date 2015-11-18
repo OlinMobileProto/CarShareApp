@@ -47,6 +47,7 @@ public class loginFacebook extends Fragment {
                     else{
                         setuser = new setUser();
                         ((MainActivity)getActivity()).transitionToFragment(setuser);
+                        preferences.edit().putBoolean("HAS_BEEN_RUN_FLAG", true).apply();
                     }
                 } else {
                     ((MainActivity)getActivity()).accessToken = null;

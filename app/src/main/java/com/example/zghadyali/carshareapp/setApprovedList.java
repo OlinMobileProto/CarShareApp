@@ -28,6 +28,7 @@ public class setApprovedList extends Fragment {
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
     public ArrayList<Integer> approved_list;
+    public JSONArray approved_listJSON;
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
@@ -52,6 +53,15 @@ public class setApprovedList extends Fragment {
             @Override
             public void onClick(View v) {
                 //code that will transition to next fragment which should ask for a few more details
+                approved_listJSON = new JSONArray();
+                for (int i=0; i < approved_list.size(); i++){
+                    try{
+                        approved_listJSON.put(((MainActivity) getActivity()).friendsJSON.get(approved_list.get(i)));
+                    } catch (Exception e){
+                        Log.e("Error: ", e.getMessage());
+                    }
+                }
+                Log.d("APPROVED LIST JSON: ", approved_listJSON.toString());
             }
         });
 
