@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public JSONObject userid;
     public JSONArray friendsJSON;
     public ArrayList<String> friends;
+    public String profile_name;
+    public String profile_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
                                     try {
                                         JSONObject user_id = response.getJSONObject();
                                         Log.d("USER ID JSON", user_id.toString());
+                                        profile_name = user_id.getString("name");
+                                        profile_id = user_id.getString("id");
                                         userid = response.getJSONObject();
                                     } catch (Exception e) {
                                         Log.e("Error: ", e.getMessage());

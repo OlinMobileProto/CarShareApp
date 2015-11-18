@@ -2,6 +2,7 @@ package com.example.zghadyali.carshareapp;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class setUser extends Fragment {
 
@@ -33,7 +35,15 @@ public class setUser extends Fragment {
             @Override
             public void onClick(View v) {
                 setAL = new setApprovedList();
+                UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
+                uid = uid.randomUUID();
+                Log.d("UUID: ", uid.toString());
+
+                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+                handler.makeownercar(((MainActivity) getActivity()).profile_id, ((MainActivity) getActivity()).profile_name);
+
                 ((MainActivity)getActivity()).transitionToFragment(setAL);
+
             }
         });
 
