@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> friends;
     public String profile_name;
     public String profile_id;
+    public String carLocation;
+    public String keysLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
