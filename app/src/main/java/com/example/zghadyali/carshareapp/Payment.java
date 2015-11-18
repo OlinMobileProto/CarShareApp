@@ -50,4 +50,28 @@ public class Payment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
+        String app_secret = getString(R.string.appSecret);
+        if (requestCode == REQUEST_CODE_VENMO_APP_SWITCH) {
+            if (resultCode == getActivity().RESULT_OK) {
+                String signedrequest = data.getStringExtra("signedrequest");
+                if (signedrequest != null) {
+                    VenmoLibrary.VenmoResponse response = (new VenmoLibrary()).validateVenmoPaymentResponse(signedrequest, app_secret);
+                    if (response.getSuccess().equals("1")) {
+                        //Payment successful.  Use data from response object to display a success message
+                        String note = response.getNote();
+                        String amount = response.getAmount();
+                    }
+                } else {
+                    String error_message = data.getStringExtra("error_message");
+                    //An error ocurred.  Make sure to display the error_message to the user
+                }
+            } else if (resultCode == getActivity().RESULT_CANCELED) {
+                //The user cancelled the payment
+            }
+        }
+    }
 }
