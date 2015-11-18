@@ -66,7 +66,6 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         addDelBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // TODO check if this is add or delete, do the action
                 if (isApproved) {
                     // Remove from approved list
                     setAL.removePosFromApprovedList(position);

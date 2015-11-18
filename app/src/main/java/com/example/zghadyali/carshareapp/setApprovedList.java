@@ -60,23 +60,20 @@ public class setApprovedList extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                adapter.getFilter().filter(arg0);
                 if (s.toString().equals("")) {
                     // Search field is blank, show everyone
                     MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
-//                    adapter = new TitleListingArrayAdapter(TitleListingActivity.this, R.id.list, titles);
                     friendsListView.setAdapter(adapter);
                 }
                 else {
                     // Filter friends list to only show search matches
-                    ArrayList<String> filteredTitles = new ArrayList<String>();
+                    ArrayList<String> filteredFriends = new ArrayList<String>();
                     for (int i=0; i<mainActivity.friends.size(); i++) {
-                        if (mainActivity.friends.get(i).toString().contains(s)) {
-                            filteredTitles.add(mainActivity.friends.get(i));
+                        if (mainActivity.friends.get(i).contains(s)) {
+                            filteredFriends.add(mainActivity.friends.get(i));
                         }
                     }
-                    MyCustomAdapter adapter = new MyCustomAdapter(filteredTitles, setApprovedList.this, getActivity());
-//                    adapter = new TitleListingArrayAdapter(TitleListingActivity.this, R.id.list, filteredTitles);
+                    MyCustomAdapter adapter = new MyCustomAdapter(filteredFriends, setApprovedList.this, getActivity());
                     friendsListView.setAdapter(adapter);
                 }
             }
