@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public JSONObject userid;
     public JSONArray friendsJSON;
     public ArrayList<String> friends;
+    public String carLocation;
+    public String keysLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

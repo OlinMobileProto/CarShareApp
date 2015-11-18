@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +13,6 @@ import android.widget.ListView;
 
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -27,10 +24,12 @@ public class setApprovedList extends Fragment {
     public ListView friendsList;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
-    public ArrayList<Integer> approved_list;
+    public ArrayList<Integer> approvedList;
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
+    private MainActivity mainActivity;
+    private SetCarInfo setCarInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,20 +37,22 @@ public class setApprovedList extends Fragment {
 
         View rootview = inflater.inflate(R.layout.set_approved_list, container, false);
 
+        mainActivity = (MainActivity) getActivity();
         friendsList = (ListView) rootview.findViewById(R.id.friends_list);
         searchFriends = (EditText) rootview.findViewById(R.id.search_friends_list);
         next = (Button) rootview.findViewById(R.id.next_to_details);
 
-        approved_list = new ArrayList<Integer>();
-        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, ((MainActivity)getActivity()).friends);
+        approvedList = new ArrayList<Integer>();
+        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
 
-        MyCustomAdapter adapter = new MyCustomAdapter(((MainActivity)getActivity()).friends, setApprovedList.this, getActivity());
+        MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
         friendsList.setAdapter(adapter);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code that will transition to next fragment which should ask for a few more details
+                setCarInfo = new SetCarInfo();
+                mainActivity.transitionToFragment(setCarInfo);
             }
         });
 
@@ -62,11 +63,11 @@ public class setApprovedList extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).accessToken = null;
+                mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
-                ((MainActivity)getActivity()).friends = new ArrayList<String>();
+                mainActivity.friends = new ArrayList<String>();
                 loginfb = new loginFacebook();
-                ((MainActivity)getActivity()).transitionToFragment(loginfb);
+                mainActivity.transitionToFragment(loginfb);
             }
         });
 
@@ -74,17 +75,17 @@ public class setApprovedList extends Fragment {
     }
 
     public void addPosToApprovedList(int pos) {
-        approved_list.add(pos);
-        Log.d("new approved list", approved_list.toString());
+        approvedList.add(pos);
+        Log.d("new approved list", approvedList.toString());
     }
 
     public void removePosFromApprovedList(int pos) {
-        approved_list.remove((Object) pos);
-        Log.d("new approved list", approved_list.toString());
+        approvedList.remove((Object) pos);
+        Log.d("new approved list", approvedList.toString());
     }
 
     public boolean PosIsApproved(int pos) {
-        return approved_list.contains(pos);
+        return approvedList.contains(pos);
     }
 
 
