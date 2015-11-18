@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE);
         preferences.edit().clear().apply();
         loginfb = new loginFacebook();
-        transitionToFragment(venmoPayment);
-//        transitionToFragment(loginfb);
+//        transitionToFragment(venmoPayment);
+        transitionToFragment(loginfb);
     }
 
     public void loginSetup(LoginButton button){
