@@ -2,6 +2,8 @@ package com.example.zghadyali.carshareapp;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +17,14 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class setApprovedList extends Fragment {
 
-    public ListView friendsList;
+    public ListView friendsListView;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
     public ArrayList<Integer> approvedList;
@@ -38,15 +41,53 @@ public class setApprovedList extends Fragment {
         View rootview = inflater.inflate(R.layout.set_approved_list, container, false);
 
         mainActivity = (MainActivity) getActivity();
-        friendsList = (ListView) rootview.findViewById(R.id.friends_list);
+        friendsListView = (ListView) rootview.findViewById(R.id.friends_list);
         searchFriends = (EditText) rootview.findViewById(R.id.search_friends_list);
         next = (Button) rootview.findViewById(R.id.next_to_details);
 
         approvedList = new ArrayList<Integer>();
         friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
 
-        MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
-        friendsList.setAdapter(adapter);
+        final MyCustomAdapter friendsAdapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
+        friendsListView.setAdapter(friendsAdapter);
+
+        // Live Search Functionality
+        searchFriends.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                adapter.getFilter().filter(arg0);
+                if (s.toString().equals("")) {
+                    // Search field is blank, show everyone
+                    MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
+//                    adapter = new TitleListingArrayAdapter(TitleListingActivity.this, R.id.list, titles);
+                    friendsListView.setAdapter(adapter);
+                }
+                else {
+                    // Filter friends list to only show search matches
+                    ArrayList<String> filteredTitles = new ArrayList<String>();
+                    for (int i=0; i<mainActivity.friends.size(); i++) {
+                        if (mainActivity.friends.get(i).toString().contains(s)) {
+                            filteredTitles.add(mainActivity.friends.get(i));
+                        }
+                    }
+                    MyCustomAdapter adapter = new MyCustomAdapter(filteredTitles, setApprovedList.this, getActivity());
+//                    adapter = new TitleListingArrayAdapter(TitleListingActivity.this, R.id.list, filteredTitles);
+                    friendsListView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable edit) {
+                if (edit.length() != 0) {
+                    // Business logic for search here
+                }
+            }
+        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
