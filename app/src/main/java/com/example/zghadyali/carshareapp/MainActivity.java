@@ -1,5 +1,9 @@
 package com.example.zghadyali.carshareapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +15,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -33,6 +39,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public loginFacebook loginfb;
+    private Payment venmoPayment = new Payment();
+    private View view;
     public CallbackManager callbackManager;
     public AccessToken accessToken;
     public JSONObject userid;
@@ -52,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE);
         preferences.edit().clear().apply();
         loginfb = new loginFacebook();
-        transitionToFragment(loginfb);
+        transitionToFragment(venmoPayment);
+//        transitionToFragment(loginfb);
     }
 
     public void loginSetup(LoginButton button){
@@ -130,9 +139,30 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
+//        String app_secret = getString(R.string.appSecret);
+//        if (requestCode == REQUEST_CODE_VENMO_APP_SWITCH) {
+//            if (resultCode == RESULT_OK) {
+//                String signedrequest = data.getStringExtra("signedrequest");
+//                if (signedrequest != null) {
+//                    VenmoLibrary.VenmoResponse response = (new VenmoLibrary()).validateVenmoPaymentResponse(signedrequest, app_secret);
+//                    if (response.getSuccess().equals("1")) {
+//                        //Payment successful.  Use data from response object to display a success message
+//                        String note = response.getNote();
+//                        String amount = response.getAmount();
+//                    }
+//                } else {
+//                    String error_message = data.getStringExtra("error_message");
+//                    //An error ocurred.  Make sure to display the error_message to the user
+//                }
+//            } else if (resultCode == RESULT_CANCELED) {
+//                //The user cancelled the payment
+//            }
+//        }
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
