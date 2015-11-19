@@ -33,12 +33,27 @@ public class setUser extends Fragment {
         setOwner = (Button) rootView.findViewById(R.id.set_owner);
         setBorrower = (Button) rootView.findViewById(R.id.set_borrower);
 
+        setBorrower.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+
+                //Makes borrower schema in the server database for facebook user
+                handler.makeperson(((MainActivity) getActivity()).profile_id,((MainActivity) getActivity()).profile_name, "borrower");
+            }
+        });
+
         setOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setAL = new setApprovedList();
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+
+                //Makes owner schema in the server database
+                handler.makeperson(((MainActivity) getActivity()).profile_id,((MainActivity) getActivity()).profile_name, "owner");
+                //Makes car schema in the server database
                 handler.makeownercar(((MainActivity) getActivity()).profile_id, ((MainActivity) getActivity()).profile_name);
+
                 ((MainActivity)getActivity()).transitionToFragment(setAL);
                 mainActivity.transitionToFragment(setAL);
             }

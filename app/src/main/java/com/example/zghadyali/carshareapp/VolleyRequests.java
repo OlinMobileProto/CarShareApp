@@ -25,7 +25,45 @@ public class VolleyRequests {
 
     //Makes the volley request
     public VolleyRequests (Context context){
-        queue = Volley.newRequestQueue(context);
+        queue = Volley.newRequestQueue(context, new OkHttpStack());
+    }
+
+    public void makeperson(String id_name, String ownername, String user_type){
+        String url = "http://52.33.226.47/person";
+        JSONObject PersonInfo = new JSONObject();
+        try{
+            PersonInfo.put("facebook_name", ownername);
+        } catch (Exception e){
+            Log.e("ERROR!", e.getMessage());
+        }
+        try{
+            PersonInfo.put("facebook_id", id_name);
+        } catch (Exception e){
+            Log.e("ERROR!", e.getMessage());
+        }
+        try{
+            PersonInfo.put("user_type", user_type);
+        } catch (Exception e){
+            Log.e("ERROR!", e.getMessage());
+        }
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                PersonInfo,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+
+        queue.add(request);
+
     }
 
     public void makeownercar(String id_name, String ownername){
@@ -63,6 +101,7 @@ public class VolleyRequests {
 
     }
 
+
     public void addtoapproved(String id_name, JSONArray approved_people){
         String url = "http://52.33.226.47/cars/" + id_name + "/approved";
         JSONObject approved_users = new JSONObject();
@@ -91,5 +130,27 @@ public class VolleyRequests {
 
         queue.add(request);
 
+    }
+
+    public void addcarinfo (String id_name, JSONObject owner_details){
+        String url = "http://52.33.226.47/cars/" + id_name;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PATCH,
+                url,
+                owner_details,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+
+        queue.add(request);
     }
 }
