@@ -19,9 +19,6 @@ public class SetCarInfo extends Fragment {
     private EditText keyLocaiton;
     private EditText hourlyRate;
 
-
-    public SetCarInfo() {}
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

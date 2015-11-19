@@ -37,22 +37,14 @@ public class loginFacebook extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mainActivity.accessToken == null) {
-                    LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
-                    //check if first time logging in or
-                    SharedPreferences preferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-                    if (preferences.contains("HAS_BEEN_RUN_FLAG")){
-                        Log.d("I KNOW", "This is not your first time logging in");
-                    }
-                    else{
-                        setuser = new setUser();
-                        ((MainActivity)getActivity()).transitionToFragment(setuser);
-                        preferences.edit().putBoolean("HAS_BEEN_RUN_FLAG", true).apply();
-                    }
+                if (mainActivity.preferences.contains("FB_ACCESS_TOKEN") && !mainActivity.preferences.getBoolean("FB_LOG_IN", false)) {
+                    //you want to log in and go to your home page
+                    Log.d("You are", "going to go to your home page flow brah depending on if you are a borrower or owner");
                 } else {
-                    mainActivity.accessToken = null;
-                    LoginManager.getInstance().logOut();
-                    mainActivity.friends = new ArrayList<String>();
+                    Log.d("You are", "continuing your sign up flow brah, thrilled to meet you");
+                    LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
+                    setuser = new setUser();
+                    mainActivity.transitionToFragment(setuser);
                 }
             }
         });

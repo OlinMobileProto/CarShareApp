@@ -53,6 +53,7 @@ public class setUser extends Fragment {
             public void onClick(View v) {
                 mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
+                mainActivity.preferences.edit().putBoolean("FB_LOG_IN", false).apply();
                 mainActivity.friends = new ArrayList<String>();
                 loginfb = new loginFacebook();
                 mainActivity.transitionToFragment(loginfb);

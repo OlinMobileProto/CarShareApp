@@ -43,12 +43,13 @@ public class MainActivity extends AppCompatActivity {
     public String profile_id;
     public String carLocation;
     public String keysLocation;
+    public SharedPreferences preferences;
 
-    @Override
-    protected void onStop(){
-        super.onStop();
-        LoginManager.getInstance().logOut();
-    }
+//    @Override
+//    protected void onStop(){
+//        super.onStop();
+////        LoginManager.getInstance().logOut();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +57,30 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
-        SharedPreferences preferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE);
-        preferences.edit().clear().apply();
-        loginfb = new loginFacebook();
-        transitionToFragment(loginfb);
+        preferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
+        if (preferences.contains("FB_ACCESS_TOKEN") && preferences.getBoolean("FB_LOG_IN", false)){
+            Log.d("LOGIN STATUS: ", "logged in before and you are still logged in");
+        }
+        else if (preferences.contains("FB_ACCESS_TOKEN") && !preferences.getBoolean("FB_LOG_IN", false)){
+            Log.d("LOGIN STATUS: ", "logged in before but you are not currently logged in");
+            loginfb = new loginFacebook();
+            transitionToFragment(loginfb);
+        }
+        else{
+            Log.d("LOGIN STATUS: ", "not logged in before");
+            loginfb = new loginFacebook();
+            transitionToFragment(loginfb);
+        }
     }
 
     public void loginSetup(LoginButton button){
         button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    Log.d("Access token: ", loginResult.getAccessToken().getToken());
+                    Log.d("from login result: ", loginResult.getAccessToken().getToken());
                     accessToken = loginResult.getAccessToken();
+                    preferences.edit().putString("FB_ACCESS_TOKEN", accessToken.getToken()).apply();
+                    preferences.edit().putBoolean("FB_LOG_IN", true).apply();
                     Log.d("Profile: ", Profile.getCurrentProfile().toString());
 
                 /* make the API call */
