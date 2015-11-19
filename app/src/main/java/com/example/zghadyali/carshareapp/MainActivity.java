@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
         if (preferences.contains("FB_ACCESS_TOKEN") && preferences.getBoolean("FB_LOG_IN", false)){
             Log.d("LOGIN STATUS: ", "logged in before and you are still logged in");
+            Intent intent = new Intent(this, LoggedIn.class);
+            startActivity(intent);
         }
         else if (preferences.contains("FB_ACCESS_TOKEN") && !preferences.getBoolean("FB_LOG_IN", false)){
             Log.d("LOGIN STATUS: ", "logged in before but you are not currently logged in");
@@ -73,73 +75,79 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void loginSetup(LoginButton button){
-        button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
+    public void loginSetup(LoginButton button, final Boolean first_time) {
+            button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
                     Log.d("from login result: ", loginResult.getAccessToken().getToken());
                     accessToken = loginResult.getAccessToken();
                     preferences.edit().putString("FB_ACCESS_TOKEN", accessToken.getToken()).apply();
                     preferences.edit().putBoolean("FB_LOG_IN", true).apply();
                     Log.d("Profile: ", Profile.getCurrentProfile().toString());
 
+                    if (first_time) {
                 /* make the API call */
-                    GraphRequestAsyncTask userid_request = new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    try {
-                                        JSONObject user_id = response.getJSONObject();
-                                        Log.d("USER ID JSON", user_id.toString());
-                                        profile_name = user_id.getString("name");
-                                        profile_id = user_id.getString("id");
-                                        userid = response.getJSONObject();
-                                    } catch (Exception e) {
-                                        Log.e("Error: ", e.getMessage());
-                                    }
-                                }
-                            }
-                    ).executeAsync();
-
-                    GraphRequestAsyncTask request = new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me/friends",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    try {
-                                        friends = new ArrayList<String>();
-                                        JSONObject res = response.getJSONObject();
-                                        friendsJSON = res.getJSONArray("data");
-                                        Log.d("friendsJSON: ", friendsJSON.toString());
-                                        if (friendsJSON != null) {
-                                            int len = friendsJSON.length();
-                                            for (int i = 0; i < len; i++) {
-                                                JSONObject test = friendsJSON.getJSONObject(i);
-                                                friends.add(test.get("name").toString());
-                                            }
+                        GraphRequestAsyncTask userid_request = new GraphRequest(
+                                AccessToken.getCurrentAccessToken(),
+                                "/me",
+                                null,
+                                HttpMethod.GET,
+                                new GraphRequest.Callback() {
+                                    public void onCompleted(GraphResponse response) {
+                                        try {
+                                            JSONObject user_id = response.getJSONObject();
+                                            Log.d("USER ID JSON", user_id.toString());
+                                            profile_name = user_id.getString("name");
+                                            profile_id = user_id.getString("id");
+                                            userid = response.getJSONObject();
+                                        } catch (Exception e) {
+                                            Log.e("Error: ", e.getMessage());
                                         }
-                                    } catch (Exception e) {
-                                        Log.e("Error: ", e.getMessage());
                                     }
                                 }
-                            }
-                    ).executeAsync();
+                        ).executeAsync();
+
+                        GraphRequestAsyncTask request = new GraphRequest(
+                                AccessToken.getCurrentAccessToken(),
+                                "/me/friends",
+                                null,
+                                HttpMethod.GET,
+                                new GraphRequest.Callback() {
+                                    public void onCompleted(GraphResponse response) {
+                                        try {
+                                            friends = new ArrayList<String>();
+                                            JSONObject res = response.getJSONObject();
+                                            friendsJSON = res.getJSONArray("data");
+                                            Log.d("friendsJSON: ", friendsJSON.toString());
+                                            if (friendsJSON != null) {
+                                                int len = friendsJSON.length();
+                                                for (int i = 0; i < len; i++) {
+                                                    JSONObject test = friendsJSON.getJSONObject(i);
+                                                    friends.add(test.get("name").toString());
+                                                }
+                                            }
+                                        } catch (Exception e) {
+                                            Log.e("Error: ", e.getMessage());
+                                        }
+                                    }
+                                }
+                        ).executeAsync();
+                    } else{
+                        Intent intent = new Intent(getApplicationContext(), LoggedIn.class);
+                        startActivity(intent);
+                    }
                 }
 
-            @Override
-            public void onCancel() {
-            }
+                @Override
+                public void onCancel() {
+                }
 
-            @Override
-            public void onError(FacebookException e) {
-            }
-        });
-    }
+                @Override
+                public void onError(FacebookException e) {
+                }
+
+            });
+        }
 
     public void transitionToFragment(Fragment fragment){
         //This function takes as input a fragment, initializes the fragment manager and replaces
