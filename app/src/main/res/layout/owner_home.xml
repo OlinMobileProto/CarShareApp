@@ -16,9 +16,17 @@
 
     <EditText
         android:id="@+id/car_location_edit"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/car_location"/>
+
+    <Button
+        android:id="@+id/car_location_update"
+        android:text="@string/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/car_location_edit"
+        android:layout_alignBaseline="@id/car_location_edit" />
 
     <TextView
         android:id="@+id/key_location"
@@ -29,8 +37,16 @@
 
     <EditText
         android:id="@+id/key_location_edit"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/key_location" />
+
+    <Button
+        android:id="@+id/key_location_update"
+        android:text="@string/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/key_location_edit"
+        android:layout_alignBaseline="@id/key_location_edit" />
 
 </RelativeLayout>

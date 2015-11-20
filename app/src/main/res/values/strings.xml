@@ -11,4 +11,15 @@
     <string name="done">Done</string>
     <string name="car_location">Current location of your car</string>
     <string name="key_location">Current location of your keys</string>
+    <string name="update">Update</string>
+    <string name="car_make">Car make</string>
+    <string name="car_model">Car model</string>
+    <string name="license_plate">License plate</string>
+    <string name="car_transmission">Car transmission</string>
+    <string name="hourly_rate">Hourly rate</string>
+
+    <string-array name="transmission_choice_array">
+        <item>Automatic</item>
+        <item>Manual</item>
+    </string-array>
 </resources>

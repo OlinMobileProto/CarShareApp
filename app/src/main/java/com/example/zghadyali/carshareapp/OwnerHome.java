@@ -28,6 +28,10 @@ public class OwnerHome extends Fragment {
         keyLocation = (TextView)view.findViewById(R.id.key_location);
         editKeyLocation = (EditText)view.findViewById(R.id.key_location_edit);
 
+        editCarLocation.setText("car is parked here");
+
+        editKeyLocation.setText("Your pocket");
+
         return view;
     }
 }
