@@ -70,7 +70,7 @@ public class VolleyRequests {
         String url = "http://52.33.226.47/cars";
         JSONObject CarInfo = new JSONObject();
         try{
-            CarInfo.put("carId", id_name);
+            CarInfo.put("facebook_id", id_name);
         } catch (Exception e){
             Log.e("ERROR!", e.getMessage());
         }
