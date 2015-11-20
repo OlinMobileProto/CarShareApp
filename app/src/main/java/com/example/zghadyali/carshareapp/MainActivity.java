@@ -32,6 +32,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public JSONObject userid;
     public JSONArray friendsJSON;
     public ArrayList<String> friends;
+    private ArrayList<String> friendsIDs;
     public String profile_name;
     public String profile_id;
     public String carLocation;
@@ -68,57 +70,59 @@ public class MainActivity extends AppCompatActivity {
         button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    Log.d("Access token: ", loginResult.getAccessToken().getToken());
-                    accessToken = loginResult.getAccessToken();
-                    Log.d("Profile: ", Profile.getCurrentProfile().toString());
+                Log.d("Access token: ", loginResult.getAccessToken().getToken());
+                accessToken = loginResult.getAccessToken();
+                Log.d("Profile: ", Profile.getCurrentProfile().toString());
 
                 /* make the API call */
-                    GraphRequestAsyncTask userid_request = new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    try {
-                                        JSONObject user_id = response.getJSONObject();
-                                        Log.d("USER ID JSON", user_id.toString());
-                                        profile_name = user_id.getString("name");
-                                        profile_id = user_id.getString("id");
-                                        userid = response.getJSONObject();
-                                    } catch (Exception e) {
-                                        Log.e("Error: ", e.getMessage());
-                                    }
+                GraphRequestAsyncTask userid_request = new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me",
+                        null,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+                                try {
+                                    JSONObject user_id = response.getJSONObject();
+                                    Log.d("USER ID JSON", user_id.toString());
+                                    profile_name = user_id.getString("name");
+                                    profile_id = user_id.getString("id");
+                                    userid = response.getJSONObject();
+                                } catch (Exception e) {
+                                    Log.e("Error: ", e.getMessage());
                                 }
                             }
-                    ).executeAsync();
+                        }
+                ).executeAsync();
 
-                    GraphRequestAsyncTask request = new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me/friends",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    try {
-                                        friends = new ArrayList<String>();
-                                        JSONObject res = response.getJSONObject();
-                                        friendsJSON = res.getJSONArray("data");
-                                        Log.d("friendsJSON: ", friendsJSON.toString());
-                                        if (friendsJSON != null) {
-                                            int len = friendsJSON.length();
-                                            for (int i = 0; i < len; i++) {
-                                                JSONObject test = friendsJSON.getJSONObject(i);
-                                                friends.add(test.get("name").toString());
-                                            }
+                GraphRequestAsyncTask request = new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me/friends",
+                        null,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+                                try {
+                                    friends = new ArrayList<String>();
+                                    friendsIDs = new ArrayList<String>();
+                                    JSONObject res = response.getJSONObject();
+                                    friendsJSON = res.getJSONArray("data");
+                                    Log.d("friendsJSON: ", friendsJSON.toString());
+                                    if (friendsJSON != null) {
+                                        int len = friendsJSON.length();
+                                        for (int i = 0; i < len; i++) {
+                                            JSONObject test = friendsJSON.getJSONObject(i);
+                                            friends.add(test.get("name").toString());
+                                            friendsIDs.add(test.get("id").toString());
                                         }
-                                    } catch (Exception e) {
-                                        Log.e("Error: ", e.getMessage());
                                     }
+                                } catch (Exception e) {
+                                    Log.e("Error: ", e.getMessage());
                                 }
                             }
-                    ).executeAsync();
-                }
+                        }
+                ).executeAsync();
+            }
 
             @Override
             public void onCancel() {
@@ -188,7 +192,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public loginFacebook getLoginfb() {
-        return loginfb;
+    public String getFriendNameFromID(String id) {
+        //TODO search the JSON for the friend with this id
+//        return "poop";
+        for (int i = 0; i < friendsJSON.length(); i++) {
+            try {
+                JSONObject friend = friendsJSON.getJSONObject(i);
+                String thisID = friend.getString("id");
+                if (thisID.equals(id)) {
+                    return friend.getString("name");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return "FRIEND ID NOT FOUND";
+    }
+
+    public ArrayList<String> getFriendsIDs() {
+        return friendsIDs;
+    }
+
+    public void setFriendsIDs(ArrayList<String> newList) {
+        friendsIDs = newList;
     }
 }

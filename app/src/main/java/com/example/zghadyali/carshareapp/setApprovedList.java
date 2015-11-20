@@ -16,6 +16,8 @@ import android.widget.ListView;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +26,19 @@ import java.util.List;
  */
 public class setApprovedList extends Fragment {
 
+    //TODO make stuff private
     public ListView friendsListView;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
     public ArrayList<Integer> approvedList;
+    private ArrayList<String> approvedListIDs;
+    private JSONArray approvedJSON;
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
     private MainActivity mainActivity;
     private SetCarInfo setCarInfo;
+    private ArrayList<String> friendsIDs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,9 +52,12 @@ public class setApprovedList extends Fragment {
         next = (Button) rootview.findViewById(R.id.next_to_details);
 
         approvedList = new ArrayList<Integer>();
-        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
+        approvedListIDs = new ArrayList<String>();
+//        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
 
-        final MyCustomAdapter friendsAdapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
+        friendsIDs = mainActivity.getFriendsIDs();
+
+        final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setApprovedList.this, getActivity());
         friendsListView.setAdapter(friendsAdapter);
 
         // Live Search Functionality
@@ -62,19 +71,21 @@ public class setApprovedList extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().equals("")) {
                     // Search field is blank, show everyone
-                    MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
-                    friendsListView.setAdapter(adapter);
+//                    MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
+//                    friendsListView.setAdapter(adapter);
+                    friendsAdapter.setNewList(friendsIDs);
                 }
                 else {
                     // Filter friends list to only show search matches
                     ArrayList<String> filteredFriends = new ArrayList<String>();
-                    for (int i=0; i<mainActivity.friends.size(); i++) {
-                        if (mainActivity.friends.get(i).contains(s)) {
-                            filteredFriends.add(mainActivity.friends.get(i));
+                    for (int i=0; i<friendsIDs.size(); i++) {
+                        if (friendsIDs.get(i).contains(s)) {
+                            filteredFriends.add(friendsIDs.get(i));
                         }
                     }
-                    MyCustomAdapter adapter = new MyCustomAdapter(filteredFriends, setApprovedList.this, getActivity());
-                    friendsListView.setAdapter(adapter);
+//                    MyCustomAdapter adapter = new MyCustomAdapter(filteredFriends, setApprovedList.this, getActivity());
+//                    friendsListView.setAdapter(adapter);
+                    friendsAdapter.setNewList(filteredFriends);
                 }
             }
 
@@ -103,7 +114,8 @@ public class setApprovedList extends Fragment {
             public void onClick(View v) {
                 mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
-                mainActivity.friends = new ArrayList<String>();
+//                mainActivity.friends = new ArrayList<String>();
+                mainActivity.setFriendsIDs(new ArrayList<String>());
                 loginfb = new loginFacebook();
                 mainActivity.transitionToFragment(loginfb);
             }
@@ -126,5 +138,22 @@ public class setApprovedList extends Fragment {
         return approvedList.contains(pos);
     }
 
+    //TODO new functions for ids
+    public void addIDToApprovedList(String id) {
+        approvedListIDs.add(id);
+        Log.d("new approved list", approvedListIDs.toString());
+    }
 
+    public void removeIDFromApprovedList(String id) {
+        approvedListIDs.remove(id);
+        Log.d("new approved list", approvedListIDs.toString());
+    }
+
+    public boolean IDIsApproved(String id) {
+        return approvedListIDs.contains(id);
+    }
+
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
 }

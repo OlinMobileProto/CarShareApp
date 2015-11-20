@@ -8,4 +8,6 @@
     <string name="dollar">$</string>
     <string name="per_hour">/ hour</string>
     <string name="done">Done</string>
+    <string name="remove_button">Remove</string>
+    <string name="add_button">Add</string>
 </resources>
