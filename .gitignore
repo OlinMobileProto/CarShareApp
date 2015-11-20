@@ -7,3 +7,6 @@
 /captures
 /app/src/main/res/values/facebook_appid.xml
 /app/src/main/res/values/venmo.xml
+/.idea/gradle.xml
+/.idea/misc.xml
+/app/app.iml
