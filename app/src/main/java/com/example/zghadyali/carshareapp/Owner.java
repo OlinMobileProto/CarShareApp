@@ -11,9 +11,9 @@ import android.view.MenuItem;
 
 import com.facebook.AccessToken;
 
-public class LoggedIn extends AppCompatActivity {
+public class Owner extends AppCompatActivity {
 
-    public Home home;
+    public OwnerHome home;
     public AccessToken accessToken;
 
     @Override
@@ -22,7 +22,7 @@ public class LoggedIn extends AppCompatActivity {
         setContentView(R.layout.activity_logged_in);
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
-        home = new Home();
+        home = new OwnerHome();
         transitionToFragment(home);
     }
 

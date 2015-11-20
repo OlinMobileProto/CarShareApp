@@ -22,7 +22,6 @@ import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -58,21 +57,63 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
         preferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
-        if (preferences.contains("FB_ACCESS_TOKEN") && preferences.getBoolean("FB_LOG_IN", false)){
-            Log.d("LOGIN STATUS: ", "logged in before and you are still logged in");
-            Intent intent = new Intent(this, LoggedIn.class);
-            startActivity(intent);
-        }
-        else if (preferences.contains("FB_ACCESS_TOKEN") && !preferences.getBoolean("FB_LOG_IN", false)){
-            Log.d("LOGIN STATUS: ", "logged in before but you are not currently logged in");
-            loginfb = new loginFacebook();
-            transitionToFragment(loginfb);
+        accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null){
+            Log.d("TOKEN STATUS: ", "you have remained logged in");
+            //I know you exist on the server so let's fire up a volley request and figure out what you are
+            final VolleyRequests handler = new VolleyRequests(this.getApplicationContext());
+            GraphRequestAsyncTask userid_request = new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            try {
+                                JSONObject user_id = response.getJSONObject();
+                                Log.d("USER ID JSON", user_id.toString());
+                                profile_name = user_id.getString("name");
+                                profile_id = user_id.getString("id");
+                                handler.getuser(new Callback() {
+                                    @Override
+                                    public void callback(Integer user_status) {
+                                        if (user_status == 1){
+                                            Log.d("STATUS: ", "You are an owner on the server already");
+                                        Intent intent = new Intent(getApplicationContext(), Owner.class);
+                                        startActivity(intent);
+                                        }
+                                    }
+                                }, profile_id);
+                                userid = response.getJSONObject();
+                            } catch (Exception e) {
+                                Log.e("Error: ", e.getMessage());
+                            }
+                        }
+                    }
+            ).executeAsync();
         }
         else{
-            Log.d("LOGIN STATUS: ", "not logged in before");
+            Log.d("TOKEN STATUS: ", "you've either never logged in before or you're logged out now");
             loginfb = new loginFacebook();
             transitionToFragment(loginfb);
         }
+
+//        if (preferences.contains("FB_ACCESS_TOKEN") && preferences.getBoolean("FB_LOG_IN", false)){
+//            Log.d("LOGIN STATUS: ", "logged in before and you are still logged in");
+//
+//            Intent intent = new Intent(this, Owner.class);
+//            startActivity(intent);
+//        }
+//        else if (preferences.contains("FB_ACCESS_TOKEN") && !preferences.getBoolean("FB_LOG_IN", false)){
+//            Log.d("LOGIN STATUS: ", "logged in before but you are not currently logged in");
+//            loginfb = new loginFacebook();
+//            transitionToFragment(loginfb);
+//        }
+//        else{
+//            Log.d("LOGIN STATUS: ", "not logged in before");
+//            loginfb = new loginFacebook();
+//            transitionToFragment(loginfb);
+//        }
     }
 
     public void loginSetup(LoginButton button, final Boolean first_time) {
@@ -81,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(LoginResult loginResult) {
                     if (first_time) {
                         Log.d("from login result: ", loginResult.getAccessToken().getToken());
-                    accessToken = loginResult.getAccessToken();
-                    preferences.edit().putString("FB_ACCESS_TOKEN", accessToken.getToken()).apply();
-                    preferences.edit().putBoolean("FB_LOG_IN", true).apply();
-                    Log.d("Profile: ", Profile.getCurrentProfile().toString());
+                        accessToken = loginResult.getAccessToken();
+                        preferences.edit().putString("FB_ACCESS_TOKEN", accessToken.getToken()).apply();
+                        preferences.edit().putBoolean("FB_LOG_IN", true).apply();
+                        Log.d("Profile: ", Profile.getCurrentProfile().toString());
 
                 /* make the API call */
                         GraphRequestAsyncTask userid_request = new GraphRequest(
@@ -132,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                         ).executeAsync();
-                    } else{
-                        Intent intent = new Intent(getApplicationContext(), LoggedIn.class);
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), Owner.class);
                         startActivity(intent);
                     }
                 }
@@ -186,7 +227,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public loginFacebook getLoginfb() {
-        return loginfb;
-    }
 }
