@@ -8,8 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -43,6 +50,32 @@ public class setUser extends Fragment {
                 mainActivity.transitionToFragment(setAL);
             }
         });
+
+        GraphRequestAsyncTask request = new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/friends",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            mainActivity.friends = new ArrayList<String>();
+                            JSONObject res = response.getJSONObject();
+                            mainActivity.friendsJSON = res.getJSONArray("data");
+                            Log.d("friendsJSON: ", mainActivity.friendsJSON.toString());
+                            if (mainActivity.friendsJSON != null) {
+                                int len = mainActivity.friendsJSON.length();
+                                for (int i = 0; i < len; i++) {
+                                    JSONObject temp = mainActivity.friendsJSON.getJSONObject(i);
+                                    mainActivity.friends.add(temp.get("name").toString());
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error: ", e.getMessage());
+                        }
+                    }
+                }
+        ).executeAsync();
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         loginButton.setFragment(this);

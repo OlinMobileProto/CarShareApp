@@ -22,6 +22,15 @@ public class Owner extends AppCompatActivity {
         setContentView(R.layout.activity_logged_in);
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
+        if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
+            String profile_id = getIntent().getExtras().getString("profile_id");
+            String name = getIntent().getExtras().getString("name");
+            Log.d("PROFILE ID: ", profile_id);
+            Log.d("name", name);
+        }
+        else{
+            Log.d("OWNER CLASS: ", "I don't have any of that information right now");
+        }
         home = new OwnerHome();
         transitionToFragment(home);
     }
