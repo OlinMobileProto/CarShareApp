@@ -14,6 +14,7 @@ import android.view.MenuItem;
 public class OwnerActivity extends AppCompatActivity{
 
     public OwnerHome ownerHome = new OwnerHome();
+    public OwnerSettings ownerSettings = new OwnerSettings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class OwnerActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_owner, menu);
         return true;
     }
 
@@ -42,7 +43,7 @@ public class OwnerActivity extends AppCompatActivity{
                 transitionToFragment(ownerHome);
                 return true;
             case R.id.action_settings:
-                transitionToFragment(ownerHome); // TODO: change later
+                transitionToFragment(ownerSettings);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

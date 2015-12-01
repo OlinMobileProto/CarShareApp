@@ -16,7 +16,7 @@
 
     <EditText
         android:id="@+id/car_location_edit"
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/car_location"/>
 
@@ -37,7 +37,7 @@
 
     <EditText
         android:id="@+id/key_location_edit"
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/key_location" />
 
