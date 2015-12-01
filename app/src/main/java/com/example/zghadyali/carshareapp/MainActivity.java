@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
     public String profile_id;
     public String carLocation;
     public String keysLocation;
+    public setUser setuser;
+    public SharedPreferences preferences;
+
+//    @Override
+//    protected void onStop(){
+//        super.onStop();
+////        LoginManager.getInstance().logOut();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,77 +57,117 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
-        SharedPreferences preferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE);
-        preferences.edit().clear().apply();
-        loginfb = new loginFacebook();
-        transitionToFragment(loginfb);
+        preferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
+        accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null){
+            Log.d("TOKEN STATUS: ", "you have remained logged in");
+            //I know you exist on the server so let's fire up a volley request and figure out what you are
+            final VolleyRequests handler = new VolleyRequests(this.getApplicationContext());
+            GraphRequestAsyncTask userid_request = new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            try {
+                                JSONObject user_id = response.getJSONObject();
+                                Log.d("USER ID JSON", user_id.toString());
+                                profile_name = user_id.getString("name");
+                                profile_id = user_id.getString("id");
+                                handler.getuser(new Callback() {
+                                    @Override
+                                    public void callback(Integer user_status) {
+                                        if (user_status == 1){
+                                            Log.d("STATUS: ", "You are an owner on the server already");
+                                            Intent intent = new Intent(getApplicationContext(), Owner.class);
+                                            startActivity(intent);
+                                        }
+                                        if (user_status == 2){
+                                            Log.d("STATUS: ", "You are a borrower on the server already");
+                                            //launch borrower activity
+                                        }
+                                    }
+                                }, profile_id);
+                                userid = response.getJSONObject();
+                            } catch (Exception e) {
+                                Log.e("Error: ", e.getMessage());
+                            }
+                        }
+                    }
+            ).executeAsync();
+        }
+        else{
+            Log.d("TOKEN STATUS: ", "you've either never logged in before or you're logged out now");
+            loginfb = new loginFacebook();
+            transitionToFragment(loginfb);
+        }
     }
 
-    public void loginSetup(LoginButton button){
-        button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                    Log.d("Access token: ", loginResult.getAccessToken().getToken());
+    public void loginSetup(LoginButton button) {
+            button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    Log.d("from login result: ", loginResult.getAccessToken().getToken());
                     accessToken = loginResult.getAccessToken();
+                    preferences.edit().putString("FB_ACCESS_TOKEN", accessToken.getToken()).apply();
+                    preferences.edit().putBoolean("FB_LOG_IN", true).apply();
                     Log.d("Profile: ", Profile.getCurrentProfile().toString());
+                    final VolleyRequests handler = new VolleyRequests(getApplicationContext());
 
                 /* make the API call */
-                    GraphRequestAsyncTask userid_request = new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    try {
-                                        JSONObject user_id = response.getJSONObject();
-                                        Log.d("USER ID JSON", user_id.toString());
-                                        profile_name = user_id.getString("name");
-                                        profile_id = user_id.getString("id");
-                                        userid = response.getJSONObject();
-                                    } catch (Exception e) {
-                                        Log.e("Error: ", e.getMessage());
-                                    }
-                                }
-                            }
-                    ).executeAsync();
-
-                    GraphRequestAsyncTask request = new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/me/friends",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    try {
-                                        friends = new ArrayList<String>();
-                                        JSONObject res = response.getJSONObject();
-                                        friendsJSON = res.getJSONArray("data");
-                                        Log.d("friendsJSON: ", friendsJSON.toString());
-                                        if (friendsJSON != null) {
-                                            int len = friendsJSON.length();
-                                            for (int i = 0; i < len; i++) {
-                                                JSONObject test = friendsJSON.getJSONObject(i);
-                                                friends.add(test.get("name").toString());
-                                            }
+                        GraphRequestAsyncTask userid_request = new GraphRequest(
+                                AccessToken.getCurrentAccessToken(),
+                                "/me",
+                                null,
+                                HttpMethod.GET,
+                                new GraphRequest.Callback() {
+                                    public void onCompleted(GraphResponse response) {
+                                        try {
+                                            final JSONObject user_id = response.getJSONObject();
+                                            Log.d("USER ID JSON", user_id.toString());
+                                            profile_name = user_id.getString("name");
+                                            profile_id = user_id.getString("id");
+                                            handler.getuser(new Callback() {
+                                                @Override
+                                                public void callback(Integer user_status) {
+                                                    if (user_status == 0){
+                                                        Log.d("STATUS: ", "you have logged in and you are signing up");
+                                                        setuser = new setUser();
+                                                        transitionToFragment(setuser);
+                                                    }
+                                                    else if (user_status == 1){
+                                                        Log.d("STATUS: ", "you have logged in and you are an owner");
+                                                        Intent intent = new Intent(getApplicationContext(), Owner.class);
+                                                        intent.putExtra("profile_id", profile_id);
+                                                        intent.putExtra("name", profile_name);
+                                                        startActivity(intent);
+                                                    }
+                                                    else if (user_status == 2){
+                                                        Log.d("STATUS: ", "you have logged in and you are a borrower");
+                                                        //open activity for borrowers
+                                                    }
+                                                }
+                                            }, profile_id);
+                                            userid = response.getJSONObject();
+                                        } catch (Exception e) {
+                                            Log.e("Error: ", e.getMessage());
                                         }
-                                    } catch (Exception e) {
-                                        Log.e("Error: ", e.getMessage());
                                     }
                                 }
-                            }
-                    ).executeAsync();
+                        ).executeAsync();
                 }
 
-            @Override
-            public void onCancel() {
-            }
+                @Override
+                public void onCancel() {
+                }
 
-            @Override
-            public void onError(FacebookException e) {
-            }
-        });
-    }
+                @Override
+                public void onError(FacebookException e) {
+                }
+
+            });
+        }
 
     public void transitionToFragment(Fragment fragment){
         //This function takes as input a fragment, initializes the fragment manager and replaces
@@ -158,7 +206,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public loginFacebook getLoginfb() {
-        return loginfb;
-    }
 }

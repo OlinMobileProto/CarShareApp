@@ -1,6 +1,7 @@
 package com.example.zghadyali.carshareapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -132,13 +133,13 @@ public class VolleyRequests {
 
     }
 
-    public void addcarinfo (String id_name, JSONObject owner_details){
-        String url = "http://52.33.226.47/cars/" + id_name;
-
+    public void doesuserexist(String facebook_id){
+        String url = "http://52.33.226.47/person/" + facebook_id;
+        JSONObject person = new JSONObject();
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.PATCH,
+                Request.Method.GET,
                 url,
-                owner_details,
+                new JSONObject(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -151,6 +152,64 @@ public class VolleyRequests {
                     }
                 });
 
+        queue.add(request);
+
+    }
+
+    public void addcarinfo (String id_name, JSONObject owner_details){
+        String url = "http://52.33.226.47/cars/" + id_name;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PATCH,
+                url,
+                owner_details,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("Error!", error.getMessage());
+                        }
+                    });
+        queue.add(request);
+    }
+
+    public void getuser(final Callback callback,String facebook_id) {
+        String url = "http://52.33.226.47/person/" + facebook_id;
+        JSONObject person = new JSONObject();
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        int user_status = 0;
+                        try{
+                            if (response.has("Error")){
+                                user_status = 0;
+                            }
+                            else if (response.getString("user_type").equals("owner")){
+                                user_status = 1;
+                            }
+                            else if (response.getString("user_type").equals("borrower")){
+                                user_status = 2;
+                            }
+                        } catch (Exception e){
+                            Log.e("Error:", e.getMessage());
+                        }
+                        callback.callback(user_status);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
         queue.add(request);
     }
 }

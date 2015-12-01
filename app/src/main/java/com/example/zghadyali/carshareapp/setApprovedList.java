@@ -16,7 +16,6 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,6 +27,8 @@ public class setApprovedList extends Fragment {
     public ListView friendsList;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
+    public ArrayList<Integer> approved_list;
+    public JSONArray approved_listJSON;
     public ArrayList<Integer> approvedList;
     public LoginButton loginButton;
     public loginFacebook loginfb;
@@ -57,6 +58,16 @@ public class setApprovedList extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //code that will transition to next fragment which should ask for a few more details
+                approved_listJSON = new JSONArray();
+                for (int i=0; i < approved_list.size(); i++){
+                    try{
+                        approved_listJSON.put(((MainActivity) getActivity()).friendsJSON.get(approved_list.get(i)));
+                    } catch (Exception e){
+                        Log.e("Error: ", e.getMessage());
+                    }
+                }
+                Log.d("APPROVED LIST JSON: ", approved_listJSON.toString());
                 setCarInfo = new SetCarInfo();
 
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
@@ -84,6 +95,7 @@ public class setApprovedList extends Fragment {
             public void onClick(View v) {
                 mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
+                mainActivity.preferences.edit().putBoolean("FB_LOG_IN", false).apply();
                 mainActivity.friends = new ArrayList<String>();
                 loginfb = new loginFacebook();
                 mainActivity.transitionToFragment(loginfb);

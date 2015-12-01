@@ -1,6 +1,7 @@
 package com.example.zghadyali.carshareapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -37,22 +38,7 @@ public class loginFacebook extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mainActivity.accessToken == null) {
-                    LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
-                    //check if first time logging in or
-                    SharedPreferences preferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-                    if (preferences.contains("HAS_BEEN_RUN_FLAG")){
-                        Log.d("I KNOW", "This is not your first time logging in");
-                    }
-                    else{
-                        setuser = new setUser();
-                        mainActivity.transitionToFragment(setuser);
-                    }
-                } else {
-                    mainActivity.accessToken = null;
-                    LoginManager.getInstance().logOut();
-                    mainActivity.friends = new ArrayList<String>();
-                }
+                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
             }
         });
 
