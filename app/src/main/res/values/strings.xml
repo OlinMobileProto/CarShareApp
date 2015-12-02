@@ -10,4 +10,6 @@
     <string name="done">Done</string>
     <string name="remove_button">Remove</string>
     <string name="add_button">Add</string>
+    <string name="title_activity_logged_in">LoggedIn</string>
+
 </resources>
