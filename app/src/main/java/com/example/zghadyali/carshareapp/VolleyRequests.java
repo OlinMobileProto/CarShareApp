@@ -29,6 +29,7 @@ public class VolleyRequests {
         queue = Volley.newRequestQueue(context, new OkHttpStack());
     }
 
+    //Post and Patch requests:
     public void makeperson(String id_name, String ownername, String user_type){
         String url = "http://52.33.226.47/person";
         JSONObject PersonInfo = new JSONObject();
@@ -177,7 +178,8 @@ public class VolleyRequests {
         queue.add(request);
     }
 
-    public void getuser(final Callback callback,String facebook_id) {
+    //GET REQUESTS:
+    public void getuser(final Callback callback, String facebook_id) {
         String url = "http://52.33.226.47/person/" + facebook_id;
         JSONObject person = new JSONObject();
         JsonObjectRequest request = new JsonObjectRequest(
@@ -202,6 +204,34 @@ public class VolleyRequests {
                             Log.e("Error:", e.getMessage());
                         }
                         callback.callback(user_status);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
+
+    public void getcarinfo (final callback_cars callback, String facebook_id) {
+        String url = "http://52.33.226.47/cars/" + facebook_id;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject cars = new JSONObject();
+                        try{
+                            cars = response;
+                        } catch (Exception e){
+                            Log.e("Error:", e.getMessage());
+                        }
+                        callback.callback(cars);
+                        Log.d("car response: ", cars.toString());
                     }
                 },
                 new Response.ErrorListener() {
