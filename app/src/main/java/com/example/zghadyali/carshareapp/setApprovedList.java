@@ -2,6 +2,8 @@ package com.example.zghadyali.carshareapp;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,22 +21,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class setApprovedList extends Fragment {
 
-    public ListView friendsList;
+    //TODO make stuff private
+    public ListView friendsListView;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
     public ArrayList<Integer> approvedList;
+    private ArrayList<String> approvedListIDs;
+    private JSONArray approvedJSON;
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
     private JSONArray approvedJSONarray;
     private MainActivity mainActivity;
     private SetCarInfo setCarInfo;
+    private ArrayList<String> friendsIDs;
+    private ArrayList<String> friendsNames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,16 +51,54 @@ public class setApprovedList extends Fragment {
         View rootview = inflater.inflate(R.layout.set_approved_list, container, false);
 
         mainActivity = (MainActivity) getActivity();
-        friendsList = (ListView) rootview.findViewById(R.id.friends_list);
+        friendsListView = (ListView) rootview.findViewById(R.id.friends_list);
         searchFriends = (EditText) rootview.findViewById(R.id.search_friends_list);
         next = (Button) rootview.findViewById(R.id.next_to_details);
 
         approvedList = new ArrayList<Integer>();
+        approvedListIDs = new ArrayList<String>();
         approvedJSONarray = new JSONArray();
-        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
 
-        MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
-        friendsList.setAdapter(adapter);
+        friendsIDs = mainActivity.getFriendsIDs();
+        friendsNames = mainActivity.getFriends();
+
+        final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setApprovedList.this, getActivity());
+        friendsListView.setAdapter(friendsAdapter);
+
+        // Live Search Functionality
+        searchFriends.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("")) {
+                    // Search field is blank, show everyone
+                    friendsAdapter.setNewList(friendsIDs);
+                }
+                else {
+                    // Filter friends list to only show search matches
+                    ArrayList<String> filteredFriends = new ArrayList<String>();
+                    // Search through the names for a match
+                    for (int i=0; i<friendsNames.size(); i++) {
+                        if (friendsNames.get(i).contains(s)) {
+                            // Add this friend's id to the filtered list
+                            filteredFriends.add(friendsIDs.get(i));
+                        }
+                    }
+                    friendsAdapter.setNewList(filteredFriends);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable edit) {
+                if (edit.length() != 0) {
+                    // Business logic for search here
+                }
+            }
+        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +106,18 @@ public class setApprovedList extends Fragment {
                 setCarInfo = new SetCarInfo();
 
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
-
-                for (int k = 0; k < approvedList.size(); k++ ){
+                
+                for (int k = 0; k < approvedListIDs.size(); k++ ){
                     try {
-                        approvedJSONarray.put((mainActivity.friendsJSON).getJSONObject(approvedList.get(k)));
+                        String thisID = approvedListIDs.get(k);
+                        // Get the position of this friend
+                        int friendPos = -1;
+                        for (int j=0;j<friendsIDs.size();j++) {
+                            if (friendsIDs.get(j).equals(thisID)) {
+                                friendPos = j;
+                            }
+                        }
+                        approvedJSONarray.put((mainActivity.friendsJSON).getJSONObject(friendPos));
                     } catch (JSONException e) {
                         Log.e("MYAPP", "unexpected JSON exception", e);
                         // Do something to recover ... or kill the app.
@@ -84,7 +138,8 @@ public class setApprovedList extends Fragment {
             public void onClick(View v) {
                 mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
-                mainActivity.friends = new ArrayList<String>();
+//                mainActivity.friends = new ArrayList<String>();
+                mainActivity.setFriendsIDs(new ArrayList<String>());
                 loginfb = new loginFacebook();
                 mainActivity.transitionToFragment(loginfb);
             }
@@ -107,5 +162,22 @@ public class setApprovedList extends Fragment {
         return approvedList.contains(pos);
     }
 
+    //TODO new functions for ids
+    public void addIDToApprovedList(String id) {
+        approvedListIDs.add(id);
+        Log.d("new approved list", approvedListIDs.toString());
+    }
 
+    public void removeIDFromApprovedList(String id) {
+        approvedListIDs.remove(id);
+        Log.d("new approved list", approvedListIDs.toString());
+    }
+
+    public boolean IDIsApproved(String id) {
+        return approvedListIDs.contains(id);
+    }
+
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
 }
