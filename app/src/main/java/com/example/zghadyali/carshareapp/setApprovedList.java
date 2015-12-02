@@ -17,6 +17,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class setApprovedList extends Fragment {
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
+    private JSONArray approvedJSONarray;
     private MainActivity mainActivity;
     private SetCarInfo setCarInfo;
     private ArrayList<String> friendsIDs;
@@ -54,7 +57,7 @@ public class setApprovedList extends Fragment {
 
         approvedList = new ArrayList<Integer>();
         approvedListIDs = new ArrayList<String>();
-//        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
+        approvedJSONarray = new JSONArray();
 
         friendsIDs = mainActivity.getFriendsIDs();
         friendsNames = mainActivity.getFriends();
@@ -101,6 +104,27 @@ public class setApprovedList extends Fragment {
             @Override
             public void onClick(View v) {
                 setCarInfo = new SetCarInfo();
+
+                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+                
+                for (int k = 0; k < approvedListIDs.size(); k++ ){
+                    try {
+                        String thisID = approvedListIDs.get(k);
+                        // Get the position of this friend
+                        int friendPos = -1;
+                        for (int j=0;j<friendsIDs.size();j++) {
+                            if (friendsIDs.get(j).equals(thisID)) {
+                                friendPos = j;
+                            }
+                        }
+                        approvedJSONarray.put((mainActivity.friendsJSON).getJSONObject(friendPos));
+                    } catch (JSONException e) {
+                        Log.e("MYAPP", "unexpected JSON exception", e);
+                        // Do something to recover ... or kill the app.
+                    }
+                }
+                handler.addtoapproved(((MainActivity) getActivity()).profile_id, approvedJSONarray);
+
                 mainActivity.transitionToFragment(setCarInfo);
             }
         });
