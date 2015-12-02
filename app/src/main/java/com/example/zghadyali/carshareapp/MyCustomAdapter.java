@@ -47,7 +47,7 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.friends_list, null);
         }
-        String thisID = list.get(position);
+        final String thisID = list.get(position);
 
         //Handle TextView and display string from your list
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
@@ -55,7 +55,7 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         // Displays the actual friend name instead of the id
         listItemText.setText(setAL.getMainActivity().getFriendNameFromID(thisID));
 
-        final boolean isApproved = setAL.PosIsApproved(position);
+        final boolean isApproved = setAL.IDIsApproved(thisID);
 
         //Handle buttons and add onClickListeners
         Button addDelBtn = (Button)view.findViewById(R.id.add_del_btn);
@@ -71,11 +71,11 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 if (isApproved) {
                     // Remove from approved list
-                    setAL.removePosFromApprovedList(position);
+                    setAL.removeIDFromApprovedList(thisID);
                 }
                 else {
                     // Add to approved list
-                    setAL.addPosToApprovedList(position);
+                    setAL.addIDToApprovedList(thisID);
                 }
                 notifyDataSetChanged();
             }

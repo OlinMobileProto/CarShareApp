@@ -193,8 +193,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getFriendNameFromID(String id) {
-        //TODO search the JSON for the friend with this id
-//        return "poop";
         for (int i = 0; i < friendsJSON.length(); i++) {
             try {
                 JSONObject friend = friendsJSON.getJSONObject(i);
