@@ -1,6 +1,7 @@
 package com.example.zghadyali.carshareapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -37,9 +38,9 @@ public class SetCarInfo extends Fragment {
         mainActivity = (MainActivity) getActivity();
 
 
-        carParked = (EditText) view.findViewById(R.id.car_location_edit);
-        keyLocation = (EditText) view.findViewById(R.id.key_location_edit);
-        hourlyRate = (EditText) view.findViewById(R.id.hourly_rate_edit);
+        carParked = (EditText) view.findViewById(R.id.car_location_edit_signup);
+        keyLocation = (EditText) view.findViewById(R.id.key_location_edit_signup);
+        hourlyRate = (EditText) view.findViewById(R.id.hourly_rate_edit_signup);
         Button carinfo_next = (Button) view.findViewById(R.id.next_to_details);
 
         carinfo_next.setOnClickListener(new View.OnClickListener() {
@@ -68,9 +69,11 @@ public class SetCarInfo extends Fragment {
 
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
                 handler.addcarinfo(((MainActivity) getActivity()).profile_id, setcarinfo);
+
+                Intent intent = new Intent(getActivity(), OwnerActivity.class);
+                startActivity(intent);
             }
         });
-
 
         return view;
     }
