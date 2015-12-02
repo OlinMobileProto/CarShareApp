@@ -22,4 +22,9 @@
         <item>Automatic</item>
         <item>Manual</item>
     </string-array>
+<!--=======-->
+    <!--<string name="title_activity_logged_in">LoggedIn</string>-->
+
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
+<!--&gt;>>>>>> Zoher_test-->
 </resources>

@@ -14,6 +14,9 @@ import android.widget.ListView;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 /**
@@ -24,10 +27,13 @@ public class setApprovedList extends Fragment {
     public ListView friendsList;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
+    public ArrayList<Integer> approved_list;
+    public JSONArray approved_listJSON;
     public ArrayList<Integer> approvedList;
     public LoginButton loginButton;
     public loginFacebook loginfb;
     public Button next;
+    private JSONArray approvedJSONarray;
     private MainActivity mainActivity;
     private SetCarInfo setCarInfo;
 
@@ -43,6 +49,7 @@ public class setApprovedList extends Fragment {
         next = (Button) rootview.findViewById(R.id.next_to_details);
 
         approvedList = new ArrayList<Integer>();
+        approvedJSONarray = new JSONArray();
         friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
 
         MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
@@ -52,6 +59,19 @@ public class setApprovedList extends Fragment {
             @Override
             public void onClick(View v) {
                 setCarInfo = new SetCarInfo();
+
+                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+
+                for (int k = 0; k < approvedList.size(); k++ ){
+                    try {
+                        approvedJSONarray.put((mainActivity.friendsJSON).getJSONObject(approvedList.get(k)));
+                    } catch (JSONException e) {
+                        Log.e("MYAPP", "unexpected JSON exception", e);
+                        // Do something to recover ... or kill the app.
+                    }
+                }
+                handler.addtoapproved(((MainActivity) getActivity()).profile_id, approvedJSONarray);
+
                 mainActivity.transitionToFragment(setCarInfo);
             }
         });
@@ -65,6 +85,7 @@ public class setApprovedList extends Fragment {
             public void onClick(View v) {
                 mainActivity.accessToken = null;
                 LoginManager.getInstance().logOut();
+                mainActivity.preferences.edit().putBoolean("FB_LOG_IN", false).apply();
                 mainActivity.friends = new ArrayList<String>();
                 loginfb = new loginFacebook();
                 mainActivity.transitionToFragment(loginfb);

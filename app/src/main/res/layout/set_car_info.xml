@@ -60,13 +60,23 @@
         android:layout_toRightOf="@id/hourly_rate_edit_signup"
         android:layout_alignBaseline="@id/hourly_rate_edit_signup" />
 
-    <Button
-        android:id="@+id/done_car_info"
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:text="@string/done" />
-
+        android:layout_marginBottom="20dp"
+        android:id="@+id/next_to_details"
+        />
 </RelativeLayout>
