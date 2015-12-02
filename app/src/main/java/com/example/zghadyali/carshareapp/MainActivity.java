@@ -56,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
     public setUser setuser;
     public SharedPreferences preferences;
 
-//    @Override
-//    protected void onStop(){
-//        super.onStop();
-////        LoginManager.getInstance().logOut();
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
