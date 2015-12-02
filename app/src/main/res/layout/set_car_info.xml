@@ -5,60 +5,60 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityFragment" >
 
-    <TextView android:text="@string/car_location"
+    <TextView android:text="@string/car_location_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:id="@+id/car_location" />
+        android:id="@+id/car_location_signup" />
 
     <EditText
-        android:id="@+id/car_location_edit"
+        android:id="@+id/car_location_edit_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/car_location" />
+        android:layout_below="@id/car_location_signup" />
 
     <TextView
-        android:id="@+id/key_location"
-        android:text="@string/key_location"
+        android:id="@+id/key_location_signup"
+        android:text="@string/key_location_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/car_location_edit" />
+        android:layout_below="@id/car_location_edit_signup" />
 
     <EditText
-        android:id="@+id/key_location_edit"
+        android:id="@+id/key_location_edit_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/key_location" />
+        android:layout_below="@id/key_location_signup" />
 
     <TextView
-        android:id="@+id/hourly_rate"
-        android:text="@string/hourly_rate"
+        android:id="@+id/hourly_rate_signup"
+        android:text="@string/hourly_rate_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/key_location_edit" />
+        android:layout_below="@id/key_location_edit_signup" />
 
     <TextView
-        android:id="@+id/dollar"
+        android:id="@+id/dollar_signup"
         android:text="@string/dollar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/hourly_rate_edit" />
+        android:layout_alignBaseline="@+id/hourly_rate_edit_signup" />
 
     <EditText
-        android:id="@+id/hourly_rate_edit"
+        android:id="@+id/hourly_rate_edit_signup"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/dollar"
-        android:layout_below="@id/hourly_rate" />
+        android:layout_toRightOf="@id/dollar_signup"
+        android:layout_below="@id/hourly_rate_signup" />
 
     <TextView
-        android:id="@+id/per_hour"
+        android:id="@+id/per_hour_signup"
         android:text="@string/per_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/hourly_rate_edit"
-        android:layout_alignBaseline="@+id/hourly_rate_edit" />
+        android:layout_toRightOf="@id/hourly_rate_edit_signup"
+        android:layout_alignBaseline="@id/hourly_rate_edit_signup" />
 
 
     <com.facebook.login.widget.LoginButton

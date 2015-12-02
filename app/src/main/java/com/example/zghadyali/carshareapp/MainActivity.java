@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
+
         accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken != null){
             Log.d("TOKEN STATUS: ", "you have remained logged in");
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void callback(Integer user_status) {
                                         if (user_status == 1){
                                             Log.d("STATUS: ", "You are an owner on the server already");
-                                            Intent intent = new Intent(getApplicationContext(), Owner.class);
+                                            Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
                                             startActivity(intent);
                                         }
                                         if (user_status == 2){
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                                         transitionToFragment(setuser);
                                                     } else if (user_status == 1) {
                                                         Log.d("STATUS: ", "you have logged in and you are an owner");
-                                                        Intent intent = new Intent(getApplicationContext(), Owner.class);
+                                                        Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
                                                         intent.putExtra("profile_id", profile_id);
                                                         intent.putExtra("name", profile_name);
                                                         startActivity(intent);
