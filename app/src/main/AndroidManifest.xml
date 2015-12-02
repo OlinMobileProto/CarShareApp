@@ -32,6 +32,8 @@
             android:name=".Owner"
             android:label="@string/title_activity_logged_in" >
         </activity>
+        <activity android:name=".VenmoWebViewActivity" ></activity>
+
     </application>
 
 </manifest>
