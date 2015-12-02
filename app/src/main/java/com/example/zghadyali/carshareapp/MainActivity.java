@@ -39,6 +39,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    //TODO make stuff private here too
     public loginFacebook loginfb;
     private Payment venmoPayment = new Payment();
     private View view;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public AccessToken accessToken;
     public JSONObject userid;
     public JSONArray friendsJSON;
-    public ArrayList<String> friends;
+    private ArrayList<String> friends;
     private ArrayList<String> friendsIDs;
     public String profile_name;
     public String profile_id;
@@ -213,5 +214,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void setFriendsIDs(ArrayList<String> newList) {
         friendsIDs = newList;
+    }
+
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(ArrayList<String> newList) {
+        friends = newList;
     }
 }

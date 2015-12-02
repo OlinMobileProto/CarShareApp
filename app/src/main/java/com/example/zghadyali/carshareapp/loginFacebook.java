@@ -51,7 +51,7 @@ public class loginFacebook extends Fragment {
                 } else {
                     mainActivity.accessToken = null;
                     LoginManager.getInstance().logOut();
-                    mainActivity.friends = new ArrayList<String>();
+                    mainActivity.setFriends(new ArrayList<String>());
                 }
             }
         });

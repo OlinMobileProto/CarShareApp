@@ -39,6 +39,7 @@ public class setApprovedList extends Fragment {
     private MainActivity mainActivity;
     private SetCarInfo setCarInfo;
     private ArrayList<String> friendsIDs;
+    private ArrayList<String> friendsNames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +57,7 @@ public class setApprovedList extends Fragment {
 //        friendsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, mainActivity.friends);
 
         friendsIDs = mainActivity.getFriendsIDs();
+        friendsNames = mainActivity.getFriends();
 
         final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setApprovedList.this, getActivity());
         friendsListView.setAdapter(friendsAdapter);
@@ -71,20 +73,18 @@ public class setApprovedList extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().equals("")) {
                     // Search field is blank, show everyone
-//                    MyCustomAdapter adapter = new MyCustomAdapter(mainActivity.friends, setApprovedList.this, getActivity());
-//                    friendsListView.setAdapter(adapter);
                     friendsAdapter.setNewList(friendsIDs);
                 }
                 else {
                     // Filter friends list to only show search matches
                     ArrayList<String> filteredFriends = new ArrayList<String>();
-                    for (int i=0; i<friendsIDs.size(); i++) {
-                        if (friendsIDs.get(i).contains(s)) {
+                    // Search through the names for a match
+                    for (int i=0; i<friendsNames.size(); i++) {
+                        if (friendsNames.get(i).contains(s)) {
+                            // Add this friend's id to the filtered list
                             filteredFriends.add(friendsIDs.get(i));
                         }
                     }
-//                    MyCustomAdapter adapter = new MyCustomAdapter(filteredFriends, setApprovedList.this, getActivity());
-//                    friendsListView.setAdapter(adapter);
                     friendsAdapter.setNewList(filteredFriends);
                 }
             }
