@@ -10,6 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+
+import org.json.JSONObject;
 
 /**
  * Created by Jordan on 11/18/15.
@@ -38,6 +44,23 @@ public class OwnerActivity extends AppCompatActivity{
         }
         else{
             Log.d("OWNER CLASS: ", "I don't have any of that information right now");
+            GraphRequestAsyncTask userid_request = new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            try {
+                                final JSONObject user_id = response.getJSONObject();
+                                Log.d("USER ID JSON", user_id.toString());
+                                name = user_id.getString("name");
+                                profile_id = user_id.getString("id");
+                            } catch (Exception e){
+                                Log.e("Error: ", e.getMessage());
+                            }
+                        }
+                    }).executeAsync();
         }
 
         ownerHome.setArguments(getIntent().getExtras());

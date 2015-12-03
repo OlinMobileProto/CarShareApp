@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             }, profile_id);
-                                            userid = response.getJSONObject();
                                         } catch (Exception e) {
                                             Log.e("Error: ", e.getMessage());
                                         }
