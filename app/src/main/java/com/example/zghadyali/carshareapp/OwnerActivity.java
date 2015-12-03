@@ -20,6 +20,8 @@ public class OwnerActivity extends AppCompatActivity{
     public OwnerSettings ownerSettings = new OwnerSettings();
 
     public AccessToken accessToken;
+    public String profile_id;
+    public String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class OwnerActivity extends AppCompatActivity{
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
         if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
-            String profile_id = getIntent().getExtras().getString("profile_id");
-            String name = getIntent().getExtras().getString("name");
+            profile_id = getIntent().getExtras().getString("profile_id");
+            name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profile_id);
             Log.d("name", name);
         }
