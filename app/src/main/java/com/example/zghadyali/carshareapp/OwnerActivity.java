@@ -107,6 +107,10 @@ public class OwnerActivity extends AppCompatActivity{
             case R.id.action_settings:
                 transitionToFragment(ownerSettings);
                 return true;
+            //TODO transistion to the correct fragment
+//            case R.id.action_approvedlist:
+//                transitionToFragment();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

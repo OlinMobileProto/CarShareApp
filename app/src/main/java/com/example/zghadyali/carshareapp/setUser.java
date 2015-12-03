@@ -74,7 +74,8 @@ public class setUser extends Fragment {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         try {
-                            mainActivity.friends = new ArrayList<String>();
+                            mainActivity.setFriends(new ArrayList<String>());
+                            mainActivity.setFriendsIDs(new ArrayList<String>());
                             JSONObject res = response.getJSONObject();
                             mainActivity.friendsJSON = res.getJSONArray("data");
                             Log.d("friendsJSON: ", mainActivity.friendsJSON.toString());
@@ -82,8 +83,10 @@ public class setUser extends Fragment {
                                 int len = mainActivity.friendsJSON.length();
                                 for (int i = 0; i < len; i++) {
                                     JSONObject temp = mainActivity.friendsJSON.getJSONObject(i);
-                                    mainActivity.friends.add(temp.get("name").toString());
+                                    mainActivity.addToFriends(temp.get("name").toString());
+                                    mainActivity.addToFriendsIDs(temp.get("id").toString());
                                 }
+                                Log.d("setUser","friends and friendsIDs set up");
                             }
                         } catch (Exception e) {
                             Log.e("Error: ", e.getMessage());

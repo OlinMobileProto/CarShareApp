@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public AccessToken accessToken;
     public JSONObject userid;
     public JSONArray friendsJSON;
-    public ArrayList<String> friends;
+    private ArrayList<String> friends;
     private ArrayList<String> friendsIDs;
     public String profile_name;
     public String profile_id;
@@ -252,12 +252,20 @@ public class MainActivity extends AppCompatActivity {
         friendsIDs = newList;
     }
 
+    public void addToFriendsIDs(String s) {
+        friendsIDs.add(s);
+    }
+
     public ArrayList<String> getFriends() {
         return friends;
     }
 
     public void setFriends(ArrayList<String> newList) {
         friends = newList;
+    }
+
+    public void addToFriends(String s) {
+        friends.add(s);
     }
 
 }
