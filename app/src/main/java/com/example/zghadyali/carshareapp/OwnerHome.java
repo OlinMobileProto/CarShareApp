@@ -23,37 +23,28 @@ public class OwnerHome extends Fragment {
     private TextView keyLocation;
     private EditText editKeyLocation;
     private String profile_id;
+    private JSONObject cars;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
-
-
-        profile_id = ((OwnerActivity)getActivity()).profile_id;
-        Log.d("PROFILE: ", profile_id);
-
-        handler.getcarinfo(new callback_cars() {
-            @Override
-            public void callback(JSONObject cars) {
-                Log.d("JSON CAR to string: ", cars.toString());
-                carLocation = (TextView) view.findViewById(R.id.car_location);
-                editCarLocation = (EditText) view.findViewById(R.id.car_location_edit);
-                keyLocation = (TextView) view.findViewById(R.id.key_location);
-                editKeyLocation = (EditText) view.findViewById(R.id.key_location_edit);
-                try {
-                    editCarLocation.setText(cars.getString("parkedLocation"));
-
-                    editKeyLocation.setText(cars.getString("keysLocation"));
-                } catch (JSONException e) {
-                    Log.e("MYAPP", "unexpected JSON exception", e);
-                    // Do something to recover ... or kill the app.
-                }
-            }
-        }, profile_id);
-
-
         view = inflater.inflate(R.layout.owner_home, container, false);
+
+        cars = ((OwnerActivity)getActivity()).car_info;
+
+        Log.d("Stuff:", cars.toString());
+        carLocation = (TextView) view.findViewById(R.id.car_location);
+        editCarLocation = (EditText) view.findViewById(R.id.car_location_edit);
+        keyLocation = (TextView) view.findViewById(R.id.key_location);
+        editKeyLocation = (EditText) view.findViewById(R.id.key_location_edit);
+        try {
+            editCarLocation.setText(cars.getString("parkedLocation"));
+            editKeyLocation.setText(cars.getString("keysLocation"));
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+        }
+
 
         return view;
     }

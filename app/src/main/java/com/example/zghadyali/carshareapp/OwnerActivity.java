@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -15,7 +17,10 @@ import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jordan on 11/18/15.
@@ -28,6 +33,22 @@ public class OwnerActivity extends AppCompatActivity{
     public AccessToken accessToken;
     public String profile_id;
     public String name;
+    public JSONObject car_info;
+
+    //Making Volley Request
+    public void volley_data() {
+        VolleyRequests handler = new VolleyRequests(getApplicationContext());
+
+        handler.getcarinfo(new callback_cars() {
+            @Override
+            public void callback(JSONObject cars) {
+                car_info = cars;
+                OwnerHome home = new OwnerHome();
+                transitionToFragment(home);
+                Log.d("JSON CAR to string: ", cars.toString());
+            }
+        }, profile_id);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +62,7 @@ public class OwnerActivity extends AppCompatActivity{
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profile_id);
             Log.d("name", name);
-            OwnerHome home = new OwnerHome();
-            transitionToFragment(home);
+            volley_data();
         }
         else{
             Log.d("OWNER CLASS: ", "I don't have any of that information right now");
@@ -58,8 +78,7 @@ public class OwnerActivity extends AppCompatActivity{
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
                                 profile_id = user_id.getString("id");
-                                OwnerHome home = new OwnerHome();
-                                transitionToFragment(home);
+                                volley_data();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
