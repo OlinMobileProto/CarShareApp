@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public JSONObject userid;
     public JSONArray friendsJSON;
     public ArrayList<String> friends;
-    private ArrayList<String> friendsIDs;
+    public ArrayList<String> friendsIDs;
     public String profile_name;
     public String profile_id;
     public String carLocation;
@@ -95,6 +95,34 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }, profile_id);
                                 userid = response.getJSONObject();
+                            } catch (Exception e) {
+                                Log.e("Error: ", e.getMessage());
+                            }
+                        }
+                    }
+            ).executeAsync();
+
+            GraphRequestAsyncTask request = new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me/friends",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            try {
+                                friends = new ArrayList<String>();
+                                friendsIDs = new ArrayList<String>();
+                                JSONObject res = response.getJSONObject();
+                                friendsJSON = res.getJSONArray("data");
+                                Log.d("friendsJSON: ", friendsJSON.toString());
+                                if (friendsJSON != null) {
+                                    int len = friendsJSON.length();
+                                    for (int i = 0; i < len; i++) {
+                                        JSONObject test = friendsJSON.getJSONObject(i);
+                                        friends.add(test.get("name").toString());
+                                        friendsIDs.add(test.get("id").toString());
+                                    }
+                                }
                             } catch (Exception e) {
                                 Log.e("Error: ", e.getMessage());
                             }
@@ -156,6 +184,34 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
+                ).executeAsync();
+
+                GraphRequestAsyncTask request = new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me/friends",
+                        null,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+                                try {
+                                    friends = new ArrayList<String>();
+                                    friendsIDs = new ArrayList<String>();
+                                    JSONObject res = response.getJSONObject();
+                                    friendsJSON = res.getJSONArray("data");
+                                    Log.d("friendsJSON: ", friendsJSON.toString());
+                                    if (friendsJSON != null) {
+                                        int len = friendsJSON.length();
+                                        for (int i = 0; i < len; i++) {
+                                            JSONObject test = friendsJSON.getJSONObject(i);
+                                            friends.add(test.get("name").toString());
+                                            friendsIDs.add(test.get("id").toString());
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("Error: ", e.getMessage());
+                                }
+                            }
+                        }
                 ).executeAsync();
             }
 

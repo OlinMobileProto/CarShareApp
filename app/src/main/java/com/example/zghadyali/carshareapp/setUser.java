@@ -45,8 +45,10 @@ public class setUser extends Fragment {
             public void onClick(View v) {
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
-                //Makes borrower schema in the server database for facebook user
+                //Makes person: borrower in the server database for facebook user
                 handler.makeperson(((MainActivity) getActivity()).profile_id,((MainActivity) getActivity()).profile_name, "borrower");
+                //Makes borrower schema in the server database
+                handler.makeborrower(((MainActivity) getActivity()).profile_id, ((MainActivity) getActivity()).profile_name);
             }
         });
 

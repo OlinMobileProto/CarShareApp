@@ -60,8 +60,10 @@ public class setApprovedList extends Fragment {
         approvedListIDs = new ArrayList<String>();
         approvedJSONarray = new JSONArray();
 
-        friendsIDs = mainActivity.getFriendsIDs();
-        friendsNames = mainActivity.getFriends();
+        friendsIDs = mainActivity.friendsIDs;
+        friendsNames = mainActivity.friends;
+
+        Log.d("stoio", friendsIDs.toString());
 
         final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setApprovedList.this, getActivity());
         friendsListView.setAdapter(friendsAdapter);
@@ -118,6 +120,7 @@ public class setApprovedList extends Fragment {
                                 friendPos = j;
                             }
                         }
+                        handler.addtocanborrow(((mainActivity.friendsJSON).getJSONObject(friendPos)).getString("id"),((MainActivity) getActivity()).profile_id);
                         approvedJSONarray.put((mainActivity.friendsJSON).getJSONObject(friendPos));
                     } catch (JSONException e) {
                         Log.e("MYAPP", "unexpected JSON exception", e);
