@@ -41,6 +41,8 @@ public class OwnerActivity extends AppCompatActivity{
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profile_id);
             Log.d("name", name);
+            OwnerHome home = new OwnerHome();
+            transitionToFragment(home);
         }
         else{
             Log.d("OWNER CLASS: ", "I don't have any of that information right now");
@@ -56,15 +58,14 @@ public class OwnerActivity extends AppCompatActivity{
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
                                 profile_id = user_id.getString("id");
+                                OwnerHome home = new OwnerHome();
+                                transitionToFragment(home);
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
                         }
                     }).executeAsync();
         }
-
-        ownerHome.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction().add(R.id.container, ownerHome).commit();
     }
 
     @Override
