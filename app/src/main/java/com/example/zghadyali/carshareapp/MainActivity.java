@@ -102,33 +102,6 @@ public class MainActivity extends AppCompatActivity {
                     }
             ).executeAsync();
 
-            GraphRequestAsyncTask request = new GraphRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    "/me/friends",
-                    null,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            try {
-                                friends = new ArrayList<String>();
-                                friendsIDs = new ArrayList<String>();
-                                JSONObject res = response.getJSONObject();
-                                friendsJSON = res.getJSONArray("data");
-                                Log.d("friendsJSON: ", friendsJSON.toString());
-                                if (friendsJSON != null) {
-                                    int len = friendsJSON.length();
-                                    for (int i = 0; i < len; i++) {
-                                        JSONObject test = friendsJSON.getJSONObject(i);
-                                        friends.add(test.get("name").toString());
-                                        friendsIDs.add(test.get("id").toString());
-                                    }
-                                }
-                            } catch (Exception e) {
-                                Log.e("Error: ", e.getMessage());
-                            }
-                        }
-                    }
-            ).executeAsync();
         }
         else{
             Log.d("TOKEN STATUS: ", "you've either never logged in before or you're logged out now");
@@ -186,33 +159,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                 ).executeAsync();
 
-                GraphRequestAsyncTask request = new GraphRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        "/me/friends",
-                        null,
-                        HttpMethod.GET,
-                        new GraphRequest.Callback() {
-                            public void onCompleted(GraphResponse response) {
-                                try {
-                                    friends = new ArrayList<String>();
-                                    friendsIDs = new ArrayList<String>();
-                                    JSONObject res = response.getJSONObject();
-                                    friendsJSON = res.getJSONArray("data");
-                                    Log.d("friendsJSON: ", friendsJSON.toString());
-                                    if (friendsJSON != null) {
-                                        int len = friendsJSON.length();
-                                        for (int i = 0; i < len; i++) {
-                                            JSONObject test = friendsJSON.getJSONObject(i);
-                                            friends.add(test.get("name").toString());
-                                            friendsIDs.add(test.get("id").toString());
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    Log.e("Error: ", e.getMessage());
-                                }
-                            }
-                        }
-                ).executeAsync();
             }
 
 

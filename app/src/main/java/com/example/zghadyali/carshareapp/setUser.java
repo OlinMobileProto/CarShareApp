@@ -77,14 +77,16 @@ public class setUser extends Fragment {
                     public void onCompleted(GraphResponse response) {
                         try {
                             mainActivity.friends = new ArrayList<String>();
+                            mainActivity.friendsIDs = new ArrayList<String>();
                             JSONObject res = response.getJSONObject();
                             mainActivity.friendsJSON = res.getJSONArray("data");
                             Log.d("friendsJSON: ", mainActivity.friendsJSON.toString());
                             if (mainActivity.friendsJSON != null) {
                                 int len = mainActivity.friendsJSON.length();
                                 for (int i = 0; i < len; i++) {
-                                    JSONObject temp = mainActivity.friendsJSON.getJSONObject(i);
-                                    mainActivity.friends.add(temp.get("name").toString());
+                                    JSONObject test = mainActivity.friendsJSON.getJSONObject(i);
+                                    mainActivity.friends.add(test.get("name").toString());
+                                    mainActivity.friendsIDs.add(test.get("id").toString());
                                 }
                             }
                         } catch (Exception e) {
@@ -93,6 +95,7 @@ public class setUser extends Fragment {
                     }
                 }
         ).executeAsync();
+        
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         loginButton.setFragment(this);
