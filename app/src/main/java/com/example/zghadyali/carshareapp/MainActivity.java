@@ -116,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(LoginResult loginResult) {
                     Log.d("from login result: ", loginResult.getAccessToken().getToken());
                     accessToken = loginResult.getAccessToken();
-                    preferences.edit().putString("FB_ACCESS_TOKEN", accessToken.getToken()).apply();
-                    preferences.edit().putBoolean("FB_LOG_IN", true).apply();
                     Log.d("Profile: ", Profile.getCurrentProfile().toString());
                     final VolleyRequests handler = new VolleyRequests(getApplicationContext());
 
