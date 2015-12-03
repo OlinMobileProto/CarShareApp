@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -54,6 +55,7 @@ public class OwnerSettings extends Fragment {
             editCarMake.setText(cars.getString("make"));
             editCarModel.setText(cars.getString("model"));
             editLicensePlate.setText(cars.getString("licensePlate"));
+            transmissionSpinner.setSelection((cars.getBoolean("isAutomatic") ? 1 : 0));
         } catch (JSONException e) {
             Log.e("MYAPP", "unexpected JSON exception", e);
             // Do something to recover ... or kill the app.
@@ -69,6 +71,7 @@ public class OwnerSettings extends Fragment {
                     newCarInfo.put("make", editCarMake.getText().toString());
                     newCarInfo.put("model", editCarModel.getText().toString());
                     newCarInfo.put("licensePlate", editLicensePlate.getText().toString());
+                    newCarInfo.put("isAutomatic", transmissionSpinner.getSelectedItemPosition() != 0);
                 } catch (JSONException e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                     // Do something to recover ... or kill the app.
