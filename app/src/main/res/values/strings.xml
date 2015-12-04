@@ -22,7 +22,7 @@
     <string name="hourly_rate">Hourly rate</string>
 
     <string-array name="transmission_choice_array">
-        <item>Automatic</item>
         <item>Manual</item>
+        <item>Automatic</item>
     </string-array>
 </resources>
