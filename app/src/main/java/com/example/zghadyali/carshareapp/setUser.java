@@ -95,7 +95,7 @@ public class setUser extends Fragment {
                     }
                 }
         ).executeAsync();
-        
+
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         loginButton.setFragment(this);
