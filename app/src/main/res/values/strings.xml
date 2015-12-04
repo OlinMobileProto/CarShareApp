@@ -3,6 +3,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_home">Home</string>
+    <string name="action_logout">Logout</string>
     <string name="car_location_question">Where is your car parked?</string>
     <string name="key_location_question">Where can borrowers find your keys?</string>
     <string name="hourly_rate_question">What hourly rate do you charge?</string>
