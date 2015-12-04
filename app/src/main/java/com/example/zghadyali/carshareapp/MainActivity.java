@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public JSONObject userid;
     public JSONArray friendsJSON;
     public ArrayList<String> friends;
-    private ArrayList<String> friendsIDs;
+    public ArrayList<String> friendsIDs;
     public String profile_name;
     public String profile_id;
     public String carLocation;
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             ).executeAsync();
+
         }
         else{
             Log.d("TOKEN STATUS: ", "you've either never logged in before or you're logged out now");
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                 ).executeAsync();
+
             }
 
 
