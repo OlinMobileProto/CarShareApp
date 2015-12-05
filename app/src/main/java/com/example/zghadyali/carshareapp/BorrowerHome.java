@@ -18,7 +18,7 @@ public class BorrowerHome extends Fragment {
     public Button now;
     public ListView carsListView;
     public ArrayAdapter carsAdapter;
-    public SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private BorrowerActivity borrowerActivity;
 
     @Override
