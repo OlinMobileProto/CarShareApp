@@ -31,6 +31,7 @@ public class BorrowerActivity extends AppCompatActivity {
     public JSONArray carsJSON;
     public ArrayList<String> carsList;
     public BorrowerHome borrowerHome;
+    public int len;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,11 @@ public class BorrowerActivity extends AppCompatActivity {
                     car_ids = new JSONArray();
                     try{
                         car_ids = borrower_cars.getJSONArray("can_borrow");
-                        final int len = car_ids.length();
+                        len = car_ids.length();
+                        if (len == 0){
+                            borrowerHome = new BorrowerHome();
+                            transitionToFragment(borrowerHome);
+                        }
                         Log.d("You are approved for", String.valueOf(len));
                         carsJSON = new JSONArray();
                         carsList = new ArrayList<String>();
@@ -115,7 +120,11 @@ public class BorrowerActivity extends AppCompatActivity {
                                         car_ids = new JSONArray();
                                         try{
                                             car_ids = borrower_cars.getJSONArray("can_borrow");
-                                            final int len = car_ids.length();
+                                            len = car_ids.length();
+                                            if (len == 0){
+                                                borrowerHome = new BorrowerHome();
+                                                transitionToFragment(borrowerHome);
+                                            }
                                             Log.d("You are approved for", String.valueOf(len));
                                             carsJSON = new JSONArray();
                                             carsList = new ArrayList<String>();
