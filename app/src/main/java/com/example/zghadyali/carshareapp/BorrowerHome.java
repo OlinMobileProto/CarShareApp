@@ -32,7 +32,7 @@ public class BorrowerHome extends Fragment {
         });
 
         carsListView = (ListView) rootview.findViewById(R.id.cars_list);
-        carsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, ((BorrowerActivity)getActivity()).carsList);
+        carsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.cars_list, ((BorrowerActivity)getActivity()).carsList);
         carsListView.setAdapter(carsAdapter);
 
 
