@@ -19,15 +19,22 @@
         android:text="NOW"
         android:id="@+id/now_button"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/cars_list"
-        android:layout_alignEnd="@+id/cars_list" />
+        android:layout_alignRight="@+id/swipe_refresh"
+        android:layout_alignEnd="@+id/swipe_refresh" />
 
-    <ListView
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/context"
-        android:id="@+id/cars_list"
         android:layout_marginTop="20dp"
-        />
+        android:layout_below="@id/context" >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/cars_list" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
