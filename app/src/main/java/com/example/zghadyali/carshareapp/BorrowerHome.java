@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class BorrowerHome extends Fragment {
 
@@ -29,6 +30,7 @@ public class BorrowerHome extends Fragment {
 
         borrowerActivity = (BorrowerActivity) getActivity();
 
+        Log.d("BORROWER HOME STATUS: ", "you are now in the borrower home fragment");
         now = (Button) rootview.findViewById(R.id.now_button);
         now.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +52,16 @@ public class BorrowerHome extends Fragment {
             }
         });
 
+        if (borrowerActivity.len == 0){
+            TextView context = (TextView) rootview.findViewById(R.id.context);
+            context.setText("You are not approved to borrow any cars right now.");
+            now.setVisibility(View.GONE);
+        } else {
 
+            carsListView = (ListView) rootview.findViewById(R.id.cars_list);
+            carsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.cars_list, ((BorrowerActivity)getActivity()).carsList);
+            carsListView.setAdapter(carsAdapter);
+        }
 
         return rootview;
     }
