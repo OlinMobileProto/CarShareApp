@@ -61,39 +61,13 @@ public class setUser extends Fragment {
                 //Makes car schema in the server database
                 handler.makeownercar(((MainActivity) getActivity()).profile_id, ((MainActivity) getActivity()).profile_name);
 
-                ((MainActivity)getActivity()).transitionToFragment(setAL);
+//                ((MainActivity)getActivity()).transitionToFragment(setAL);
                 mainActivity.transitionToFragment(setAL);
             }
         });
 
-        GraphRequestAsyncTask request = new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        try {
-                            mainActivity.setFriends(new ArrayList<String>());
-                            mainActivity.setFriendsIDs(new ArrayList<String>());
-                            JSONObject res = response.getJSONObject();
-                            mainActivity.friendsJSON = res.getJSONArray("data");
-                            Log.d("friendsJSON: ", mainActivity.friendsJSON.toString());
-                            if (mainActivity.friendsJSON != null) {
-                                int len = mainActivity.friendsJSON.length();
-                                for (int i = 0; i < len; i++) {
-                                    JSONObject temp = mainActivity.friendsJSON.getJSONObject(i);
-                                    mainActivity.addToFriends(temp.get("name").toString());
-                                    mainActivity.addToFriendsIDs(temp.get("id").toString());
-                                }
-                                Log.d("setUser","friends and friendsIDs set up");
-                            }
-                        } catch (Exception e) {
-                            Log.e("Error: ", e.getMessage());
-                        }
-                    }
-                }
-        ).executeAsync();
+        // Get the friend list from the server
+        mainActivity.setupFriends();
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         loginButton.setFragment(this);

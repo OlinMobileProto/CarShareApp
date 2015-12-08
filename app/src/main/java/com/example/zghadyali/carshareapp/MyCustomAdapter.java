@@ -52,7 +52,7 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
 
         // Displays the actual friend name instead of the id
-        listItemText.setText(setAL.getMainActivity().getFriendNameFromID(thisID));
+        listItemText.setText(setAL.getThisActivity().getFriendNameFromID(thisID));
 
         final boolean isApproved = setAL.IDIsApproved(thisID);
 

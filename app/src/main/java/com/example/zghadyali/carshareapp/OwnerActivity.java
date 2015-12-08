@@ -17,6 +17,7 @@ import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,15 +26,20 @@ import java.util.ArrayList;
 /**
  * Created by Jordan on 11/18/15.
  */
-public class OwnerActivity extends AppCompatActivity{
+public class OwnerActivity extends FriendActivity{
 
     public OwnerHome ownerHome = new OwnerHome();
     public OwnerSettings ownerSettings = new OwnerSettings();
+    public UpdateApprovedList updateApprovedList = new UpdateApprovedList();
 
     public AccessToken accessToken;
     public String profile_id;
     public String name;
     public JSONObject car_info;
+
+    public JSONArray friendsJSON;
+    private ArrayList<String> friends;
+    private ArrayList<String> friendsIDs;
 
     //Making Volley Request
     public void volley_data() {
@@ -54,6 +60,8 @@ public class OwnerActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner);
+
+        setupFriends();
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
@@ -107,10 +115,9 @@ public class OwnerActivity extends AppCompatActivity{
             case R.id.action_settings:
                 transitionToFragment(ownerSettings);
                 return true;
-            //TODO transistion to the correct fragment
-//            case R.id.action_approvedlist:
-//                transitionToFragment();
-//                return true;
+            case R.id.action_approvedlist:
+                transitionToFragment(updateApprovedList);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -124,5 +131,4 @@ public class OwnerActivity extends AppCompatActivity{
         transaction.replace(R.id.container, fragment);
         transaction.commit();
     }
-
 }

@@ -37,7 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FriendActivity {
 
     //TODO make stuff private here too
     public loginFacebook loginfb;
@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public CallbackManager callbackManager;
     public AccessToken accessToken;
     public JSONObject userid;
-    public JSONArray friendsJSON;
-    private ArrayList<String> friends;
-    private ArrayList<String> friendsIDs;
+//    public JSONArray friendsJSON;
+//    private ArrayList<String> friends;
+//    private ArrayList<String> friendsIDs;
     public String profile_name;
     public String profile_id;
     public String carLocation;
@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MAINACTIVITY","created");
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
 
@@ -228,44 +229,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public String getFriendNameFromID(String id) {
-        for (int i = 0; i < friendsJSON.length(); i++) {
-            try {
-                JSONObject friend = friendsJSON.getJSONObject(i);
-                String thisID = friend.getString("id");
-                if (thisID.equals(id)) {
-                    return friend.getString("name");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return "FRIEND ID NOT FOUND";
-    }
-
-    public ArrayList<String> getFriendsIDs() {
-        return friendsIDs;
-    }
-
-    public void setFriendsIDs(ArrayList<String> newList) {
-        friendsIDs = newList;
-    }
-
-    public void addToFriendsIDs(String s) {
-        friendsIDs.add(s);
-    }
-
-    public ArrayList<String> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(ArrayList<String> newList) {
-        friends = newList;
-    }
-
-    public void addToFriends(String s) {
-        friends.add(s);
-    }
-
 }

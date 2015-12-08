@@ -2,6 +2,7 @@ package com.example.zghadyali.carshareapp;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Parent class of all fragments to modify the approved list.
  */
-public class setALParent extends Fragment {
+public abstract class setALParent extends Fragment {
 
     //TODO make stuff private
     //TODO make it protected so that the subclasses can inherit them?
@@ -36,12 +37,12 @@ public class setALParent extends Fragment {
     public ArrayList<Integer> approvedList;
     private ArrayList<String> approvedListIDs;
     private JSONArray approvedJSON;
-    public LoginButton loginButton;
+    protected LoginButton loginButton;
     public loginFacebook loginfb;
-    public Button next;
+    protected Button doneButton;
     private JSONArray approvedJSONarray;
-    private MainActivity mainActivity;
-    private SetCarInfo setCarInfo;
+    protected FriendActivity thisActivity;
+    protected SetCarInfo setCarInfo;
     private ArrayList<String> friendsIDs;
     private ArrayList<String> friendsNames;
 
@@ -51,17 +52,17 @@ public class setALParent extends Fragment {
 
         View rootview = inflater.inflate(R.layout.set_approved_list, container, false);
 
-        mainActivity = (MainActivity) getActivity();
+        setupThisActivity();
         friendsListView = (ListView) rootview.findViewById(R.id.friends_list);
         searchFriends = (EditText) rootview.findViewById(R.id.search_friends_list);
-        next = (Button) rootview.findViewById(R.id.next_to_details);
+        doneButton = (Button) rootview.findViewById(R.id.done_button);
 
         approvedList = new ArrayList<Integer>();
         approvedListIDs = new ArrayList<String>();
         approvedJSONarray = new JSONArray();
 
-        friendsIDs = mainActivity.getFriendsIDs();
-        friendsNames = mainActivity.getFriends();
+        friendsIDs = thisActivity.getFriendsIDs();
+        friendsNames = thisActivity.getFriends();
 
         final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setALParent.this, getActivity());
         friendsListView.setAdapter(friendsAdapter);
@@ -101,13 +102,12 @@ public class setALParent extends Fragment {
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
+        doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCarInfo = new SetCarInfo();
-
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
+                // Build the approvedJSONarray
                 for (int k = 0; k < approvedListIDs.size(); k++ ){
                     try {
                         String thisID = approvedListIDs.get(k);
@@ -118,37 +118,26 @@ public class setALParent extends Fragment {
                                 friendPos = j;
                             }
                         }
-                        approvedJSONarray.put((mainActivity.friendsJSON).getJSONObject(friendPos));
+                        approvedJSONarray.put((thisActivity.friendsJSON).getJSONObject(friendPos));
                     } catch (JSONException e) {
                         Log.e("MYAPP", "unexpected JSON exception", e);
                         // Do something to recover ... or kill the app.
                     }
                 }
+                // Send the approved array to the server
+                //TODO make this work in owneractivity
                 handler.addtoapproved(((MainActivity) getActivity()).profile_id, approvedJSONarray);
 
-                mainActivity.transitionToFragment(setCarInfo);
-            }
-        });
-
-        loginButton = (LoginButton) rootview.findViewById(R.id.login_button);
-        loginButton.setFragment(this);
-
-        //should always be logging you out and log out should return you to first screen
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.accessToken = null;
-                LoginManager.getInstance().logOut();
-                mainActivity.setFriends(new ArrayList<String>());
-                mainActivity.setFriendsIDs(new ArrayList<String>());
-
-                loginfb = new loginFacebook();
-                mainActivity.transitionToFragment(loginfb);
+                transistionToNextFragment();
             }
         });
 
         return rootview;
     }
+
+    abstract protected void setupThisActivity();
+
+    abstract protected void transistionToNextFragment();
 
     public void addPosToApprovedList(int pos) {
         approvedList.add(pos);
@@ -164,7 +153,6 @@ public class setALParent extends Fragment {
         return approvedList.contains(pos);
     }
 
-    //TODO new functions for ids
     public void addIDToApprovedList(String id) {
         approvedListIDs.add(id);
         Log.d("new approved list", approvedListIDs.toString());
@@ -179,7 +167,7 @@ public class setALParent extends Fragment {
         return approvedListIDs.contains(id);
     }
 
-    public MainActivity getMainActivity() {
-        return mainActivity;
+    public FriendActivity getThisActivity() {
+        return thisActivity;
     }
 }
