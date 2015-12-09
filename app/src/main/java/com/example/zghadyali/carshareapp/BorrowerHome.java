@@ -37,9 +37,11 @@ public class BorrowerHome extends Fragment {
             context.setText("You are not approved to borrow any cars right now.");
             now.setVisibility(View.GONE);
         } else {
+
             carsListView = (ListView) rootview.findViewById(R.id.cars_list);
-            carsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.cars_list, ((BorrowerActivity)getActivity()).carsList);
-            carsListView.setAdapter(carsAdapter);
+            final CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity)getActivity()).carsList, BorrowerHome.this, getActivity());
+            carsListView.setAdapter(adapter);
+
         }
 
         return rootview;

@@ -65,12 +65,15 @@ public class BorrowerActivity extends AppCompatActivity {
                         carsList = new ArrayList<String>();
                         for (int i = 0; i < len; i++) {
                             String test = car_ids.getString(i);
+                            Log.d("CAR_ID: ", test);
                             handler.getcarinfo(new callback_cars() {
                                 @Override
                                 public void callback(JSONObject cars) {
                                     carsJSON.put(cars);
+                                    Log.d("PUT STATUS: ", carsJSON.toString());
                                     try{
                                         String temp_name = cars.getString("owner");
+                                        Log.d("OWNER NAME: ", temp_name);
                                         String temp_make = cars.getString("make");
                                         String temp_model = cars.getString("model");
                                         if (temp_make != null && temp_model != null) {
@@ -136,17 +139,18 @@ public class BorrowerActivity extends AppCompatActivity {
                                                         carsJSON.put(cars);
                                                         try{
                                                             String temp_name = cars.getString("owner");
-                                                            String temp_make = cars.getString("make");
-                                                            String temp_model = cars.getString("model");
-                                                            if (temp_make != null && temp_model != null) {
-                                                                carsList.add(temp_name + "'s " + temp_make + " " + temp_model + " "); //then need to add year
-                                                            } else if (temp_model != null){
-                                                                carsList.add(temp_name + "'s " + temp_model);
-                                                            } else if (temp_make != null){
-                                                                carsList.add(temp_name + "'s " + temp_make);
-                                                            } else{
+//                                                            String temp_make = cars.getString("make");
+//                                                            Log.d("temp make: ", temp_make);
+//                                                            String temp_model = cars.getString("model");
+//                                                            if (temp_make != null && temp_model != null) {
+//                                                                carsList.add(temp_name + "'s " + temp_make + " " + temp_model + " "); //then need to add year
+//                                                            } else if (temp_model != null){
+//                                                                carsList.add(temp_name + "'s " + temp_model);
+//                                                            } else if (temp_make != null){
+//                                                                carsList.add(temp_name + "'s " + temp_make);
+//                                                            } else{
                                                                 carsList.add(temp_name + "'s Car");
-                                                            }
+//                                                            }
                                                         } catch (Exception e){
                                                             e.getMessage();
                                                         }
