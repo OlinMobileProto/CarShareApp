@@ -55,7 +55,7 @@ public class setApprovedList extends setALParent {
     }
 
     @Override
-    protected void transistionToNextFragment() {
+    protected void transitionToNextFragment() {
         setCarInfo = new SetCarInfo();
         mainActivity.transitionToFragment(setCarInfo);
     }

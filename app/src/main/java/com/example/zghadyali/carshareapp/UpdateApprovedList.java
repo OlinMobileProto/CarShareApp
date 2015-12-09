@@ -39,8 +39,8 @@ public class UpdateApprovedList extends setALParent {
     }
 
     @Override
-    protected void transistionToNextFragment() {
-        thisActivity.onBackPressed();
+    protected void transitionToNextFragment() {
+        ownerActivity.transitionToHome();
     }
 
     private void buildApprovedList() {

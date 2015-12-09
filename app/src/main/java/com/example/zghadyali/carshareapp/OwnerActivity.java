@@ -24,18 +24,14 @@ import java.util.ArrayList;
  */
 public class OwnerActivity extends FriendActivity{
 
-    public OwnerHome ownerHome = new OwnerHome();
-    public OwnerSettings ownerSettings = new OwnerSettings();
-    public UpdateApprovedList updateApprovedList = new UpdateApprovedList();
+    private OwnerHome ownerHome = new OwnerHome();
+    private OwnerSettings ownerSettings = new OwnerSettings();
+    private UpdateApprovedList updateApprovedList = new UpdateApprovedList();
 
     public AccessToken accessToken;
-    public String profile_id;
+//    public String profileID;
     public String name;
     private JSONObject carInfo;
-
-    public JSONArray friendsJSON;
-    private ArrayList<String> friends;
-    private ArrayList<String> friendsIDs;
 
     //Making Volley Request
     public void volley_data() {
@@ -49,7 +45,7 @@ public class OwnerActivity extends FriendActivity{
                 transitionToFragment(home);
                 Log.d("JSON CAR to string: ", cars.toString());
             }
-        }, profile_id);
+        }, profileID);
     }
 
     @Override
@@ -62,9 +58,9 @@ public class OwnerActivity extends FriendActivity{
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
         if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
-            profile_id = getIntent().getExtras().getString("profile_id");
+            profileID = getIntent().getExtras().getString("profile_id");
             name = getIntent().getExtras().getString("name");
-            Log.d("PROFILE ID: ", profile_id);
+            Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
             volley_data();
         }
@@ -81,7 +77,7 @@ public class OwnerActivity extends FriendActivity{
                                 final JSONObject user_id = response.getJSONObject();
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
-                                profile_id = user_id.getString("id");
+                                profileID = user_id.getString("id");
                                 volley_data();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
@@ -130,5 +126,9 @@ public class OwnerActivity extends FriendActivity{
 
     public JSONObject getCarInfo() {
         return carInfo;
+    }
+
+    public void transitionToHome() {
+        transitionToFragment(ownerHome);
     }
 }

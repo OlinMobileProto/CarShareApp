@@ -46,11 +46,8 @@ public class MainActivity extends FriendActivity {
     public CallbackManager callbackManager;
     public AccessToken accessToken;
     public JSONObject userid;
-//    public JSONArray friendsJSON;
-//    private ArrayList<String> friends;
-//    private ArrayList<String> friendsIDs;
     public String profile_name;
-    public String profile_id;
+//    public String profile_id;
     public String carLocation;
     public String keysLocation;
     public setUser setuser;
@@ -80,7 +77,7 @@ public class MainActivity extends FriendActivity {
                                 JSONObject user_id = response.getJSONObject();
                                 Log.d("USER ID JSON", user_id.toString());
                                 profile_name = user_id.getString("name");
-                                profile_id = user_id.getString("id");
+                                profileID = user_id.getString("id");
                                 handler.getuser(new Callback() {
                                     @Override
                                     public void callback(Integer user_status) {
@@ -94,7 +91,7 @@ public class MainActivity extends FriendActivity {
                                             //launch borrower activity
                                         }
                                     }
-                                }, profile_id);
+                                }, profileID);
                                 userid = response.getJSONObject();
                             } catch (Exception e) {
                                 Log.e("Error: ", e.getMessage());
@@ -132,7 +129,7 @@ public class MainActivity extends FriendActivity {
                                             final JSONObject user_id = response.getJSONObject();
                                             Log.d("USER ID JSON", user_id.toString());
                                             profile_name = user_id.getString("name");
-                                            profile_id = user_id.getString("id");
+                                            profileID = user_id.getString("id");
                                             handler.getuser(new Callback() {
                                                 @Override
                                                 public void callback(Integer user_status) {
@@ -143,7 +140,7 @@ public class MainActivity extends FriendActivity {
                                                     } else if (user_status == 1) {
                                                         Log.d("STATUS: ", "you have logged in and you are an owner");
                                                         Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
-                                                        intent.putExtra("profile_id", profile_id);
+                                                        intent.putExtra("profile_id", profileID);
                                                         intent.putExtra("name", profile_name);
                                                         startActivity(intent);
                                                     } else if (user_status == 2) {
@@ -151,7 +148,7 @@ public class MainActivity extends FriendActivity {
                                                         //open activity for borrowers
                                                     }
                                                 }
-                                            }, profile_id);
+                                            }, profileID);
                                         } catch (Exception e) {
                                             Log.e("Error: ", e.getMessage());
                                         }

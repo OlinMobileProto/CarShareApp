@@ -2,7 +2,6 @@ package com.example.zghadyali.carshareapp;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,11 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -105,30 +102,30 @@ public abstract class setALParent extends Fragment {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+//                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+//
+//                // Build the approvedJSONarray
+//                for (int k = 0; k < approvedListIDs.size(); k++ ){
+////                    try {
+//                        String thisID = approvedListIDs.get(k);
+////                        // Get the position of this friend
+////                        int friendPos = -1;
+////                        for (int j=0;j<friendsIDs.size();j++) {
+////                            if (friendsIDs.get(j).equals(thisID)) {
+////                                friendPos = j;
+////                            }
+////                        }
+////                        approvedJSONarray.put((thisActivity.friendsJSON).getJSONObject(friendPos));
+//                        approvedJSONarray.put(thisID);
+////                    } catch (JSONException e) {
+////                        Log.e("MYAPP", "unexpected JSON exception", e);
+////                        // Do something to recover ... or kill the app.
+////                    }
+//                }
+//                // Send the approved array to the server
+//                handler.addtoapproved(thisActivity.getProfileID(), approvedJSONarray);
 
-                // Build the approvedJSONarray
-                for (int k = 0; k < approvedListIDs.size(); k++ ){
-                    try {
-                        String thisID = approvedListIDs.get(k);
-                        // Get the position of this friend
-                        int friendPos = -1;
-                        for (int j=0;j<friendsIDs.size();j++) {
-                            if (friendsIDs.get(j).equals(thisID)) {
-                                friendPos = j;
-                            }
-                        }
-                        approvedJSONarray.put((thisActivity.friendsJSON).getJSONObject(friendPos));
-                    } catch (JSONException e) {
-                        Log.e("MYAPP", "unexpected JSON exception", e);
-                        // Do something to recover ... or kill the app.
-                    }
-                }
-                // Send the approved array to the server
-                //TODO make this work in owneractivity
-                handler.addtoapproved(((MainActivity) getActivity()).profile_id, approvedJSONarray);
-
-                transistionToNextFragment();
+                transitionToNextFragment();
             }
         });
 
@@ -137,30 +134,22 @@ public abstract class setALParent extends Fragment {
 
     abstract protected void setupThisActivity();
 
-    abstract protected void transistionToNextFragment();
-
-    public void addPosToApprovedList(int pos) {
-        approvedList.add(pos);
-        Log.d("new approved list", approvedList.toString());
-    }
-
-    public void removePosFromApprovedList(int pos) {
-        approvedList.remove((Object) pos);
-        Log.d("new approved list", approvedList.toString());
-    }
-
-    public boolean PosIsApproved(int pos) {
-        return approvedList.contains(pos);
-    }
+    abstract protected void transitionToNextFragment();
 
     public void addIDToApprovedList(String id) {
         approvedListIDs.add(id);
         Log.d("new approved list", approvedListIDs.toString());
+        VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+        JSONArray thisFriendJSONArray = new JSONArray();
+        thisFriendJSONArray.put(id);
+        handler.addtoapproved(thisActivity.getProfileID(), thisFriendJSONArray);
     }
 
     public void removeIDFromApprovedList(String id) {
         approvedListIDs.remove(id);
         Log.d("new approved list", approvedListIDs.toString());
+        VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+        handler.removefromapproved(thisActivity.getProfileID(), id);
     }
 
     public boolean IDIsApproved(String id) {

@@ -46,7 +46,7 @@ public class setUser extends Fragment {
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
                 //Makes borrower schema in the server database for facebook user
-                handler.makeperson(((MainActivity) getActivity()).profile_id,((MainActivity) getActivity()).profile_name, "borrower");
+                handler.makeperson(mainActivity.getProfileID(),mainActivity.profile_name, "borrower");
             }
         });
 
@@ -57,9 +57,9 @@ public class setUser extends Fragment {
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
                 //Makes owner schema in the server database
-                handler.makeperson(((MainActivity) getActivity()).profile_id,((MainActivity) getActivity()).profile_name, "owner");
+                handler.makeperson(mainActivity.getProfileID(),mainActivity.profile_name, "owner");
                 //Makes car schema in the server database
-                handler.makeownercar(((MainActivity) getActivity()).profile_id, ((MainActivity) getActivity()).profile_name);
+                handler.makeownercar(mainActivity.getProfileID(), mainActivity.profile_name);
 
 //                ((MainActivity)getActivity()).transitionToFragment(setAL);
                 mainActivity.transitionToFragment(setAL);

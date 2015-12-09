@@ -24,6 +24,7 @@ abstract public class FriendActivity extends AppCompatActivity{
     public JSONArray friendsJSON;
     protected ArrayList<String> friends;
     protected ArrayList<String> friendsIDs;
+    protected String profileID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,5 +103,9 @@ abstract public class FriendActivity extends AppCompatActivity{
 
     public void addToFriends(String s) {
         friends.add(s);
+    }
+
+    public String getProfileID() {
+        return profileID;
     }
 }
