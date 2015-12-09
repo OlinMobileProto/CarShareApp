@@ -129,7 +129,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                             carsJSON = new JSONArray();
                                             carsList = new ArrayList<String>();
                                             for (int i = 0; i < len; i++) {
-                                                String test = car_ids.getString(i);
+                                                String car_id = car_ids.getString(i);
                                                 handler.getcarinfo(new callback_cars() {
                                                     @Override
                                                     public void callback(JSONObject cars) {
@@ -154,7 +154,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                                         borrowerHome = new BorrowerHome();
                                                         transitionToFragment(borrowerHome);
                                                     }
-                                                }, test);
+                                                }, car_id);
                                             }
                                         } catch (Exception e){
                                             Log.e("Error: ", e.getMessage());
