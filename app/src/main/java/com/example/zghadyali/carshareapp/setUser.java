@@ -82,7 +82,7 @@ public class setUser extends Fragment {
                     }
                 }
         ).executeAsync();
-        
+
         next = (Button) rootView.findViewById(R.id.next_button);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
