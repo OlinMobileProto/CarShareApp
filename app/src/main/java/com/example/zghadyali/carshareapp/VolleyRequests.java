@@ -109,9 +109,11 @@ public class VolleyRequests {
     public void addtocanborrow(String borrower_name, String owner_name){
         String url = "http://52.33.226.47/borrowers/" + borrower_name + "/canborrow";
         JSONObject my_approved = new JSONObject();
+        JSONArray list_owners = new JSONArray();
 
         try{
-            my_approved.put("carId", owner_name);
+            list_owners.put(owner_name);
+            my_approved.put("users", list_owners);
         } catch (Exception e){
             Log.e("ERROR!", e.getMessage());
         }
@@ -221,6 +223,49 @@ public class VolleyRequests {
                             Log.e("Error!", error.getMessage());
                         }
                     });
+        queue.add(request);
+    }
+
+    //CREATING AND PATCHING REQUESTS FOR CARS
+    //Making a request for borrowing a car:
+    public void createrequest (String id_name, JSONObject request_details){
+        String url = "http://52.33.226.47/cars/" + id_name + "/requests";
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                request_details,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
+    //Parching request for borrowing a car:
+    public void editrequest (String id_name, JSONObject edit_request_details){
+        String url = "http://52.33.226.47/cars/" + id_name + "/requests";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PATCH,
+                url,
+                edit_request_details,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
         queue.add(request);
     }
 
