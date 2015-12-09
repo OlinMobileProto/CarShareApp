@@ -4,12 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -18,7 +15,6 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,7 +31,7 @@ public class OwnerActivity extends FriendActivity{
     public AccessToken accessToken;
     public String profile_id;
     public String name;
-    public JSONObject car_info;
+    private JSONObject carInfo;
 
     public JSONArray friendsJSON;
     private ArrayList<String> friends;
@@ -48,7 +44,7 @@ public class OwnerActivity extends FriendActivity{
         handler.getcarinfo(new callback_cars() {
             @Override
             public void callback(JSONObject cars) {
-                car_info = cars;
+                carInfo = cars;
                 OwnerHome home = new OwnerHome();
                 transitionToFragment(home);
                 Log.d("JSON CAR to string: ", cars.toString());
@@ -130,5 +126,9 @@ public class OwnerActivity extends FriendActivity{
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
+    }
+
+    public JSONObject getCarInfo() {
+        return carInfo;
     }
 }

@@ -30,9 +30,9 @@ public class OwnerHome extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.owner_home, container, false);
 
-        cars = ((OwnerActivity)getActivity()).car_info;
+        cars = ((OwnerActivity)getActivity()).getCarInfo();
 
-        Log.d("Stuff:", cars.toString());
+        Log.d("CarInfo", cars.toString());
         carLocation = (TextView) view.findViewById(R.id.car_location);
         editCarLocation = (EditText) view.findViewById(R.id.car_location_edit);
         keyLocation = (TextView) view.findViewById(R.id.key_location);

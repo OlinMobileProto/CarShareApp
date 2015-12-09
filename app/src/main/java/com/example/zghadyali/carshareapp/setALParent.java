@@ -35,7 +35,7 @@ public abstract class setALParent extends Fragment {
     public ArrayList<Integer> approved_list;
     public JSONArray approved_listJSON;
     public ArrayList<Integer> approvedList;
-    private ArrayList<String> approvedListIDs;
+    protected ArrayList<String> approvedListIDs;
     private JSONArray approvedJSON;
     protected LoginButton loginButton;
     public loginFacebook loginfb;
