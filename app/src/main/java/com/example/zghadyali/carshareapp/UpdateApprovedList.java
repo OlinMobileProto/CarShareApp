@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.login.widget.LoginButton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +30,10 @@ public class UpdateApprovedList extends setALParent {
         }
 
         doneButton.setText("Update");
-        //TODO hide login button
+        // Hide login button
+        loginButton = (LoginButton) view.findViewById(R.id.login_button);
+        loginButton.setVisibility(View.GONE);
+
         buildApprovedList();
         return view;
     }

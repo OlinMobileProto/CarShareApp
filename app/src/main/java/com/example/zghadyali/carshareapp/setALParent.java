@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public abstract class setALParent extends Fragment {
 
     //TODO make stuff private
-    //TODO make it protected so that the subclasses can inherit them?
     public ListView friendsListView;
     public EditText searchFriends;
     public ArrayAdapter<String> friendsAdapter;
