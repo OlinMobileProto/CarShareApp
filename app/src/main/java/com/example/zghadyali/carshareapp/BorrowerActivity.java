@@ -46,59 +46,7 @@ public class BorrowerActivity extends AppCompatActivity {
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profile_id);
             Log.d("name", name);
-            final VolleyRequests handler = new VolleyRequests(getApplicationContext());
-            handler.getborrowerinfo(new callback_cars() {
-                @Override
-                public void callback(JSONObject cars) {
-                    borrower_cars = new JSONObject();
-                    borrower_cars = cars;
-                    car_ids = new JSONArray();
-                    try{
-                        car_ids = borrower_cars.getJSONArray("can_borrow");
-                        len = car_ids.length();
-                        if (len == 0){
-                            borrowerHome = new BorrowerHome();
-                            transitionToFragment(borrowerHome);
-                        }
-                        Log.d("You are approved for", String.valueOf(len));
-                        carsJSON = new JSONArray();
-                        carsList = new ArrayList<String>();
-                        for (int i = 0; i < len; i++) {
-                            String test = car_ids.getString(i);
-                            Log.d("CAR_ID: ", test);
-                            handler.getcarinfo(new callback_cars() {
-                                @Override
-                                public void callback(JSONObject cars) {
-                                    carsJSON.put(cars);
-                                    Log.d("PUT STATUS: ", carsJSON.toString());
-                                    try{
-                                        String temp_name = cars.getString("owner");
-                                        Log.d("OWNER NAME: ", temp_name);
-                                        String temp_make = cars.getString("make");
-                                        String temp_model = cars.getString("model");
-                                        if (temp_make != null && temp_model != null) {
-                                            carsList.add(temp_name + "'s " + temp_make + " " + temp_model + " "); //then need to add year
-                                        } else if (temp_model != null){
-                                            carsList.add(temp_name + "'s " + temp_model);
-                                        } else if (temp_make != null){
-                                            carsList.add(temp_name + "'s " + temp_make);
-                                        } else{
-                                            carsList.add(temp_name + "'s Car");
-                                        }
-                                    } catch (Exception e){
-                                        e.getMessage();
-                                    }
-                                    Log.d("BORROWER'S CARS", carsList.toString());
-                                    borrowerHome = new BorrowerHome();
-                                    transitionToFragment(borrowerHome);
-                                }
-                            }, test);
-                        }
-                    } catch (Exception e){
-                        Log.e("Error: ", e.getMessage());
-                    }
-                }
-            }, profile_id);
+            updateCarList();
         }
         else{
             Log.d("BORROWER CLASS: ", "I don't have any of that information right now");
@@ -114,57 +62,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
                                 profile_id = user_id.getString("id");
-                                final VolleyRequests handler = new VolleyRequests(getApplicationContext());
-                                handler.getborrowerinfo(new callback_cars() {
-                                    @Override
-                                    public void callback(JSONObject cars) {
-                                        borrower_cars = new JSONObject();
-                                        borrower_cars = cars;
-                                        car_ids = new JSONArray();
-                                        try{
-                                            car_ids = borrower_cars.getJSONArray("can_borrow");
-                                            len = car_ids.length();
-                                            if (len == 0){
-                                                borrowerHome = new BorrowerHome();
-                                                transitionToFragment(borrowerHome);
-                                            }
-                                            Log.d("You are approved for", String.valueOf(len));
-                                            carsJSON = new JSONArray();
-                                            carsList = new ArrayList<String>();
-                                            for (int i = 0; i < len; i++) {
-                                                String car_id = car_ids.getString(i);
-                                                handler.getcarinfo(new callback_cars() {
-                                                    @Override
-                                                    public void callback(JSONObject cars) {
-                                                        carsJSON.put(cars);
-                                                        try{
-                                                            String temp_name = cars.getString("owner");
-//                                                            String temp_make = cars.getString("make");
-//                                                            Log.d("temp make: ", temp_make);
-//                                                            String temp_model = cars.getString("model");
-//                                                            if (temp_make != null && temp_model != null) {
-//                                                                carsList.add(temp_name + "'s " + temp_make + " " + temp_model + " "); //then need to add year
-//                                                            } else if (temp_model != null){
-//                                                                carsList.add(temp_name + "'s " + temp_model);
-//                                                            } else if (temp_make != null){
-//                                                                carsList.add(temp_name + "'s " + temp_make);
-//                                                            } else{
-                                                                carsList.add(temp_name + "'s Car");
-//                                                            }
-                                                        } catch (Exception e){
-                                                            e.getMessage();
-                                                        }
-                                                        Log.d("BORROWER'S CARS", carsList.toString());
-                                                        borrowerHome = new BorrowerHome();
-                                                        transitionToFragment(borrowerHome);
-                                                    }
-                                                }, car_id);
-                                            }
-                                        } catch (Exception e){
-                                            Log.e("Error: ", e.getMessage());
-                                        }
-                                    }
-                                }, profile_id);
+                                updateCarList();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
@@ -202,6 +100,61 @@ public class BorrowerActivity extends AppCompatActivity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
+    }
+
+    public void updateCarList() {
+
+        final VolleyRequests handler = new VolleyRequests(getApplicationContext());
+        handler.getborrowerinfo(new callback_cars() {
+            @Override
+            public void callback(JSONObject cars) {
+                borrower_cars = new JSONObject();
+                borrower_cars = cars;
+                car_ids = new JSONArray();
+                try {
+                    car_ids = borrower_cars.getJSONArray("can_borrow");
+                    len = car_ids.length();
+                    if (len == 0) {
+                        borrowerHome = new BorrowerHome();
+                        transitionToFragment(borrowerHome);
+                    }
+                    Log.d("You are approved for", String.valueOf(len));
+                    carsJSON = new JSONArray();
+                    carsList = new ArrayList<String>();
+                    for (int i = 0; i < len; i++) {
+                        String car_id = car_ids.getString(i);
+                        handler.getcarinfo(new callback_cars() {
+                            @Override
+                            public void callback(JSONObject cars) {
+                                carsJSON.put(cars);
+                                try {
+                                    String temp_name = cars.getString("owner");
+//                                                            String temp_make = cars.getString("make");
+//                                                            Log.d("temp make: ", temp_make);
+//                                                            String temp_model = cars.getString("model");
+//                                                            if (temp_make != null && temp_model != null) {
+//                                                                carsList.add(temp_name + "'s " + temp_make + " " + temp_model + " "); //then need to add year
+//                                                            } else if (temp_model != null){
+//                                                                carsList.add(temp_name + "'s " + temp_model);
+//                                                            } else if (temp_make != null){
+//                                                                carsList.add(temp_name + "'s " + temp_make);
+//                                                            } else{
+                                    carsList.add(temp_name + "'s Car");
+//                                                            }
+                                } catch (Exception e) {
+                                    e.getMessage();
+                                }
+                                Log.d("BORROWER'S CARS", carsList.toString());
+                                borrowerHome = new BorrowerHome();
+                                transitionToFragment(borrowerHome);
+                            }
+                        }, car_id);
+                    }
+                } catch (Exception e) {
+                    Log.e("Error: ", e.getMessage());
+                }
+            }
+        }, profile_id);
     }
 
 }

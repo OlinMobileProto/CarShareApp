@@ -1,5 +1,6 @@
 package com.example.zghadyali.carshareapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,6 +109,11 @@ public class OwnerActivity extends AppCompatActivity{
             case R.id.action_settings:
                 transitionToFragment(ownerSettings);
                 return true;
+            case R.id.action_logout:
+                LoginManager.getInstance().logOut();
+                Log.d("Access token", accessToken.toString());
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
