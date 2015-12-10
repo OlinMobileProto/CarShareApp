@@ -270,9 +270,8 @@ public class VolleyRequests {
         queue.add(request);
     }
     //Parching request for borrowing a car:
-    public void editrequest (String id_name, JSONObject edit_request_details){
-        String url = "http://52.33.226.47/cars/" + id_name + "/requests";
-
+    public void editrequest (String request_id, JSONObject edit_request_details){
+        String url = "http://52.33.226.47/requests" + request_id;
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PATCH,
                 url,
@@ -373,6 +372,34 @@ public class VolleyRequests {
                         }
                         callback.callback(borrower_info);
                         Log.d("car response: ", borrower_info.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
+
+    public void getrequestinfo (final callback_cars callback, String requestId) {
+        String url = "http://52.33.226.47/requests/" + requestId;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject requestInfo = new JSONObject();
+                        try{
+                            requestInfo = response;
+                        } catch (Exception e){
+                            Log.e("Error:", e.getMessage());
+                        }
+                        callback.callback(requestInfo);
+                        Log.d("car response: ", requestInfo.toString());
                     }
                 },
                 new Response.ErrorListener() {

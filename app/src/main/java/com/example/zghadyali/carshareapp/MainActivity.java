@@ -83,12 +83,14 @@ public class MainActivity extends FriendActivity {
                                     public void callback(Integer user_status) {
                                         if (user_status == 1){
                                             Log.d("STATUS: ", "You are an owner on the server already");
-                                            Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
-                                            startActivity(intent);
+                                            Intent owner_intent = new Intent(getApplicationContext(), OwnerActivity.class);
+                                            startActivity(owner_intent);
                                         }
                                         if (user_status == 2){
                                             Log.d("STATUS: ", "You are a borrower on the server already");
                                             //launch borrower activity
+                                            Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
+                                            startActivity(borrower_intent);
                                         }
                                     }
                                 }, profileID);
@@ -99,6 +101,7 @@ public class MainActivity extends FriendActivity {
                         }
                     }
             ).executeAsync();
+
         }
         else{
             Log.d("TOKEN STATUS: ", "you've either never logged in before or you're logged out now");
@@ -146,6 +149,10 @@ public class MainActivity extends FriendActivity {
                                                     } else if (user_status == 2) {
                                                         Log.d("STATUS: ", "you have logged in and you are a borrower");
                                                         //open activity for borrowers
+                                                        Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
+                                                        borrower_intent.putExtra("profile_id", profile_id);
+                                                        borrower_intent.putExtra("name", profile_name);
+                                                        startActivity(borrower_intent);
                                                     }
                                                 }
                                             }, profileID);
@@ -155,6 +162,7 @@ public class MainActivity extends FriendActivity {
                                     }
                                 }
                 ).executeAsync();
+
             }
 
 
