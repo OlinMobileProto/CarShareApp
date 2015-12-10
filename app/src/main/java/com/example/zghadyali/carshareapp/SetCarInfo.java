@@ -68,7 +68,7 @@ public class SetCarInfo extends Fragment {
                 }
 
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
-                handler.addcarinfo(((MainActivity) getActivity()).profile_id, setcarinfo);
+                handler.addcarinfo(mainActivity.getProfileID(), setcarinfo);
 
                 Intent intent = new Intent(getActivity(), OwnerActivity.class);
                 startActivity(intent);

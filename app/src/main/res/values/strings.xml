@@ -20,6 +20,8 @@
     <string name="license_plate">License plate</string>
     <string name="car_transmission">Car transmission</string>
     <string name="hourly_rate">Hourly rate</string>
+    <string name="action_approvedlist">Approved List</string>
+    <string name="next">Next</string>
 
     <string-array name="transmission_choice_array">
         <item>Manual</item>

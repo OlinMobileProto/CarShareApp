@@ -37,7 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FriendActivity {
 
     //TODO make stuff private here too
     public loginFacebook loginfb;
@@ -46,11 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public CallbackManager callbackManager;
     public AccessToken accessToken;
     public JSONObject userid;
-    public JSONArray friendsJSON;
-    public ArrayList<String> friends;
-    public ArrayList<String> friendsIDs;
     public String profile_name;
-    public String profile_id;
+//    public String profile_id;
     public String carLocation;
     public String keysLocation;
     public setUser setuser;
@@ -58,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MAINACTIVITY","created");
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
 
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject user_id = response.getJSONObject();
                                 Log.d("USER ID JSON", user_id.toString());
                                 profile_name = user_id.getString("name");
-                                profile_id = user_id.getString("id");
+                                profileID = user_id.getString("id");
                                 handler.getuser(new Callback() {
                                     @Override
                                     public void callback(Integer user_status) {
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                             startActivity(borrower_intent);
                                         }
                                     }
-                                }, profile_id);
+                                }, profileID);
                                 userid = response.getJSONObject();
                             } catch (Exception e) {
                                 Log.e("Error: ", e.getMessage());
@@ -134,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                             final JSONObject user_id = response.getJSONObject();
                                             Log.d("USER ID JSON", user_id.toString());
                                             profile_name = user_id.getString("name");
-                                            profile_id = user_id.getString("id");
+                                            profileID = user_id.getString("id");
                                             handler.getuser(new Callback() {
                                                 @Override
                                                 public void callback(Integer user_status) {
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                                     } else if (user_status == 1) {
                                                         Log.d("STATUS: ", "you have logged in and you are an owner");
                                                         Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
-                                                        intent.putExtra("profile_id", profile_id);
+                                                        intent.putExtra("profile_id", profileID);
                                                         intent.putExtra("name", profile_name);
                                                         startActivity(intent);
                                                     } else if (user_status == 2) {
@@ -157,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                                                         startActivity(borrower_intent);
                                                     }
                                                 }
-                                            }, profile_id);
+                                            }, profileID);
                                         } catch (Exception e) {
                                             Log.e("Error: ", e.getMessage());
                                         }
@@ -236,36 +234,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public String getFriendNameFromID(String id) {
-        for (int i = 0; i < friendsJSON.length(); i++) {
-            try {
-                JSONObject friend = friendsJSON.getJSONObject(i);
-                String thisID = friend.getString("id");
-                if (thisID.equals(id)) {
-                    return friend.getString("name");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return "FRIEND ID NOT FOUND";
-    }
-
-    public ArrayList<String> getFriendsIDs() {
-        return friendsIDs;
-    }
-
-    public void setFriendsIDs(ArrayList<String> newList) {
-        friendsIDs = newList;
-    }
-
-    public ArrayList<String> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(ArrayList<String> newList) {
-        friends = newList;
-    }
-
 }

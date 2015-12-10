@@ -23,7 +23,7 @@ public class OwnerHome extends Fragment {
     private EditText editCarLocation;
     private TextView keyLocation;
     private EditText editKeyLocation;
-    private String profile_id;
+    private String profileID;
     private JSONObject cars;
     private Button update_carlocation;
     private Button update_keylocation;
@@ -33,10 +33,12 @@ public class OwnerHome extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.owner_home, container, false);
 
-        cars = ((OwnerActivity)getActivity()).car_info;
-        profile_id = ((OwnerActivity)getActivity()).profile_id;
 
-        Log.d("Stuff:", cars.toString());
+        cars = ((OwnerActivity)getActivity()).getCarInfo();
+        profileID = ((OwnerActivity)getActivity()).getProfileID();
+
+
+        Log.d("CarInfo", cars.toString());
         carLocation = (TextView) view.findViewById(R.id.car_location);
         editCarLocation = (EditText) view.findViewById(R.id.car_location_edit);
         keyLocation = (TextView) view.findViewById(R.id.key_location);
@@ -62,7 +64,7 @@ public class OwnerHome extends Fragment {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                     // Do something to recover ... or kill the app.
                 }
-                handler.addcarinfo(profile_id,new_carlocation);
+                handler.addcarinfo(profileID,new_carlocation);
             }
         });
 
@@ -77,7 +79,7 @@ public class OwnerHome extends Fragment {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                     // Do something to recover ... or kill the app.
                 }
-                handler.addcarinfo(profile_id,new_keylocation);
+                handler.addcarinfo(profileID,new_keylocation);
             }
         });
 

@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -19,7 +16,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,15 +24,16 @@ import java.util.ArrayList;
 /**
  * Created by Jordan on 11/18/15.
  */
-public class OwnerActivity extends AppCompatActivity{
+public class OwnerActivity extends FriendActivity{
 
-    public OwnerHome ownerHome = new OwnerHome();
-    public OwnerSettings ownerSettings = new OwnerSettings();
+    private OwnerHome ownerHome = new OwnerHome();
+    private OwnerSettings ownerSettings = new OwnerSettings();
+    private UpdateApprovedList updateApprovedList = new UpdateApprovedList();
 
     public AccessToken accessToken;
-    public String profile_id;
+//    public String profileID;
     public String name;
-    public JSONObject car_info;
+    private JSONObject carInfo;
 
     //Making Volley Request
     public void volley_data() {
@@ -44,12 +42,12 @@ public class OwnerActivity extends AppCompatActivity{
         handler.getcarinfo(new callback_cars() {
             @Override
             public void callback(JSONObject cars) {
-                car_info = cars;
+                carInfo = cars;
                 OwnerHome home = new OwnerHome();
                 transitionToFragment(home);
                 Log.d("JSON CAR to string: ", cars.toString());
             }
-        }, profile_id);
+        }, profileID);
     }
 
     @Override
@@ -57,12 +55,14 @@ public class OwnerActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner);
 
+        setupFriends();
+
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
         if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
-            profile_id = getIntent().getExtras().getString("profile_id");
+            profileID = getIntent().getExtras().getString("profile_id");
             name = getIntent().getExtras().getString("name");
-            Log.d("PROFILE ID: ", profile_id);
+            Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
             volley_data();
         }
@@ -79,7 +79,7 @@ public class OwnerActivity extends AppCompatActivity{
                                 final JSONObject user_id = response.getJSONObject();
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
-                                profile_id = user_id.getString("id");
+                                profileID = user_id.getString("id");
                                 volley_data();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
@@ -109,6 +109,9 @@ public class OwnerActivity extends AppCompatActivity{
             case R.id.action_settings:
                 transitionToFragment(ownerSettings);
                 return true;
+            case R.id.action_approvedlist:
+                transitionToFragment(updateApprovedList);
+                return true;
             case R.id.action_logout:
                 LoginManager.getInstance().logOut();
                 Log.d("Access token", accessToken.toString());
@@ -128,4 +131,11 @@ public class OwnerActivity extends AppCompatActivity{
         transaction.commit();
     }
 
+    public JSONObject getCarInfo() {
+        return carInfo;
+    }
+
+    public void transitionToHome() {
+        transitionToFragment(ownerHome);
+    }
 }

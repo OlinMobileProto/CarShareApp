@@ -12,11 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
+    //TODO rename MyCustomAdapter to something more descriptive
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
-    private setApprovedList setAL;
+    private setALParent setAL;
 
-    public MyCustomAdapter(ArrayList<String> list, setApprovedList setAL,Context context) {
+    public MyCustomAdapter(ArrayList<String> list, setALParent setAL,Context context) {
         this.list = list;
         this.context = context;
         this.setAL = setAL;
@@ -52,7 +53,7 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
 
         // Displays the actual friend name instead of the id
-        listItemText.setText(setAL.getMainActivity().getFriendNameFromID(thisID));
+        listItemText.setText(setAL.getThisActivity().getFriendNameFromID(thisID));
 
         final boolean isApproved = setAL.IDIsApproved(thisID);
 
