@@ -106,37 +106,37 @@ public class VolleyRequests {
 
     }
 
-    public void addtocanborrow(String borrower_name, String owner_name){
-        String url = "http://52.33.226.47/borrowers/" + borrower_name + "/canborrow";
-        JSONObject my_approved = new JSONObject();
-        JSONArray list_owners = new JSONArray();
-
-        try{
-            list_owners.put(owner_name);
-            my_approved.put("users", list_owners);
-        } catch (Exception e){
-            Log.e("ERROR!", e.getMessage());
-        }
-        Log.d("JSONObject: ", my_approved.toString());
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                my_approved,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("Error!", error.getMessage());
-                    }
-                });
-
-        queue.add(request);
-
-    }
+//    public void addtocanborrow(String borrower_name, String owner_name){
+//        String url = "http://52.33.226.47/borrowers/" + borrower_name + "/canborrow";
+//        JSONObject my_approved = new JSONObject();
+//        JSONArray list_owners = new JSONArray();
+//
+//        try{
+//            list_owners.put(owner_name);
+//            my_approved.put("users", list_owners);
+//        } catch (Exception e){
+//            Log.e("ERROR!", e.getMessage());
+//        }
+//        Log.d("JSONObject: ", my_approved.toString());
+//        JsonObjectRequest request = new JsonObjectRequest(
+//                Request.Method.POST,
+//                url,
+//                my_approved,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.e("Error!", error.getMessage());
+//                    }
+//                });
+//
+//        queue.add(request);
+//
+//    }
 
     //CAR RELATED REQUESTS:
     public void makeownercar(String id_name, String ownername){
@@ -205,6 +205,28 @@ public class VolleyRequests {
 
     }
 
+    public void removefromapproved(String id_name, String borrower_name){
+        String url = "http://52.33.226.47/cars/" + id_name + "/approved/" + borrower_name;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+
+        queue.add(request);
+    }
+
     public void addcarinfo (String id_name, JSONObject owner_details){
         String url = "http://52.33.226.47/cars/" + id_name;
 
@@ -217,12 +239,12 @@ public class VolleyRequests {
                     public void onResponse(JSONObject response) {
                     }
                 },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("Error!", error.getMessage());
-                        }
-                    });
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
         queue.add(request);
     }
 
@@ -248,9 +270,8 @@ public class VolleyRequests {
         queue.add(request);
     }
     //Parching request for borrowing a car:
-    public void editrequest (String id_name, JSONObject edit_request_details){
-        String url = "http://52.33.226.47/cars/" + id_name + "/requests";
-
+    public void editrequest (String request_id, JSONObject edit_request_details){
+        String url = "http://52.33.226.47/requests" + request_id;
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PATCH,
                 url,
@@ -351,6 +372,34 @@ public class VolleyRequests {
                         }
                         callback.callback(borrower_info);
                         Log.d("car response: ", borrower_info.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
+
+    public void getrequestinfo (final callback_cars callback, String requestId) {
+        String url = "http://52.33.226.47/requests/" + requestId;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject requestInfo = new JSONObject();
+                        try{
+                            requestInfo = response;
+                        } catch (Exception e){
+                            Log.e("Error:", e.getMessage());
+                        }
+                        callback.callback(requestInfo);
+                        Log.d("car response: ", requestInfo.toString());
                     }
                 },
                 new Response.ErrorListener() {

@@ -85,12 +85,14 @@ public class MainActivity extends AppCompatActivity {
                                     public void callback(Integer user_status) {
                                         if (user_status == 1){
                                             Log.d("STATUS: ", "You are an owner on the server already");
-                                            Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
-                                            startActivity(intent);
+                                            Intent owner_intent = new Intent(getApplicationContext(), OwnerActivity.class);
+                                            startActivity(owner_intent);
                                         }
                                         if (user_status == 2){
                                             Log.d("STATUS: ", "You are a borrower on the server already");
                                             //launch borrower activity
+                                            Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
+                                            startActivity(borrower_intent);
                                         }
                                     }
                                 }, profile_id);
@@ -149,6 +151,10 @@ public class MainActivity extends AppCompatActivity {
                                                     } else if (user_status == 2) {
                                                         Log.d("STATUS: ", "you have logged in and you are a borrower");
                                                         //open activity for borrowers
+                                                        Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
+                                                        borrower_intent.putExtra("profile_id", profile_id);
+                                                        borrower_intent.putExtra("name", profile_name);
+                                                        startActivity(borrower_intent);
                                                     }
                                                 }
                                             }, profile_id);
