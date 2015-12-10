@@ -150,7 +150,7 @@ public class MainActivity extends FriendActivity {
                                                         Log.d("STATUS: ", "you have logged in and you are a borrower");
                                                         //open activity for borrowers
                                                         Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
-                                                        borrower_intent.putExtra("profile_id", profile_id);
+                                                        borrower_intent.putExtra("profile_id", profileID);
                                                         borrower_intent.putExtra("name", profile_name);
                                                         startActivity(borrower_intent);
                                                     }

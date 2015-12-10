@@ -47,8 +47,8 @@ public class OwnerSettings extends Fragment {
         transmissionSpinner = (Spinner)view.findViewById(R.id.settings_transmission_spinner);
         updateButton = (Button)view.findViewById(R.id.settings_update_button);
 
-        cars = ((OwnerActivity)getActivity()).car_info;
-        profile_id = ((OwnerActivity)getActivity()).profile_id;
+        cars = ((OwnerActivity)getActivity()).carInfo;
+        profile_id = ((OwnerActivity)getActivity()).profileID;
         Log.d("Stuff:", cars.toString());
 
         try {

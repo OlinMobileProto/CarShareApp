@@ -33,7 +33,7 @@ public class OwnerActivity extends FriendActivity{
     public AccessToken accessToken;
 //    public String profileID;
     public String name;
-    private JSONObject carInfo;
+    public JSONObject carInfo;
 
     //Making Volley Request
     public void volley_data() {
