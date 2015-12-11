@@ -20,12 +20,19 @@
         android:layout_marginTop="10dp"
         />
 
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_approved_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_friends_list"
-        android:id="@+id/friends_list"
-    />
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/search_friends_list" >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/friends_list" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"

@@ -2,6 +2,7 @@ package com.example.zghadyali.carshareapp;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,6 +42,7 @@ public abstract class setALParent extends Fragment {
     protected SetCarInfo setCarInfo;
     private ArrayList<String> friendsIDs;
     private ArrayList<String> friendsNames;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +64,17 @@ public abstract class setALParent extends Fragment {
 
         final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setALParent.this, getActivity());
         friendsListView.setAdapter(friendsAdapter);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootview.findViewById(R.id.swipe_refresh_approved_list);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("Swipe Refresh", "onRefresh called form SwipeRefreshLayout");
+                swipeUpdate();
+            }
+        });
+
+
 
         // Live Search Functionality
         searchFriends.addTextChangedListener(new TextWatcher() {
@@ -129,6 +142,11 @@ public abstract class setALParent extends Fragment {
         });
 
         return rootview;
+    }
+
+    private void swipeUpdate() {
+        thisActivity.setupFriends();
+        friendsAdapter.notifyDataSetChanged();
     }
 
     abstract protected void setupThisActivity();
