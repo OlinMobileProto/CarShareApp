@@ -82,7 +82,7 @@ public class setUser extends Fragment {
                     //Makes borrower schema in the server database
                     handler.makeborrower(((MainActivity) getActivity()).profileID, ((MainActivity) getActivity()).profile_name);
                     Intent borrower_intent = new Intent(getActivity().getApplicationContext(), BorrowerActivity.class);
-                    borrower_intent.putExtra("profile_id", mainActivity.profileID);
+                    borrower_intent.putExtra("profileID", mainActivity.profileID);
                     borrower_intent.putExtra("name", mainActivity.profile_name);
                     borrower_intent.putExtra("friends", mainActivity.friends);
                     borrower_intent.putExtra("friendsIDs", mainActivity.friendsIDs);
