@@ -28,7 +28,7 @@ public abstract class setALParent extends Fragment {
     //TODO make stuff private
     public ListView friendsListView;
     public EditText searchFriends;
-    public ArrayAdapter<String> friendsAdapter;
+    private MyCustomAdapter friendsAdapter;
     public ArrayList<Integer> approved_list;
     public JSONArray approved_listJSON;
     public ArrayList<Integer> approvedList;
@@ -62,7 +62,7 @@ public abstract class setALParent extends Fragment {
         friendsIDs = thisActivity.getFriendsIDs();
         friendsNames = thisActivity.getFriends();
 
-        final MyCustomAdapter friendsAdapter = new MyCustomAdapter(friendsIDs, setALParent.this, getActivity());
+        friendsAdapter = new MyCustomAdapter(friendsIDs, setALParent.this, getActivity());
         friendsListView.setAdapter(friendsAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootview.findViewById(R.id.swipe_refresh_approved_list);
@@ -146,6 +146,8 @@ public abstract class setALParent extends Fragment {
 
     private void swipeUpdate() {
         thisActivity.setupFriends();
+        friendsIDs = thisActivity.getFriendsIDs();
+        friendsAdapter.setNewList(friendsIDs);
         friendsAdapter.notifyDataSetChanged();
     }
 
