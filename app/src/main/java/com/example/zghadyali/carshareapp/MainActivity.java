@@ -142,14 +142,14 @@ public class MainActivity extends FriendActivity {
                                                     } else if (user_status == 1) {
                                                         Log.d("STATUS: ", "you have logged in and you are an owner");
                                                         Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
-                                                        intent.putExtra("profile_id", profileID);
+                                                        intent.putExtra("profileID", profileID);
                                                         intent.putExtra("name", profile_name);
                                                         startActivity(intent);
                                                     } else if (user_status == 2) {
                                                         Log.d("STATUS: ", "you have logged in and you are a borrower");
                                                         //open activity for borrowers
                                                         Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
-                                                        borrower_intent.putExtra("profile_id", profileID);
+                                                        borrower_intent.putExtra("profileID", profileID);
                                                         borrower_intent.putExtra("name", profile_name);
                                                         startActivity(borrower_intent);
                                                     }

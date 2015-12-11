@@ -40,9 +40,9 @@ public class BorrowerActivity extends AppCompatActivity {
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
-        if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
+        if (getIntent().hasExtra("profileID") && getIntent().hasExtra("name")){
             //if the user just signed up as a borrower, extra bundle also contains friends, friendIDs, and friendsJSON so we can use those
-            profileID = getIntent().getExtras().getString("profile_id");
+            profileID = getIntent().getExtras().getString("profileID");
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
