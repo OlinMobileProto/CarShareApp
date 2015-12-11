@@ -47,7 +47,6 @@ public class MainActivity extends FriendActivity {
     public AccessToken accessToken;
     public JSONObject userid;
     public String profile_name;
-//    public String profile_id;
     public String carLocation;
     public String keysLocation;
     public setUser setuser;

@@ -30,7 +30,7 @@ public class OwnerSettings extends Fragment {
     private Spinner transmissionSpinner;
     private Button updateButton;
 
-    private String profile_id;
+    private String profileID;
     private JSONObject cars;
 
 
@@ -48,7 +48,7 @@ public class OwnerSettings extends Fragment {
         updateButton = (Button)view.findViewById(R.id.settings_update_button);
 
         cars = ((OwnerActivity)getActivity()).getCarInfo();
-        profile_id = ((OwnerActivity)getActivity()).profileID;
+        profileID = ((OwnerActivity)getActivity()).profileID;
         Log.d("Stuff:", cars.toString());
 
         try {
@@ -76,7 +76,7 @@ public class OwnerSettings extends Fragment {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                     // Do something to recover ... or kill the app.
                 }
-                handler.addcarinfo(profile_id, newCarInfo);
+                handler.addcarinfo(profileID, newCarInfo);
             }
         });
 
