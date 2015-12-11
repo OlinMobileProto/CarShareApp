@@ -1,4 +1,4 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.Borrower;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.zghadyali.carshareapp.Owner.BorrowerActivity;
+import com.example.zghadyali.carshareapp.R;
 
 public class BorrowerHome extends Fragment {
 

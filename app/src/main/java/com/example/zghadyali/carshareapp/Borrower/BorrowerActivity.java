@@ -1,4 +1,4 @@
-package com.example.zghadyali.carshareapp.Owner;
+package com.example.zghadyali.carshareapp.Borrower;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.zghadyali.carshareapp.BorrowerHome;
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.VolleyRequests;
 import com.example.zghadyali.carshareapp.callback_cars;
@@ -22,7 +21,6 @@ import com.facebook.HttpMethod;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BorrowerActivity extends AppCompatActivity {
