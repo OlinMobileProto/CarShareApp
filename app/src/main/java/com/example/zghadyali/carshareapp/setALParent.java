@@ -147,7 +147,6 @@ public abstract class setALParent extends Fragment {
     private void swipeUpdate() {
         thisActivity.setupFriends();
         friendsIDs = thisActivity.getFriendsIDs();
-        friendsAdapter.setNewList(friendsIDs);
         friendsAdapter.notifyDataSetChanged();
     }
 
