@@ -57,7 +57,9 @@ abstract public class FriendActivity extends AppCompatActivity{
                                     friendsIDs.add(temp.get("id").toString());
                                 }
                                 Log.d("setUser","friends and friendsIDs set up");
+
                             }
+                            Log.d("hihgiahifsaifha","aofoewir");
                         } catch (Exception e) {
                             Log.e("FRIENDACTIVITY GraphRequest Error", e.getMessage());
                         }
@@ -65,6 +67,7 @@ abstract public class FriendActivity extends AppCompatActivity{
                 }
         ).executeAsync();
     }
+
 
     public String getFriendNameFromID(String id) {
         for (int i = 0; i < friendsJSON.length(); i++) {
@@ -82,6 +85,7 @@ abstract public class FriendActivity extends AppCompatActivity{
     }
 
     public ArrayList<String> getFriendsIDs() {
+        Log.d("HELLO", "hello");
         return friendsIDs;
     }
 

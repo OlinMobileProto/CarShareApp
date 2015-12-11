@@ -33,7 +33,6 @@ public class OwnerHome extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.owner_home, container, false);
 
-
         cars = ((OwnerActivity)getActivity()).getCarInfo();
         profileID = ((OwnerActivity)getActivity()).getProfileID();
 

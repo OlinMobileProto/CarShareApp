@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class setApprovedList extends setALParent {
 
     private MainActivity mainActivity;
+    private setApprovedList setAL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,12 @@ public class setApprovedList extends setALParent {
     @Override
     protected void setupThisActivity() {
         thisActivity = (MainActivity) getActivity();
+    }
+
+    @Override
+    protected void makeNewFragment() {
+        setAL = new setApprovedList();
+        mainActivity.transitionToFragment(setAL);
     }
 
     @Override
