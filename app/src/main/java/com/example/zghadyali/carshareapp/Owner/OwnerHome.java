@@ -10,9 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.zghadyali.carshareapp.Owner.OwnerActivity;
 import com.example.zghadyali.carshareapp.R;
-import com.example.zghadyali.carshareapp.VolleyRequests;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 
 import org.json.JSONException;
 import org.json.JSONObject;

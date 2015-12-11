@@ -1,4 +1,4 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.SignUp;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.zghadyali.carshareapp.Borrower.BorrowerActivity;
+import com.example.zghadyali.carshareapp.R;
+import com.example.zghadyali.carshareapp.SignUp.MainActivity;
+import com.example.zghadyali.carshareapp.SignUp.setApprovedList;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 
 public class setUser extends Fragment {
 
