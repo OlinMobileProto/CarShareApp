@@ -60,7 +60,7 @@ public class OwnerHome extends Fragment {
                 JSONObject new_carlocation = new JSONObject();
                 try {
                     new_carlocation.put("parkedLocation", editCarLocation.getText().toString());
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                     // Do something to recover ... or kill the app.
                 }
