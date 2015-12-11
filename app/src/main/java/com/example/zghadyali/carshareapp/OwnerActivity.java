@@ -59,8 +59,8 @@ public class OwnerActivity extends FriendActivity{
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
-        if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
-            profileID = getIntent().getExtras().getString("profile_id");
+        if (getIntent().hasExtra("profileID") && getIntent().hasExtra("name")){
+            profileID = getIntent().getExtras().getString("profileID");
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);

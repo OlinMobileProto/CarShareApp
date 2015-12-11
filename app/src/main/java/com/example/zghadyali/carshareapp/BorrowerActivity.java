@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class BorrowerActivity extends AppCompatActivity {
 
     public AccessToken accessToken;
-    public String profile_id;
+    public String profileID;
     public String name;
     public JSONObject borrower_cars;
     public JSONArray car_ids;
@@ -40,11 +40,11 @@ public class BorrowerActivity extends AppCompatActivity {
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
-        if (getIntent().hasExtra("profile_id") && getIntent().hasExtra("name")){
+        if (getIntent().hasExtra("profileID") && getIntent().hasExtra("name")){
             //if the user just signed up as a borrower, extra bundle also contains friends, friendIDs, and friendsJSON so we can use those
-            profile_id = getIntent().getExtras().getString("profile_id");
+            profileID = getIntent().getExtras().getString("profileID");
             name = getIntent().getExtras().getString("name");
-            Log.d("PROFILE ID: ", profile_id);
+            Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
             updateCarList();
         }
@@ -61,7 +61,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                 final JSONObject user_id = response.getJSONObject();
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
-                                profile_id = user_id.getString("id");
+                                profileID = user_id.getString("id");
                                 updateCarList();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
@@ -145,7 +145,7 @@ public class BorrowerActivity extends AppCompatActivity {
                     Log.e("Error: ", e.getMessage());
                 }
             }
-        }, profile_id);
+        }, profileID);
     }
 
 }
