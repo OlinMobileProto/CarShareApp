@@ -34,18 +34,13 @@ import java.util.ArrayList;
 public abstract class setALParent extends Fragment {
 
     //TODO make stuff private
-    public ListView friendsListView;
-    public EditText searchFriends;
+    private ListView friendsListView;
+    private EditText searchFriends;
     private ApprovedListAdapter friendsAdapter;
-    public ArrayList<Integer> approved_list;
-    public JSONArray approved_listJSON;
-    public ArrayList<Integer> approvedList;
     protected ArrayList<String> approvedListIDs;
-    private JSONArray approvedJSON;
     protected LoginButton loginButton;
-    public loginFacebook loginfb;
+    private loginFacebook loginfb;
     protected Button doneButton;
-    private JSONArray approvedJSONarray;
     protected FriendActivity thisActivity;
     protected SetCarInfo setCarInfo;
     private ArrayList<String> friendsIDs;
@@ -63,9 +58,7 @@ public abstract class setALParent extends Fragment {
         searchFriends = (EditText) rootview.findViewById(R.id.search_friends_list);
         doneButton = (Button) rootview.findViewById(R.id.done_button);
 
-        approvedList = new ArrayList<Integer>();
         approvedListIDs = new ArrayList<String>();
-        approvedJSONarray = new JSONArray();
 
         friendsIDs = thisActivity.getFriendsIDs();
         friendsNames = thisActivity.getFriends();
@@ -184,7 +177,7 @@ public abstract class setALParent extends Fragment {
                             friendsAdapter.notifyDataSetChanged();
                             makeNewFragment();
                         } catch (Exception e) {
-                            Log.e("FRIENDACTIVITY GraphRequest Error", e.getMessage());
+                            Log.e("setALParentGraphRequest", e.getMessage());
                         }
                     }
                 }
