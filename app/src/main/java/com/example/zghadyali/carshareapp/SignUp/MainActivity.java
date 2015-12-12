@@ -1,7 +1,6 @@
 package com.example.zghadyali.carshareapp.SignUp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,18 +33,14 @@ import org.json.JSONObject;
 
 public class MainActivity extends FriendActivity {
 
-    //TODO make stuff private here too
-    public loginFacebook loginfb;
+    private loginFacebook loginfb;
     private Payment venmoPayment = new Payment();
     private View view;
-    public CallbackManager callbackManager;
-    public AccessToken accessToken;
-    public JSONObject userid;
-    public String profile_name;
-    public String carLocation;
-    public String keysLocation;
-    public setUser setuser;
-    public SharedPreferences preferences;
+    private CallbackManager callbackManager;
+    private AccessToken accessToken;
+    private JSONObject userid;
+    private String profileName;
+    private setUser setuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +65,7 @@ public class MainActivity extends FriendActivity {
                             try {
                                 JSONObject user_id = response.getJSONObject();
                                 Log.d("USER ID JSON", user_id.toString());
-                                profile_name = user_id.getString("name");
+                                profileName = user_id.getString("name");
                                 profileID = user_id.getString("id");
                                 handler.getuser(new Callback() {
                                     @Override
@@ -125,7 +120,7 @@ public class MainActivity extends FriendActivity {
                                         try {
                                             final JSONObject user_id = response.getJSONObject();
                                             Log.d("USER ID JSON", user_id.toString());
-                                            profile_name = user_id.getString("name");
+                                            profileName = user_id.getString("name");
                                             profileID = user_id.getString("id");
                                             handler.getuser(new Callback() {
                                                 @Override
@@ -138,14 +133,14 @@ public class MainActivity extends FriendActivity {
                                                         Log.d("STATUS: ", "you have logged in and you are an owner");
                                                         Intent intent = new Intent(getApplicationContext(), OwnerActivity.class);
                                                         intent.putExtra("profileID", profileID);
-                                                        intent.putExtra("name", profile_name);
+                                                        intent.putExtra("name", profileName);
                                                         startActivity(intent);
                                                     } else if (user_status == 2) {
                                                         Log.d("STATUS: ", "you have logged in and you are a borrower");
                                                         //open activity for borrowers
                                                         Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
                                                         borrower_intent.putExtra("profileID", profileID);
-                                                        borrower_intent.putExtra("name", profile_name);
+                                                        borrower_intent.putExtra("name", profileName);
                                                         startActivity(borrower_intent);
                                                     }
                                                 }
@@ -227,5 +222,13 @@ public class MainActivity extends FriendActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void resetAccessToken() {
+        accessToken = null;
+    }
+
+    public String getProfileName() {
+        return profileName;
     }
 }

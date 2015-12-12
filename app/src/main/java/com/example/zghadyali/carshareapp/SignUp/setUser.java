@@ -59,9 +59,9 @@ public class setUser extends Fragment {
                     VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
                     //Makes owner schema in the server database
-                    handler.makeperson(mainActivity.getProfileID(), mainActivity.profile_name, "owner");
+                    handler.makeperson(mainActivity.getProfileID(), mainActivity.getProfileName(), "owner");
                     //Makes car schema in the server database
-                    handler.makeownercar(mainActivity.getProfileID(), mainActivity.profile_name);
+                    handler.makeownercar(mainActivity.getProfileID(), mainActivity.getProfileName());
 
                     ((MainActivity)getActivity()).transitionToFragment(setAL);
                     mainActivity.transitionToFragment(setAL);
@@ -70,12 +70,12 @@ public class setUser extends Fragment {
                     VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
                     //Makes person: borrower in the server database for facebook user
-                    handler.makeperson(mainActivity.getProfileID(), mainActivity.profile_name, "borrower");
+                    handler.makeperson(mainActivity.getProfileID(), mainActivity.getProfileName(), "borrower");
                     //Makes borrower schema in the server database
-                    handler.makeborrower(mainActivity.getProfileID(), mainActivity.profile_name);
+                    handler.makeborrower(mainActivity.getProfileID(), mainActivity.getProfileName());
                     Intent borrower_intent = new Intent(getActivity().getApplicationContext(), BorrowerActivity.class);
                     borrower_intent.putExtra("profileID", mainActivity.getProfileID());
-                    borrower_intent.putExtra("name", mainActivity.profile_name);
+                    borrower_intent.putExtra("name", mainActivity.getProfileName());
                     borrower_intent.putExtra("friends", mainActivity.getFriends());
                     borrower_intent.putExtra("friendsIDs", mainActivity.getFriendsIDs());
                     borrower_intent.putExtra("friendsJSON", mainActivity.getFriendsJSON().toString());
