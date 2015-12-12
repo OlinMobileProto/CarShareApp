@@ -29,6 +29,8 @@ import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 import org.json.JSONObject;
 
@@ -51,6 +53,7 @@ public class MainActivity extends FriendActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MAINACTIVITY","created");
         super.onCreate(savedInstanceState);
+
 //        FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
