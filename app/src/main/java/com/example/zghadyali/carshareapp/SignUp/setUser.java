@@ -16,10 +16,10 @@ import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 
 public class setUser extends Fragment {
 
-    public Button setOwner;
-    public Button setBorrower;
-    public Button next;
-    public setApprovedList setAL;
+    private Button setOwner;
+    private Button setBorrower;
+    private Button next;
+    private setApprovedList setAL;
     private MainActivity mainActivity;
     private Boolean isOwner;
 
