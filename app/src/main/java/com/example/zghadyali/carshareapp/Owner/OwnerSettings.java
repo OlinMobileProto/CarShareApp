@@ -50,7 +50,7 @@ public class OwnerSettings extends Fragment {
         updateButton = (Button)view.findViewById(R.id.settings_update_button);
 
         cars = ((OwnerActivity)getActivity()).getCarInfo();
-        profileID = ((OwnerActivity)getActivity()).profileID;
+        profileID = ((OwnerActivity)getActivity()).getProfileID();
         Log.d("Stuff:", cars.toString());
 
         try {
