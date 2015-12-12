@@ -39,7 +39,7 @@ public abstract class setALParent extends Fragment {
     private ApprovedListAdapter friendsAdapter;
     protected ArrayList<String> approvedListIDs;
     protected LoginButton loginButton;
-    private loginFacebook loginfb;
+    protected loginFacebook loginfb;
     protected Button doneButton;
     protected FriendActivity thisActivity;
     protected SetCarInfo setCarInfo;

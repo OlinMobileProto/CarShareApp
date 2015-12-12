@@ -70,7 +70,7 @@ public class UpdateApprovedList extends setALParent {
             Log.d("updateApprovedList","approvedList set up");
 
         } catch (JSONException e) {
-            Log.e("could not get approvedJSON", e.getMessage());
+            Log.e("cannot get approvedJSON", e.getMessage());
         }
     }
 }
