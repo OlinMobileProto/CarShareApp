@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add your friends who are allowed to borrow your car"
+        android:text="@string/setAL_header"
         android:id="@+id/context"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true" />
@@ -14,7 +14,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search friends"
+        android:hint="@string/search_friends"
         android:layout_below="@id/context"
         android:id="@+id/search_friends_list"
         android:layout_marginTop="10dp"
@@ -45,7 +45,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done"
+        android:text="@string/done"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

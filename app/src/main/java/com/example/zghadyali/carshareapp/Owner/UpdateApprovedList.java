@@ -33,7 +33,7 @@ public class UpdateApprovedList extends setALParent {
             ownerActivity = (OwnerActivity) thisActivity;
         }
 
-        doneButton.setText("Update");
+        doneButton.setText(R.string.update);
         // Hide login button
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
         loginButton.setVisibility(View.GONE);
