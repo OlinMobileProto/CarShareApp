@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
-    //TODO rename MyCustomAdapter to something more descriptive
+public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
+    //TODO rename this to something more descriptive
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
     private setALParent setAL;
 
-    public MyCustomAdapter(ArrayList<String> list, setALParent setAL,Context context) {
+    public ApprovedListAdapter(ArrayList<String> list, setALParent setAL, Context context) {
         this.list = list;
         this.context = context;
         this.setAL = setAL;
