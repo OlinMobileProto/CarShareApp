@@ -33,7 +33,6 @@ import java.util.ArrayList;
  */
 public abstract class setALParent extends Fragment {
 
-    //TODO make stuff private
     private ListView friendsListView;
     private EditText searchFriends;
     private ApprovedListAdapter friendsAdapter;
