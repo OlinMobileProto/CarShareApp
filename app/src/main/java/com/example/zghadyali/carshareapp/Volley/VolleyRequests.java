@@ -1,7 +1,6 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.Volley;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -13,9 +12,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by cynchen on 11/17/15.

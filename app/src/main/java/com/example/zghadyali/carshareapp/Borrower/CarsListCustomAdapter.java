@@ -1,13 +1,14 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.Borrower;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.example.zghadyali.carshareapp.R;
 
 import java.util.ArrayList;
 

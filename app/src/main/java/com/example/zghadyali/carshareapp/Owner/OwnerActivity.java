@@ -1,4 +1,4 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.Owner;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.zghadyali.carshareapp.FriendActivity;
+import com.example.zghadyali.carshareapp.SignUp.MainActivity;
+import com.example.zghadyali.carshareapp.R;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
+import com.example.zghadyali.carshareapp.Volley.callback_cars;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
@@ -16,15 +21,12 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by Jordan on 11/18/15.
  */
-public class OwnerActivity extends FriendActivity{
+public class OwnerActivity extends FriendActivity {
 
     private OwnerHome ownerHome = new OwnerHome();
     private OwnerSettings ownerSettings = new OwnerSettings();

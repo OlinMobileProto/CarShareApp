@@ -1,6 +1,5 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.SignUp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,11 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONArray;
+import com.example.zghadyali.carshareapp.Owner.OwnerActivity;
+import com.example.zghadyali.carshareapp.R;
+import com.example.zghadyali.carshareapp.SignUp.MainActivity;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
+
 import org.json.JSONObject;
 
 /**

@@ -1,26 +1,18 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.SignUp;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginManager;
-import com.facebook.login.widget.LoginButton;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.UUID;
+import com.example.zghadyali.carshareapp.Borrower.BorrowerActivity;
+import com.example.zghadyali.carshareapp.R;
+import com.example.zghadyali.carshareapp.SignUp.MainActivity;
+import com.example.zghadyali.carshareapp.SignUp.setApprovedList;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 
 public class setUser extends Fragment {
 

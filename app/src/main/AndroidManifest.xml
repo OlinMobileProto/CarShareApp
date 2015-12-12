@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".SignUp.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,13 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OwnerActivity"
+            android:name=".Owner.OwnerActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".VenmoWebViewActivity" />
+        <activity android:name=".Venmo.VenmoWebViewActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -37,7 +37,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".BorrowerActivity"
+            android:name=".Borrower.BorrowerActivity"
             android:label="@string/title_activity_borrower" >
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.Owner;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zghadyali.carshareapp.Owner.OwnerActivity;
+import com.example.zghadyali.carshareapp.R;
+import com.example.zghadyali.carshareapp.setALParent;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;

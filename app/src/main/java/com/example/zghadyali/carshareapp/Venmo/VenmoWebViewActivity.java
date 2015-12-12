@@ -1,4 +1,4 @@
-package com.example.zghadyali.carshareapp;
+package com.example.zghadyali.carshareapp.Venmo;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
+
+import com.example.zghadyali.carshareapp.R;
 
 
 public class VenmoWebViewActivity extends Activity {
