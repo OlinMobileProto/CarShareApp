@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
-    //TODO rename this to something more descriptive
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
     private setALParent setAL;
