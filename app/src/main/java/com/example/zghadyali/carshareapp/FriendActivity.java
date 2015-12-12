@@ -21,7 +21,8 @@ import java.util.ArrayList;
  * Created by bill on 12/5/15.
  */
 abstract public class FriendActivity extends AppCompatActivity{
-    public JSONArray friendsJSON;
+
+    private JSONArray friendsJSON;
     protected ArrayList<String> friends;
     protected ArrayList<String> friendsIDs;
     protected String profileID;
@@ -111,5 +112,9 @@ abstract public class FriendActivity extends AppCompatActivity{
 
     public String getProfileID() {
         return profileID;
+    }
+
+    public JSONArray getFriendsJSON() {
+        return friendsJSON;
     }
 }

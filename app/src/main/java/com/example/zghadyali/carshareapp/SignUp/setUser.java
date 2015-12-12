@@ -78,7 +78,7 @@ public class setUser extends Fragment {
                     borrower_intent.putExtra("name", mainActivity.profile_name);
                     borrower_intent.putExtra("friends", mainActivity.getFriends());
                     borrower_intent.putExtra("friendsIDs", mainActivity.getFriendsIDs());
-                    borrower_intent.putExtra("friendsJSON", mainActivity.friendsJSON.toString());
+                    borrower_intent.putExtra("friendsJSON", mainActivity.getFriendsJSON().toString());
                     startActivity(borrower_intent);
                 } else{
 
