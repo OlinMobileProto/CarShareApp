@@ -59,9 +59,9 @@ public class setUser extends Fragment {
                     VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
                     //Makes owner schema in the server database
-                    handler.makeperson(((MainActivity) getActivity()).profileID, ((MainActivity) getActivity()).profile_name, "owner");
+                    handler.makeperson(mainActivity.getProfileID(), mainActivity.profile_name, "owner");
                     //Makes car schema in the server database
-                    handler.makeownercar(((MainActivity) getActivity()).profileID, ((MainActivity) getActivity()).profile_name);
+                    handler.makeownercar(mainActivity.getProfileID(), mainActivity.profile_name);
 
                     ((MainActivity)getActivity()).transitionToFragment(setAL);
                     mainActivity.transitionToFragment(setAL);
@@ -70,14 +70,14 @@ public class setUser extends Fragment {
                     VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
 
                     //Makes person: borrower in the server database for facebook user
-                    handler.makeperson(((MainActivity) getActivity()).profileID, ((MainActivity) getActivity()).profile_name, "borrower");
+                    handler.makeperson(mainActivity.getProfileID(), mainActivity.profile_name, "borrower");
                     //Makes borrower schema in the server database
-                    handler.makeborrower(((MainActivity) getActivity()).profileID, ((MainActivity) getActivity()).profile_name);
+                    handler.makeborrower(mainActivity.getProfileID(), mainActivity.profile_name);
                     Intent borrower_intent = new Intent(getActivity().getApplicationContext(), BorrowerActivity.class);
-                    borrower_intent.putExtra("profileID", mainActivity.profileID);
+                    borrower_intent.putExtra("profileID", mainActivity.getProfileID());
                     borrower_intent.putExtra("name", mainActivity.profile_name);
-                    borrower_intent.putExtra("friends", mainActivity.friends);
-                    borrower_intent.putExtra("friendsIDs", mainActivity.friendsIDs);
+                    borrower_intent.putExtra("friends", mainActivity.getFriends());
+                    borrower_intent.putExtra("friendsIDs", mainActivity.getFriendsIDs());
                     borrower_intent.putExtra("friendsJSON", mainActivity.friendsJSON.toString());
                     startActivity(borrower_intent);
                 } else{
