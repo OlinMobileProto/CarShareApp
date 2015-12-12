@@ -16,9 +16,15 @@ import android.widget.ListView;
 import com.example.zghadyali.carshareapp.SignUp.SetCarInfo;
 import com.example.zghadyali.carshareapp.SignUp.loginFacebook;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -72,7 +78,7 @@ public abstract class setALParent extends Fragment {
             @Override
             public void onRefresh() {
                 Log.d("Swipe Refresh", "onRefresh called form SwipeRefreshLayout");
-                swipeUpdate();
+                updateFriends();
             }
         });
 
@@ -146,15 +152,44 @@ public abstract class setALParent extends Fragment {
         return rootview;
     }
 
-    private void swipeUpdate() {
-        thisActivity.setupFriends();
-        friendsIDs = thisActivity.getFriendsIDs();
-        friendsAdapter.notifyDataSetChanged();
-    }
-
     abstract protected void setupThisActivity();
 
     abstract protected void transitionToNextFragment();
+
+    abstract protected void makeNewFragment();
+
+    public void updateFriends() {
+        GraphRequestAsyncTask request = new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/friends",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.d("FRIENDACTIVITY", "graphrequest completed");
+                        try {
+                            friendsIDs = new ArrayList<String>();
+                            JSONObject res = response.getJSONObject();
+                            Log.d("res",res.toString());
+                            Log.d("friendsJSON: ", res.getJSONArray("data").toString());
+                            if (res.getJSONArray("data") != null) {
+                                int len = res.getJSONArray("data").length();
+                                for (int i = 0; i < len; i++) {
+                                    JSONObject temp = res.getJSONArray("data").getJSONObject(i);
+                                    friendsIDs.add(temp.get("id").toString());
+                                }
+                                Log.d("setUser","friends and friendsIDs set up");
+                            }
+                            Log.d("hihgiahifsaifha", "aofoewir");
+                            friendsAdapter.notifyDataSetChanged();
+                            makeNewFragment();
+                        } catch (Exception e) {
+                            Log.e("FRIENDACTIVITY GraphRequest Error", e.getMessage());
+                        }
+                    }
+                }
+        ).executeAsync();
+    }
 
     public void addIDToApprovedList(String id) {
         approvedListIDs.add(id);

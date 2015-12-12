@@ -22,6 +22,7 @@ import org.json.JSONObject;
 public class UpdateApprovedList extends setALParent {
 
     private OwnerActivity ownerActivity;
+    private UpdateApprovedList updateApprovedList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +50,12 @@ public class UpdateApprovedList extends setALParent {
     @Override
     protected void transitionToNextFragment() {
         ownerActivity.transitionToHome();
+    }
+
+    @Override
+    protected void makeNewFragment() {
+        updateApprovedList = new UpdateApprovedList();
+        ownerActivity.transitionToFragment(updateApprovedList);
     }
 
     private void buildApprovedList() {
