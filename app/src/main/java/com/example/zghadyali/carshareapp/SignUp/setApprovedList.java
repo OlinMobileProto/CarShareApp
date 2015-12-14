@@ -39,7 +39,7 @@ public class setApprovedList extends setALParent {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.accessToken = null;
+                mainActivity.resetAccessToken();
                 LoginManager.getInstance().logOut();
                 mainActivity.setFriends(new ArrayList<String>());
                 mainActivity.setFriendsIDs(new ArrayList<String>());
