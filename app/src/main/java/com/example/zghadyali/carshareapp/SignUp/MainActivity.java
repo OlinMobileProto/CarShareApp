@@ -29,8 +29,6 @@ import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
 
 import org.json.JSONObject;
 

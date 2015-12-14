@@ -81,9 +81,7 @@
             android:layout_height="100dp"
             android:maxLines ="4"
             android:maxLength ="2000"
-            android:imeOptions="actionDone"
-            android:inputType="textCapSentences|textMultiLine"
-            android:password="true" />
+            android:imeOptions="actionDone" />
     </LinearLayout>
 
 
