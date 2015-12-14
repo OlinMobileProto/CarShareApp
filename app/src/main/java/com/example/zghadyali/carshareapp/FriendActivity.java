@@ -57,10 +57,9 @@ abstract public class FriendActivity extends AppCompatActivity{
                                     friends.add(temp.get("name").toString());
                                     friendsIDs.add(temp.get("id").toString());
                                 }
-                                Log.d("setUser","friends and friendsIDs set up");
+                                Log.d("FriendActivity","friends and friendsIDs set up");
 
                             }
-                            Log.d("hihgiahifsaifha","aofoewir");
                         } catch (Exception e) {
                             Log.e("FRIENDACTIVITY GraphRequest Error", e.getMessage());
                         }
