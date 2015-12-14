@@ -47,7 +47,8 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
 
     //Calendar for alertdialog initializations
     private Calendar calendar;
-    private int month, year, day, hour, minute, set_hour, set_minute;
+    private int month, year, day, hour, minute;
+    private int set_month, set_year, set_day, set_hour, set_minute;
 
     //Creating the new request initializations
     private JSONObject new_request;
@@ -139,7 +140,12 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+
         date_request.setText((month + 1) + "/" + day + "/" + year);
+        set_year = year;
+        set_month = month;
+        set_day = day;
+
 
         date_request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,10 +155,19 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                     public void onDateSet(DatePicker view, int setYear, int setMonth, int setDay) {
                         if (setYear > year) {
                             date_request.setText((setMonth + 1) + "/" + setDay + "/" + setYear);
+                            set_year = setYear;
+                            set_month = setMonth;
+                            set_day = setDay;
                         } else if (setYear == setYear && setMonth > month) {
                             date_request.setText((setMonth + 1) + "/" + setDay + "/" + setYear);
-                        } else if (setYear == setYear && setMonth == month && setDay > day) {
+                            set_year = setYear;
+                            set_month = setMonth;
+                            set_day = setDay;
+                        } else if (setYear == setYear && setMonth == month && setDay >= day) {
                             date_request.setText((setMonth + 1) + "/" + setDay + "/" + setYear);
+                            set_year = setYear;
+                            set_month = setMonth;
+                            set_day = setDay;
                         } else {
                             Toast toast = Toast.makeText(context, "The date you chose is not valid", Toast.LENGTH_SHORT);
                             toast.show();
@@ -179,11 +194,23 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                 TimePickerDialog.OnTimeSetListener mTimeListener = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int setHourOfDay, int setMinute) {
-                        if (setHourOfDay > hour) {
+                        if (set_year > year) {
                             displayTime(from_request, setHourOfDay, setMinute);
                             set_hour = setHourOfDay;
                             set_minute = setMinute;
-                        } else if (setMinute > minute) {
+                        } else if (set_year == year && set_month > month) {
+                            displayTime(from_request, setHourOfDay, setMinute);
+                            set_hour = setHourOfDay;
+                            set_minute = setMinute;
+                        } else if (set_year == year && set_month == month && set_day > day) {
+                            displayTime(from_request, setHourOfDay, setMinute);
+                            set_hour = setHourOfDay;
+                            set_minute = setMinute;
+                        } else if (set_year == year && set_month == month && set_day == day && setHourOfDay > hour){
+                            displayTime(from_request, setHourOfDay, setMinute);
+                            set_hour = setHourOfDay;
+                            set_minute = setMinute;
+                        } else if (set_year == year && set_month == month && set_day == day && setHourOfDay == hour && setMinute > minute){
                             displayTime(from_request, setHourOfDay, setMinute);
                             set_hour = setHourOfDay;
                             set_minute = setMinute;
@@ -193,7 +220,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                         }
                     }
                 };
-                TimePickerDialog mTimePickerDialog = new TimePickerDialog(context, mTimeListener, hour, minute, false);
+                TimePickerDialog mTimePickerDialog = new TimePickerDialog(context, mTimeListener, set_hour, set_minute, false);
                 mTimePickerDialog.show();
             }
         });
@@ -214,7 +241,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                         }
                     }
                 };
-                TimePickerDialog diffTimePickerDialog = new TimePickerDialog(context, diffTimeListener, hour, minute, false);
+                TimePickerDialog diffTimePickerDialog = new TimePickerDialog(context, diffTimeListener, set_hour, set_minute, false);
                 diffTimePickerDialog.show();
             }
         });
