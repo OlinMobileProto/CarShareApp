@@ -273,7 +273,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                     new_request.put("requestId",uniqueId);
                     new_request.put("date", date);
                     new_request.put("startTime", from);
-                    new_request.put("endTIme", to);
+                    new_request.put("endTime", to);
                     new_request.put("borrowerName", name);
                     new_request.put("borrowerId", profileID);
                     if (message != null) {
