@@ -21,21 +21,42 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.zghadyali.carshareapp.Owner.OwnerActivity;
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.SignUp.MainActivity;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
+    //Needs borrower name (name), borrower profileID (profileID), list of cars they are allowed to borrow from (cars_ids)
+    private String name, profileID;
+    private JSONArray cars_ids;
+
+    //List of car names that borrower can borrow from
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
     private BorrowerHome borrowerHome;
+
+    //Calendar for alertdialog initializations
     private Calendar calendar;
     private int month, year, day, hour, minute, set_hour, set_minute;
 
-    public CarsListCustomAdapter(ArrayList<String> list, BorrowerHome borrowerHome,Context context) {
+    //Creating the new request initializations
+    private JSONObject new_request;
+    private String uniqueId;
+
+    public CarsListCustomAdapter(String name, String profileID, JSONArray cars_ids, ArrayList<String> list, BorrowerHome borrowerHome,Context context) {
+        this.name = name;
+        this.profileID = profileID;
+        this.cars_ids = cars_ids;
         this.list = list;
         this.context = context;
         this.borrowerHome = borrowerHome;
@@ -60,12 +81,22 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.cars_list, null);
         }
         final String car = list.get(position);
+
+        //Gets the particular CarID that the borrower selects
+        String carId = new String();
+        try {
+            carId = cars_ids.getString(position);
+        } catch (JSONException e) {
+            Log.e("Error", e.getMessage());
+        }
+        final String final_carId = carId;
 
         //Handle TextView and display string from your list
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
@@ -78,19 +109,21 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayAlertDialog(car);
+                displayAlertDialog(car, final_carId);
             }
         });
 
         return view;
     }
 
-    public void displayAlertDialog(String car) {
+    public void displayAlertDialog(String car, String carId) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         View alertLayout = inflater.inflate(R.layout.make_request, null);
+
+        final String final_carId = carId;
         final EditText date_request = (EditText) alertLayout.findViewById(R.id.Date_request);
         date_request.setInputType(InputType.TYPE_NULL);
         inputManager.hideSoftInputFromWindow(date_request.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -127,7 +160,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                     }
                 };
                 DatePickerDialog mDatePickerDialog = new DatePickerDialog(context, myDateListener, year, month, day);
-                mDatePickerDialog.getDatePicker().setMinDate(new Date().getTime());
+                mDatePickerDialog.getDatePicker().setMinDate(new Date().getTime()-1000);
                 mDatePickerDialog.show();
 
             }
@@ -197,11 +230,39 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                //Create Unique ID
+                uniqueId = UUID.randomUUID().toString();
+                Log.d("unique", uniqueId);
+
+                new_request = new JSONObject();
                 String date = date_request.getText().toString();
                 String from = from_request.getText().toString();
                 String to = to_request.getText().toString();
                 String message = opt_message.getText().toString();
                 Log.d("DATE", date);
+
+                try {
+                    new_request.put("requestId",uniqueId);
+                    new_request.put("date", date);
+                    new_request.put("startTime", from);
+                    new_request.put("endTIme", to);
+                    new_request.put("borrowerName", name);
+                    new_request.put("borrowerId", profileID);
+                    if (message != null) {
+                        new_request.put("optmessage", message);
+                    } else {
+                        new_request.put("optmessage", "");
+                    }
+                    new_request.put("approved", 0);
+                } catch (JSONException e){
+                    Log.e("Error: ", e.getMessage());
+                }
+                Log.d("request_car_id", final_carId);
+                Log.d("full request", new_request.toString());
+                VolleyRequests handler = new VolleyRequests(context);
+                handler.createrequest(final_carId, new_request);
+
             }
         });
         AlertDialog dialog = alert.create();

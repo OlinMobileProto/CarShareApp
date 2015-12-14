@@ -59,7 +59,7 @@ public class BorrowerHome extends Fragment {
         } else {
 
             carsListView = (ListView) rootview.findViewById(R.id.cars_list);
-            final CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity)getActivity()).carsList, BorrowerHome.this, getActivity());
+            final CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity) getActivity()).name,((BorrowerActivity) getActivity()).profileID,((BorrowerActivity) getActivity()).car_ids,((BorrowerActivity) getActivity()).carsList, BorrowerHome.this, getActivity());
             carsListView.setAdapter(adapter);
 
         }
