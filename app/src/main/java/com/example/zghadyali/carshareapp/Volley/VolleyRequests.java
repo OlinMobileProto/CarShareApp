@@ -379,8 +379,36 @@ public class VolleyRequests {
         queue.add(request);
     }
 
-    public void getrequestinfo (final callback_cars callback, String requestId) {
-        String url = "http://52.33.226.47/requests/" + requestId;
+    public void getownerRequests (final callback_cars callback, String ownerId) {
+        String url = "http://52.33.226.47/requests_owner/" + ownerId;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject requestInfo = new JSONObject();
+                        try{
+                            requestInfo = response;
+                        } catch (Exception e){
+                            Log.e("Error:", e.getMessage());
+                        }
+                        callback.callback(requestInfo);
+                        Log.d("car response: ", requestInfo.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
+
+    public void getborrowerRequests (final callback_cars callback, String borrowerId) {
+        String url = "http://52.33.226.47/requests_borrower/" + borrowerId;
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
