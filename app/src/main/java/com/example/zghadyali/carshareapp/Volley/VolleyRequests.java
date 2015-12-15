@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -379,16 +380,16 @@ public class VolleyRequests {
         queue.add(request);
     }
 
-    public void getownerRequests (final callback_cars callback, String ownerId) {
+    public void getownerRequests (final callback_requests callback, String ownerId) {
         String url = "http://52.33.226.47/requests_owner/" + ownerId;
-        JsonObjectRequest request = new JsonObjectRequest(
+        JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
                 url,
                 new JSONObject(),
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject requestInfo = new JSONObject();
+                    public void onResponse(JSONArray response) {
+                        JSONArray requestInfo = new JSONArray();
                         try{
                             requestInfo = response;
                         } catch (Exception e){
@@ -407,16 +408,16 @@ public class VolleyRequests {
         queue.add(request);
     }
 
-    public void getborrowerRequests (final callback_cars callback, String borrowerId) {
+    public void getborrowerRequests (final callback_requests callback, String borrowerId) {
         String url = "http://52.33.226.47/requests_borrower/" + borrowerId;
-        JsonObjectRequest request = new JsonObjectRequest(
+        JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
                 url,
                 new JSONObject(),
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject requestInfo = new JSONObject();
+                    public void onResponse(JSONArray response) {
+                        JSONArray requestInfo = new JSONArray();
                         try{
                             requestInfo = response;
                         } catch (Exception e){
