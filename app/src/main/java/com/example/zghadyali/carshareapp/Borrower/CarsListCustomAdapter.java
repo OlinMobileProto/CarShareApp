@@ -48,7 +48,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
     //Calendar for alertdialog initializations
     private Calendar calendar;
     private int month, year, day, hour, minute;
-    private int set_month, set_year, set_day, set_hour, set_minute;
+    private int set_month, set_year, set_day, set_from_hour, set_from_minute, set_to_hour, set_to_minute;
 
     //Creating the new request initializations
     private JSONObject new_request;
@@ -185,8 +185,8 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         minute = calendar.get(Calendar.MINUTE);
 
         displayTime(from_request, hour, minute);
-        set_hour = hour;
-        set_minute = minute;
+        set_from_hour = hour;
+        set_from_minute = minute;
 
         from_request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,31 +196,31 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                     public void onTimeSet(TimePicker view, int setHourOfDay, int setMinute) {
                         if (set_year > year) {
                             displayTime(from_request, setHourOfDay, setMinute);
-                            set_hour = setHourOfDay;
-                            set_minute = setMinute;
+                            set_from_hour = setHourOfDay;
+                            set_from_minute = setMinute;
                         } else if (set_year == year && set_month > month) {
                             displayTime(from_request, setHourOfDay, setMinute);
-                            set_hour = setHourOfDay;
-                            set_minute = setMinute;
+                            set_from_hour = setHourOfDay;
+                            set_from_minute = setMinute;
                         } else if (set_year == year && set_month == month && set_day > day) {
                             displayTime(from_request, setHourOfDay, setMinute);
-                            set_hour = setHourOfDay;
-                            set_minute = setMinute;
+                            set_from_hour = setHourOfDay;
+                            set_from_minute = setMinute;
                         } else if (set_year == year && set_month == month && set_day == day && setHourOfDay > hour){
                             displayTime(from_request, setHourOfDay, setMinute);
-                            set_hour = setHourOfDay;
-                            set_minute = setMinute;
+                            set_from_hour = setHourOfDay;
+                            set_from_minute = setMinute;
                         } else if (set_year == year && set_month == month && set_day == day && setHourOfDay == hour && setMinute > minute){
                             displayTime(from_request, setHourOfDay, setMinute);
-                            set_hour = setHourOfDay;
-                            set_minute = setMinute;
+                            set_from_hour = setHourOfDay;
+                            set_from_minute = setMinute;
                         } else {
                             Toast toast = Toast.makeText(context, "The time you chose is not valid", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
                 };
-                TimePickerDialog mTimePickerDialog = new TimePickerDialog(context, mTimeListener, set_hour, set_minute, false);
+                TimePickerDialog mTimePickerDialog = new TimePickerDialog(context, mTimeListener,  set_from_hour, set_from_minute, false);
                 mTimePickerDialog.show();
             }
         });
@@ -231,17 +231,21 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                 TimePickerDialog.OnTimeSetListener diffTimeListener = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int setHourOfDay, int setMinute) {
-                        if (setHourOfDay > set_hour) {
+                        if (setHourOfDay > set_from_hour) {
                             displayTime(to_request, setHourOfDay, setMinute);
-                        } else if (setMinute > set_minute) {
+                            set_to_hour = setHourOfDay;
+                            set_to_minute = setMinute;
+                        } else if (setMinute > set_from_minute) {
                             displayTime(to_request, setHourOfDay, setMinute);
+                            set_to_hour = setHourOfDay;
+                            set_to_minute = setMinute;
                         } else {
                             Toast toast = Toast.makeText(context, "The time you chose is not valid", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
                 };
-                TimePickerDialog diffTimePickerDialog = new TimePickerDialog(context, diffTimeListener, set_hour, set_minute, false);
+                TimePickerDialog diffTimePickerDialog = new TimePickerDialog(context, diffTimeListener, set_from_hour, set_from_minute, false);
                 diffTimePickerDialog.show();
             }
         });
@@ -264,13 +268,13 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
 
                 new_request = new JSONObject();
                 String date = date_request.getText().toString();
-                String from = from_request.getText().toString();
-                String to = to_request.getText().toString();
+                String from = set_from_hour + ":" + set_from_minute;
+                String to = set_to_hour + ":" + set_to_minute;
                 String message = opt_message.getText().toString();
                 Log.d("DATE", date);
 
                 try {
-                    new_request.put("requestId",uniqueId);
+                    new_request.put("requestId", uniqueId);
                     new_request.put("date", date);
                     new_request.put("startTime", from);
                     new_request.put("endTime", to);
@@ -282,7 +286,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                         new_request.put("optmessage", "");
                     }
                     new_request.put("approved", 0);
-                } catch (JSONException e){
+                } catch (JSONException e) {
                     Log.e("Error: ", e.getMessage());
                 }
                 Log.d("request_car_id", final_carId);
