@@ -134,6 +134,15 @@ public class OwnerActivity extends FriendActivity {
     }
 
     public JSONObject getCarInfo() {
+        VolleyRequests handler = new VolleyRequests(getApplicationContext());
+
+        handler.getcarinfo(new callback_cars() {
+            @Override
+            public void callback(JSONObject cars) {
+                carInfo = cars;
+                Log.d("OwnerActivity","carInfo updated: " + carInfo.toString());
+            }
+        }, profileID);
         return carInfo;
     }
 
