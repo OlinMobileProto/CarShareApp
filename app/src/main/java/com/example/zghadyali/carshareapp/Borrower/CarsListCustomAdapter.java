@@ -274,6 +274,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                 Log.d("DATE", date);
 
                 try {
+                    new_request.put("ownerId", final_carId);
                     new_request.put("requestId", uniqueId);
                     new_request.put("date", date);
                     new_request.put("startTime", from);
