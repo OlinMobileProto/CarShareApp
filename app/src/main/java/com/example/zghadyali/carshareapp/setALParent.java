@@ -33,6 +33,7 @@ import java.util.ArrayList;
  */
 public abstract class setALParent extends Fragment {
 
+    //TODO the add/remove buttons don't update with a previously-approved person for some reason
     private ListView friendsListView;
     private EditText searchFriends;
     private ApprovedListAdapter friendsAdapter;
@@ -59,7 +60,7 @@ public abstract class setALParent extends Fragment {
 
         approvedListIDs = new ArrayList<String>();
 
-        friendsIDs = thisActivity.getFriendsIDs();
+        friendsIDs = thisActivity.getBorrowerFriendsIDs();
         friendsNames = thisActivity.getFriends();
 
         friendsAdapter = new ApprovedListAdapter(friendsIDs, setALParent.this, getActivity());

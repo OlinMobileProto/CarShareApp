@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.zghadyali.carshareapp.Volley.Callback;
+import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
@@ -25,6 +27,7 @@ abstract public class FriendActivity extends AppCompatActivity{
     private JSONArray friendsJSON;
     protected ArrayList<String> friends;
     protected ArrayList<String> friendsIDs;
+    protected ArrayList<String> borrowerFriendsIDs;
     protected String profileID;
 
     @Override
@@ -46,6 +49,7 @@ abstract public class FriendActivity extends AppCompatActivity{
                         try {
                             friends = new ArrayList<String>();
                             friendsIDs = new ArrayList<String>();
+                            borrowerFriendsIDs = new ArrayList<String>();
                             JSONObject res = response.getJSONObject();
                             Log.d("res",res.toString());
                             friendsJSON = res.getJSONArray("data");
@@ -55,12 +59,13 @@ abstract public class FriendActivity extends AppCompatActivity{
                                 for (int i = 0; i < len; i++) {
                                     JSONObject temp = friendsJSON.getJSONObject(i);
                                     friends.add(temp.get("name").toString());
-                                    friendsIDs.add(temp.get("id").toString());
+                                    String thisID = temp.get("id").toString();
+                                    friendsIDs.add(thisID);
+                                    addIfBorrower(thisID);
                                 }
-                                Log.d("setUser","friends and friendsIDs set up");
-
+                                Log.d("FriendActivity","friends and friendsIDs set up");
+//                                Log.d("FriendActivity","final borrowerFriendsIDs: " + borrowerFriendsIDs.toString());
                             }
-                            Log.d("hihgiahifsaifha","aofoewir");
                         } catch (Exception e) {
                             Log.e("FRIENDACTIVITY GraphRequest Error", e.getMessage());
                         }
@@ -86,7 +91,6 @@ abstract public class FriendActivity extends AppCompatActivity{
     }
 
     public ArrayList<String> getFriendsIDs() {
-        Log.d("HELLO", "hello");
         return friendsIDs;
     }
 
@@ -96,6 +100,14 @@ abstract public class FriendActivity extends AppCompatActivity{
 
     public void addToFriendsIDs(String s) {
         friendsIDs.add(s);
+    }
+
+    public ArrayList<String> getBorrowerFriendsIDs() {
+        return borrowerFriendsIDs;
+    }
+
+    public void setBorrowerFriendsIDs(ArrayList<String> newList) {
+        borrowerFriendsIDs = newList;
     }
 
     public ArrayList<String> getFriends() {
@@ -116,5 +128,43 @@ abstract public class FriendActivity extends AppCompatActivity{
 
     public JSONArray getFriendsJSON() {
         return friendsJSON;
+    }
+
+    private void addIfBorrower(final String id) {
+        final VolleyRequests handler = new VolleyRequests(this.getApplicationContext());
+//        final boolean[] borrowerStatus = new boolean[1];
+        GraphRequestAsyncTask userid_request = new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        try {
+//                            JSONObject user_id = response.getJSONObject();
+//                            Log.d("USER ID JSON", user_id.toString());
+//                            profileName = user_id.getString("name");
+//                            profileID = user_id.getString("id");
+                            handler.getuser(new Callback() {
+                                @Override
+                                public void callback(Integer user_status) {
+                                    if (user_status == 1){
+                                        Log.d("isBorrower: ", id + " is an owner");
+                                    }
+                                    if (user_status == 2){
+                                        Log.d("isBorrower", id + " is a borrower");
+                                        borrowerFriendsIDs.add(id);
+                                        Log.d("isBorrower","new borrowerFriendsIDs: " + borrowerFriendsIDs.toString());
+                                    }
+                                }
+                            }, id);
+//                            userid = response.getJSONObject();
+                        } catch (Exception e) {
+                            Log.e("Error: ", e.getMessage());
+                        }
+                    }
+                }
+        ).executeAsync();
+//        return borrowerStatus[0];
     }
 }
