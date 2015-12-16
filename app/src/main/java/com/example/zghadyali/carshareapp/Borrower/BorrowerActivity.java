@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 import com.example.zghadyali.carshareapp.Volley.callback_cars;
+import com.example.zghadyali.carshareapp.Volley.callback_requests;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
@@ -22,12 +23,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BorrowerActivity extends AppCompatActivity {
 
     public AccessToken accessToken;
     public String profileID;
-    public String name;
+    public String name, date, starttime, endtime;
+    private int month, year, day, hour, minute;
+    private Calendar calendar;
     public JSONObject borrower_cars;
     public JSONArray car_ids;
     public JSONArray carsJSON;
@@ -40,6 +44,19 @@ public class BorrowerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrower);
 
+        //SETTING DEFAULT DATE AND TIME
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
+
+        date = month + "/" + day + "/" + year;
+        starttime = hour + ":" + minute;
+        endtime = (hour+1) + ":" + minute;
+
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
         if (getIntent().hasExtra("profileID") && getIntent().hasExtra("name")){
@@ -48,7 +65,7 @@ public class BorrowerActivity extends AppCompatActivity {
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
-            updateCarList();
+            updateCarList(date, starttime, endtime);
         }
         else{
             Log.d("BORROWER CLASS: ", "I don't have any of that information right now");
@@ -64,7 +81,8 @@ public class BorrowerActivity extends AppCompatActivity {
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
                                 profileID = user_id.getString("id");
-                                updateCarList();
+
+                                updateCarList(date, starttime, endtime);
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
@@ -104,27 +122,24 @@ public class BorrowerActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void updateCarList() {
+    public void updateCarList(String date, String starttime, String endtime) {
 
+        //Get all of the available cars:
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
-        handler.getborrowerinfo(new callback_cars() {
+        handler.getavailablecars(new callback_requests() {
             @Override
-            public void callback(JSONObject cars) {
-                borrower_cars = new JSONObject();
-                borrower_cars = cars;
-                car_ids = new JSONArray();
+            public void callback(JSONArray requests) {
                 try {
-                    car_ids = borrower_cars.getJSONArray("can_borrow");
-                    len = car_ids.length();
-                    if (len == 0) {
+                    if (requests.length() == 0) {
                         borrowerHome = new BorrowerHome();
                         transitionToFragment(borrowerHome);
                     }
-                    Log.d("You are approved for", String.valueOf(len));
-                    carsJSON = new JSONArray();
+                    car_ids = new JSONArray();
                     carsList = new ArrayList<String>();
+                    len = requests.length();
                     for (int i = 0; i < len; i++) {
-                        String car_id = car_ids.getString(i);
+                        final String car_id = requests.getString(i);
+                        carsJSON = new JSONArray();
                         handler.getcarinfo(new callback_cars() {
                             @Override
                             public void callback(JSONObject cars) {
@@ -132,6 +147,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                 try {
                                     String temp_name = cars.getString("owner");
                                     carsList.add(temp_name + "'s Car");
+                                    car_ids.put(cars.getString("facebook_id"));
                                     //code here to use make and model if they are supplied, if they aren't have to catch if they are null
                                     //or if they are empty strings
                                 } catch (Exception e) {
@@ -144,10 +160,53 @@ public class BorrowerActivity extends AppCompatActivity {
                         }, car_id);
                     }
                 } catch (Exception e) {
-                    Log.e("Error: ", e.getMessage());
+                    Log.e("Error:", e.getMessage());
                 }
             }
-        }, profileID);
+        },profileID, date, starttime, endtime);
+
+//        final VolleyRequests handler = new VolleyRequests(getApplicationContext());
+//        handler.getborrowerinfo(new callback_cars() {
+//            @Override
+//            public void callback(JSONObject cars) {
+//                borrower_cars = new JSONObject();
+//                borrower_cars = cars;
+//                car_ids = new JSONArray();
+//                try {
+//                    car_ids = borrower_cars.getJSONArray("can_borrow");
+//                    len = car_ids.length();
+//                    if (len == 0) {
+//                        borrowerHome = new BorrowerHome();
+//                        transitionToFragment(borrowerHome);
+//                    }
+//                    Log.d("You are approved for", String.valueOf(len));
+//                    carsJSON = new JSONArray();
+//                    carsList = new ArrayList<String>();
+//                    for (int i = 0; i < len; i++) {
+//                        String car_id = car_ids.getString(i);
+//                        handler.getcarinfo(new callback_cars() {
+//                            @Override
+//                            public void callback(JSONObject cars) {
+//                                carsJSON.put(cars);
+//                                try {
+//                                    String temp_name = cars.getString("owner");
+//                                    carsList.add(temp_name + "'s Car");
+//                                    //code here to use make and model if they are supplied, if they aren't have to catch if they are null
+//                                    //or if they are empty strings
+//                                } catch (Exception e) {
+//                                    e.getMessage();
+//                                }
+//                                Log.d("BORROWER'S CARS", carsList.toString());
+//                                borrowerHome = new BorrowerHome();
+//                                transitionToFragment(borrowerHome);
+//                            }
+//                        }, car_id);
+//                    }
+//                } catch (Exception e) {
+//                    Log.e("Error: ", e.getMessage());
+//                }
+//            }
+//        }, profileID);
     }
 
 }

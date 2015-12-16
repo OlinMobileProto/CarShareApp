@@ -124,6 +124,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
 
         View alertLayout = inflater.inflate(R.layout.make_request, null);
 
+        final String final_car = car;
         final String final_carId = carId;
         final EditText date_request = (EditText) alertLayout.findViewById(R.id.Date_request);
         date_request.setInputType(InputType.TYPE_NULL);
@@ -275,6 +276,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
 
                 try {
                     new_request.put("ownerId", final_carId);
+                    new_request.put("ownerName", final_car);
                     new_request.put("requestId", uniqueId);
                     new_request.put("date", date);
                     new_request.put("startTime", from);
