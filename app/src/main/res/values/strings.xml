@@ -22,6 +22,12 @@
     <string name="hourly_rate">Hourly rate</string>
     <string name="action_approvedlist">Approved List</string>
     <string name="next">Next</string>
+    <string name="pending_requests">Pending Requests</string>
+    <string name="approve">Approve</string>
+    <string name="deny">Deny</string>
+    <string name="from">From:</string>
+    <string name="to">To</string>
+    <string name="date">Date</string>
 
     <string-array name="transmission_choice_array">
         <item>Manual</item>
@@ -30,4 +36,5 @@
     <string name="title_activity_borrower">BorrowerActivity</string>
     <string name="search_friends">Search friends</string>
     <string name="setAL_header">Add your friends who are allowed to borrow your car</string>
+
 </resources>
