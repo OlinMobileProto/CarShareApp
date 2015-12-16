@@ -64,8 +64,7 @@ public class UpdateApprovedList extends setALParent {
             JSONArray approvedJSON = carInfo.getJSONArray("approvedList");
             Log.d("approvedJSON: ", approvedJSON.toString());
             for (int i = 0; i < approvedJSON.length(); i++) {
-                JSONObject temp = approvedJSON.getJSONObject(i);
-                approvedListIDs.add(temp.get("id").toString());
+                approvedListIDs.add(approvedJSON.getString(i));
             }
             Log.d("updateApprovedList","approvedList set up");
 
