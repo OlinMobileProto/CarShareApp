@@ -23,14 +23,17 @@ public class RequestAdapter extends ArrayAdapter<Request> {
 
     final private int ACCEPT = 1;
     final private int DENY = 2;
+    private ArrayList<Request> requests;
 
     public RequestAdapter(Context context, ArrayList<Request> requests) {
         super(context, 0, requests);
+        this.requests = requests;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Request request = getItem(position);
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.request_list, parent, false);
         }
@@ -58,6 +61,8 @@ public class RequestAdapter extends ArrayAdapter<Request> {
                     Log.e("JSONException", e.getMessage());
                 }
                 handler.editrequest(request.getId(), requestDeny);
+                requests.remove(position);
+                notifyDataSetChanged();
             }
         });
 
@@ -72,6 +77,8 @@ public class RequestAdapter extends ArrayAdapter<Request> {
                     Log.e("JSONException", e.getMessage());
                 }
                 handler.editrequest(request.getId(), requestApprove);
+                requests.remove(position);
+                notifyDataSetChanged();
             }
         });
 

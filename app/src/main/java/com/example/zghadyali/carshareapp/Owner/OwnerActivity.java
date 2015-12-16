@@ -14,6 +14,7 @@ import com.example.zghadyali.carshareapp.SignUp.MainActivity;
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 import com.example.zghadyali.carshareapp.Volley.callback_cars;
+import com.example.zghadyali.carshareapp.Volley.callback_requests;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
@@ -21,6 +22,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -31,11 +33,14 @@ public class OwnerActivity extends FriendActivity {
     private OwnerHome ownerHome = new OwnerHome();
     private OwnerSettings ownerSettings = new OwnerSettings();
     private UpdateApprovedList updateApprovedList = new UpdateApprovedList();
+    private OwnerRequests ownerRequests = new OwnerRequests();
 
     public AccessToken accessToken;
 //    public String profileID;
     public String name;
     private JSONObject carInfo;
+    private JSONArray requestsArray;
+    private JSONArray pendingRequestsArray;
 
     //Making Volley Request
     public void volley_data() {
@@ -119,6 +124,12 @@ public class OwnerActivity extends FriendActivity {
                 Log.d("Access token", accessToken.toString());
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.action_pending_requests:
+                getRequests();
+                makePendingRequests();
+                transitionToFragment(ownerRequests);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -133,8 +144,39 @@ public class OwnerActivity extends FriendActivity {
         transaction.commit();
     }
 
+    public JSONArray getRequestsArray() {
+        return requestsArray;
+    }
+
     public JSONObject getCarInfo() {
         return carInfo;
+    }
+
+    public void getRequests() {
+        VolleyRequests handler = new VolleyRequests(getApplicationContext());
+        handler.getownerRequests(new callback_requests() {
+            @Override
+            public void callback(JSONArray requests) {
+                requestsArray = requests;
+            }
+        }, profileID);
+    }
+
+    public void makePendingRequests() {
+        try {
+            for (int i = 0; i < requestsArray.length(); i++) {
+                JSONObject request = (JSONObject) requestsArray.get(i);
+                if (request.getInt("approved") == 0) {
+                    pendingRequestsArray.put(request);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Error!", "no requests :(");
+        }
+    }
+
+    public JSONArray getPendingRequestsArray() {
+        return pendingRequestsArray;
     }
 
     public void transitionToHome() {
