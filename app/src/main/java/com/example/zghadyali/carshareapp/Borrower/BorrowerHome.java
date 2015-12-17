@@ -26,7 +26,7 @@ public class BorrowerHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview = inflater.inflate(R.layout.fragment_borrower_home, container, false);
+        View rootview = inflater.inflate(R.layout.borrower_home, container, false);
 
         borrowerActivity = (BorrowerActivity) getActivity();
 
@@ -38,10 +38,6 @@ public class BorrowerHome extends Fragment {
 
             }
         });
-
-        carsListView = (ListView) rootview.findViewById(R.id.cars_list);
-        carsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, borrowerActivity.carsList);
-        carsListView.setAdapter(carsAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootview.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

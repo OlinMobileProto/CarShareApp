@@ -30,4 +30,7 @@
     <string name="title_activity_borrower">BorrowerActivity</string>
     <string name="search_friends">Search friends</string>
     <string name="setAL_header">Add your friends who are allowed to borrow your car</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

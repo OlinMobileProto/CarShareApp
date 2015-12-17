@@ -1,5 +1,6 @@
 package com.example.zghadyali.carshareapp.Borrower;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,17 +9,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.zghadyali.carshareapp.R;
+import com.example.zghadyali.carshareapp.SignUp.MainActivity;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 import com.example.zghadyali.carshareapp.Volley.callback_cars;
+import com.example.zghadyali.carshareapp.Volley.callback_requests;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -34,6 +41,9 @@ public class BorrowerActivity extends AppCompatActivity {
     public ArrayList<String> carsList;
     public BorrowerHome borrowerHome;
     public int len;
+    public BorrowerTrips borrowerTrips;
+    public JSONArray borrowerRequests;
+    public ArrayList<Request> dispBorrowerRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,7 @@ public class BorrowerActivity extends AppCompatActivity {
             Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
             updateCarList();
+            getRequests();
         }
         else{
             Log.d("BORROWER CLASS: ", "I don't have any of that information right now");
@@ -65,6 +76,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                 name = user_id.getString("name");
                                 profileID = user_id.getString("id");
                                 updateCarList();
+                                getRequests();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
@@ -85,14 +97,23 @@ public class BorrowerActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.trips:
+                transitionToFragment(borrowerTrips);
+                return true;
+            case R.id.action_logout:
+                LoginManager.getInstance().logOut();
+                Log.d("Access token", accessToken.toString());
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            case R.id.home:
+                transitionToFragment(borrowerHome);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void transitionToFragment(Fragment fragment){
@@ -102,6 +123,26 @@ public class BorrowerActivity extends AppCompatActivity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
+    }
+
+    public void getRequests(){
+        final VolleyRequests handler = new VolleyRequests(getApplicationContext());
+        borrowerRequests = new JSONArray();
+        dispBorrowerRequests = new ArrayList<Request>();
+        handler.getborrowerRequests(new callback_requests() {
+            @Override
+            public void callback(JSONArray requests) {
+                borrowerRequests = requests;
+                for (int i=0; i<borrowerRequests.length(); i++){
+                    try{
+                        dispBorrowerRequests.add(new Request((JSONObject) borrowerRequests.get(i)));
+                    } catch (JSONException e){
+                        Log.e("Error: ", e.getMessage());
+                    }
+                }
+
+            }
+        }, profileID);
     }
 
     public void updateCarList() {
@@ -139,6 +180,7 @@ public class BorrowerActivity extends AppCompatActivity {
                                 }
                                 Log.d("BORROWER'S CARS", carsList.toString());
                                 borrowerHome = new BorrowerHome();
+                                borrowerTrips = new BorrowerTrips();
                                 transitionToFragment(borrowerHome);
                             }
                         }, car_id);
