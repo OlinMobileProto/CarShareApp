@@ -76,11 +76,18 @@ public class MainActivity extends FriendActivity {
                                             Intent owner_intent = new Intent(getApplicationContext(), OwnerActivity.class);
                                             startActivity(owner_intent);
                                         }
-                                        if (user_status == 2){
+                                        else if (user_status == 2){
                                             Log.d("STATUS: ", "You are a borrower on the server already");
                                             //launch borrower activity
                                             Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
                                             startActivity(borrower_intent);
+                                        }
+                                        //TODO add if user doesn't exist on server
+                                        else if (user_status == 0){
+                                            Log.d("STATUS: ","Could not find you on the server, clearing data");
+                                            getApplicationContext().getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
+                                            loginfb = new loginFacebook();
+                                            transitionToFragment(loginfb);
                                         }
                                     }
                                 }, profileID);
