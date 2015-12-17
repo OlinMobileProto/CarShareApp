@@ -25,6 +25,7 @@ import com.example.zghadyali.carshareapp.Owner.OwnerActivity;
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.SignUp.MainActivity;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
+import com.example.zghadyali.carshareapp.Volley.callback_requests;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -292,10 +293,26 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                 } catch (JSONException e) {
                     Log.e("Error: ", e.getMessage());
                 }
+
+                final VolleyRequests handler = new VolleyRequests(context);
+                handler.getavailablecars(new callback_requests() {
+                    @Override
+                    public void callback(JSONArray cars) {
+                        Log.d("available cars: ", (cars).toString());
+                        boolean exists = cars.toString().contains(final_carId);
+                        if (exists == false) {
+                            Toast toast_failed = Toast.makeText(context, final_car + " is not available at the time you requested!", Toast.LENGTH_SHORT);
+                            toast_failed.show();
+                        } else {
+                            handler.createrequest(final_carId, new_request);
+                        }
+                    }
+                }, profileID, date, from, to);
+
+                Log.d("profileID", profileID);
+//                handler.createrequest(final_carId, new_request);
                 Log.d("request_car_id", final_carId);
                 Log.d("full request", new_request.toString());
-                VolleyRequests handler = new VolleyRequests(context);
-                handler.createrequest(final_carId, new_request);
 
             }
         });

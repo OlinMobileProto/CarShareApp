@@ -26,17 +26,12 @@ import android.widget.Toast;
 
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
-import com.example.zghadyali.carshareapp.Volley.callback_cars;
 import com.example.zghadyali.carshareapp.Volley.callback_requests;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 public class BorrowerHome extends Fragment {
 
