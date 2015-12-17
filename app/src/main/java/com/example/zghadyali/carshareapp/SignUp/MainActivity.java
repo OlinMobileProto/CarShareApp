@@ -82,7 +82,6 @@ public class MainActivity extends FriendActivity {
                                             Intent borrower_intent = new Intent(getApplicationContext(), BorrowerActivity.class);
                                             startActivity(borrower_intent);
                                         }
-                                        //TODO add if user doesn't exist on server
                                         else if (user_status == 0){
                                             Log.d("STATUS: ","Could not find you on the server, clearing data");
                                             getApplicationContext().getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
