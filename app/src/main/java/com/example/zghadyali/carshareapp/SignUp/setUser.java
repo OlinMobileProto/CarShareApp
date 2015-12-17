@@ -1,6 +1,7 @@
 package com.example.zghadyali.carshareapp.SignUp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -40,6 +41,8 @@ public class setUser extends Fragment {
             @Override
             public void onClick(View v) {
                 isOwner = false;
+                setBorrower.setSelected(true);
+                setOwner.setSelected(false);
             }
         });
 
@@ -47,6 +50,8 @@ public class setUser extends Fragment {
             @Override
             public void onClick(View v) {
                 isOwner = true;
+                setOwner.setSelected(true);
+                setBorrower.setSelected(false);
             }
         });
 
