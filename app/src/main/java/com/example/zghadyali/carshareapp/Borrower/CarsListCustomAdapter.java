@@ -305,6 +305,8 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                             toast_failed.show();
                         } else {
                             handler.createrequest(final_carId, new_request);
+                            Toast toast_success = Toast.makeText(context, "Your request for " + final_car + " has been sent!", Toast.LENGTH_SHORT);
+                            toast_success.show();
                         }
                     }
                 }, profileID, date, from, to);
