@@ -15,20 +15,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Car Owner"
+        android:text="Car Owner?"
         android:id="@+id/set_owner"
-        android:drawableTop="@drawable/car_owner_button"
-        android:layout_below="@+id/set_borrower"
-        android:layout_centerHorizontal="true" />
+        android:drawableTop="@drawable/ic_directions_car_black_48dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/next_button"
+        android:layout_toStartOf="@+id/next_button" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Car Borrower"
+        android:text="Car Borrower?"
         android:id="@+id/set_borrower"
-        android:drawableTop="@drawable/car_borrower_button"
-        android:layout_below="@+id/context"
-        android:layout_centerHorizontal="true" />
+        android:drawableTop="@drawable/ic_supervisor_account_black_48dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/context"
+        android:layout_toStartOf="@+id/context" />
 
     <Button
         android:layout_width="wrap_content"
