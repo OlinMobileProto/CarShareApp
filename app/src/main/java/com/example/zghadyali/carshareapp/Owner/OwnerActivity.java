@@ -127,8 +127,8 @@ public class OwnerActivity extends FriendActivity {
                 return true;
             case R.id.action_pending_requests:
                 getRequests();
-                makePendingRequests();
-                transitionToFragment(ownerRequests);
+//                makePendingRequests();
+//                transitionToFragment(ownerRequests);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -158,6 +158,21 @@ public class OwnerActivity extends FriendActivity {
             @Override
             public void callback(JSONArray requests) {
                 requestsArray = requests;
+                pendingRequestsArray = new JSONArray();
+                Log.d("STUFF", requestsArray.toString());
+                try {
+                    for (int i = 0; i < requestsArray.length(); i++) {
+                        JSONObject request = requestsArray.getJSONObject(i);
+                        if (request.getString("approved").equals("0")) {
+                            pendingRequestsArray.put(request);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("Error!", "no requests :(" +e.getMessage());
+                }
+                ownerRequests = new OwnerRequests();
+                transitionToFragment(ownerRequests);
             }
         }, profileID);
     }
@@ -171,6 +186,7 @@ public class OwnerActivity extends FriendActivity {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("Error!", "no requests :(");
         }
     }

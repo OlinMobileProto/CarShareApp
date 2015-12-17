@@ -268,7 +268,7 @@ public class VolleyRequests {
     }
     //Parching request for borrowing a car:
     public void editrequest (String request_id, JSONObject edit_request_details){
-        String url = "http://52.33.226.47/requests" + request_id;
+        String url = "http://52.33.226.47/requests/" + request_id;
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PATCH,
                 url,
@@ -281,7 +281,8 @@ public class VolleyRequests {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Error!", error.getMessage());
+                        error.printStackTrace();
+//                        Log.e("Error!", error.getMessage());
                     }
                 });
         queue.add(request);

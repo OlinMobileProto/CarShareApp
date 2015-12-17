@@ -21,8 +21,8 @@ import java.util.ArrayList;
  */
 public class RequestAdapter extends ArrayAdapter<Request> {
 
-    final private int ACCEPT = 1;
-    final private int DENY = 2;
+    final private String ACCEPT = "1";
+    final private String DENY = "2";
     private ArrayList<Request> requests;
 
     public RequestAdapter(Context context, ArrayList<Request> requests) {

@@ -27,30 +27,37 @@ import java.util.ArrayList;
 public class OwnerRequests extends Fragment {
 
     private View view;
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView requestListView;
     private ArrayList<Request> requests;
     private RequestAdapter requestAdapter;
     private OwnerActivity ownerActivity;
     private JSONArray requestsJSON;
+    private TextView textView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.owner_home, container, false);
+        view = inflater.inflate(R.layout.fragment_owner_requests, container, false);
 
+        textView = (TextView) view.findViewById(R.id.owner_pending_requests);
         ownerActivity = (OwnerActivity) getActivity();
         requestsJSON = ownerActivity.getPendingRequestsArray();
         requests = new ArrayList<>();
-        if (requestsJSON.length() == 0 || requestsJSON == null){
-            
+        if (requestsJSON == null) {
+            textView.setText(R.string.no_pending_requests);
         } else {
-            for (int i = 0; i < requestsJSON.length(); i++) {
-                try {
-                    requests.add(new Request((JSONObject) requestsJSON.get(i)));
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (requestsJSON.length() == 0) {
+                textView.setText(R.string.no_pending_requests);
+            } else {
+                for (int i = 0; i < requestsJSON.length(); i++) {
+                    try {
+                        requests.add(new Request((JSONObject) requestsJSON.get(i)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -74,16 +81,18 @@ public class OwnerRequests extends Fragment {
 
     public void swipeUpdate() {
         ownerActivity.getRequests();
-        ownerActivity.makePendingRequests();
         requestsJSON = ownerActivity.getPendingRequestsArray();
         requests = new ArrayList<>();
-        for (int i = 0; i < requestsJSON.length(); i++) {
-            try {
-                requests.add(new Request((JSONObject) requestsJSON.get(i)));
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (requestsJSON != null) {
+            textView.setText(R.string.pending_requests);
+            for (int i = 0; i < requestsJSON.length(); i++) {
+                try {
+                    requests.add(new Request((JSONObject) requestsJSON.get(i)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            requestAdapter.notifyDataSetChanged();
         }
-        requestAdapter.notifyDataSetChanged();
     }
 }
