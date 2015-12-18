@@ -288,7 +288,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                     } else {
                         new_request.put("optmessage", "");
                     }
-                    new_request.put("approved", "0");
+                    new_request.put("approved", "PENDING");
                 } catch (JSONException e) {
                     Log.e("Error: ", e.getMessage());
                 }

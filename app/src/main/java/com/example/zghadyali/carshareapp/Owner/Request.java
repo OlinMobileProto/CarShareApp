@@ -1,43 +1,83 @@
 package com.example.zghadyali.carshareapp.Owner;
 
+import android.util.Log;
+
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Jordan on 12/15/15.
  */
-public class Request {
+public class Request implements Comparable<Request> {
 
     private String id;
-    private String name;
-    private String reason;
+    private String borrowerName;
+    private String ownerName;
+    private String optMessage;
     private String date;
     private String fromTime;
     private String toTime;
+    private String status;
 
     public Request(JSONObject object) {
         try{
             this.id = object.getString("requestId");
-            this.name = object.getString("borrowerName");
-            this.reason = object.getString("optmessage");
+            this.borrowerName = object.getString("borrowerName");
+            this.ownerName = object.getString("ownerName");
+            this.optMessage = object.getString("optmessage");
             this.date = object.getString("date");
             this.fromTime = object.getString("startTime");
             this.toTime = object.getString("endTime");
+            this.status = object.getString("approved");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    public int getHour(String time){
+        int colon_index = time.indexOf(":");
+        int HourOfDay = Integer.valueOf(time.substring(0, colon_index));
+        return HourOfDay;
+    }
+
+    public int getMinute(String time){
+        int colon_index = time.indexOf(":");
+        int minute = Integer.valueOf(time.substring(colon_index + 1, time.length()));
+        return minute;
+    }
+
+    public Date getCalendarDate(String date, String time){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.US);
+        try {
+            cal.setTime(sdf.parse(date + " " + time));
+        } catch (ParseException e){
+            Log.e("Error: ", e.getMessage());
+        }
+        return cal.getTime();
+    }
+
+    @Override
+    public int compareTo(Request request) {
+        return getCalendarDate(getDate(), getFromTime()).compareTo(request.getCalendarDate(request.getDate(), request.getFromTime()));
+    }
+
     public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getBorrowerName() {
+        return borrowerName;
     }
 
-    public String getReason() {
-        return reason;
+    public String getOwnerName() {
+        return ownerName;
     }
 
     public String getDate() {
@@ -52,9 +92,22 @@ public class Request {
         return toTime;
     }
 
-    public void setName(String newName) {
-        this.name = newName;
+    public String getStatus() {
+        return status;
     }
+
+    public String getOptMessage() {
+        return optMessage;
+    }
+
+    public void setBorrowername(String newName) {
+        this.borrowerName = newName;
+    }
+
+    public void setOwnername(String newName) {
+        this.ownerName = newName;
+    }
+
 
     public void setDate(String newDate) {
         this.date = newDate;
