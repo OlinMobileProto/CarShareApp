@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true"
         android:paddingTop="8dp"
         android:paddingLeft="8dp"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/date_text"
@@ -33,7 +33,7 @@
         android:layout_alignParentStart="true"
         android:paddingLeft="8dp"
         android:textSize="16sp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/time_text"
@@ -44,7 +44,7 @@
         android:layout_alignBaseline="@id/date_text"
         android:paddingRight="15dp"
         android:textSize="16sp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/deny_button"
