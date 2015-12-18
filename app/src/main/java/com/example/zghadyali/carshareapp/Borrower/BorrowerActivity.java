@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -34,9 +35,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import java.util.Locale;
 
-public class BorrowerActivity extends AppCompatActivity {
+import java.util.Collections;
+
+
+public class BorrowerActivity extends FragmentActivity {
 
     public AccessToken accessToken;
     public String profileID;
@@ -220,7 +225,7 @@ public class BorrowerActivity extends AppCompatActivity {
         }
         return cal;
     }
-    
+
     public void getRequests(){
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
         borrowerRequests = new JSONArray();
@@ -232,7 +237,10 @@ public class BorrowerActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < borrowerRequests.length(); i++) {
                         dispBorrowerRequests.add(new Request((JSONObject) borrowerRequests.get(i)));
+                        Log.d("REQUEST OBJECT: ", dispBorrowerRequests.get(i).toString());
                     }
+                    Collections.sort(dispBorrowerRequests);
+                    Collections.reverse(dispBorrowerRequests);
                 } catch (JSONException e) {
                     Log.e("Error: ", e.getMessage());
                 }

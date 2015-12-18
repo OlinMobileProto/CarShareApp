@@ -90,7 +90,7 @@ public class BorrowerHome extends Fragment {
         } else {
             Log.d("HERE", "jiu");
             carsListView = (ListView) rootview.findViewById(R.id.cars_list);
-            final CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity) getActivity()).name,((BorrowerActivity) getActivity()).profileID,((BorrowerActivity) getActivity()).car_ids,((BorrowerActivity) getActivity()).carsList, BorrowerHome.this, getActivity());
+            CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity) getActivity()).name,((BorrowerActivity) getActivity()).profileID,((BorrowerActivity) getActivity()).car_ids,((BorrowerActivity) getActivity()).carsList, BorrowerHome.this, getActivity());
             carsListView.setAdapter(adapter);
 
         }
@@ -113,7 +113,6 @@ public class BorrowerHome extends Fragment {
         endtime_now = (hour+1) + ":" + minute;
 
         borrowerActivity.updateCarList(date_now,starttime_now,endtime_now);
-        carsAdapter.notifyDataSetChanged();
     }
 
     public void displayAlertDialog() {

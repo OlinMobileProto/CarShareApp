@@ -101,7 +101,7 @@ public class OwnerSettings extends Fragment {
                     newCarInfo.put("licensePlate", editLicensePlate.getText().toString());
 
                     newCarInfo.put("moneyPolicy", edithourlycharge.getText().toString());
-                    
+
                     newCarInfo.put("isAutomatic", transmissionSpinner.getSelectedItemPosition() != 0);
                 } catch (JSONException e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);

@@ -35,7 +35,7 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         final Request request = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.request_list, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.owner_pending_request_list, parent, false);
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.request_name);
@@ -45,8 +45,8 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         Button approveButton = (Button) convertView.findViewById(R.id.approve_button);
         Button denyButton = (Button) convertView.findViewById(R.id.deny_button);
 
-        name.setText(request.getName());
-        reason.setText(request.getReason());
+        name.setText(request.getBorrowerName());
+        reason.setText(request.getOptMessage());
         date.setText(request.getDate());
         time.setText(displayTime(request.getFromTime(), request.getToTime()));
         denyButton.setOnClickListener(new View.OnClickListener() {
