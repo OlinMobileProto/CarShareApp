@@ -47,11 +47,24 @@
         android:layout_below="@id/settings_license_plate" />
 
     <TextView
+        android:id="@+id/pricing_text"
+        android:text="@string/hourly_rate_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_license_plate_edit" />
+
+    <EditText
+        android:id="@+id/pricing_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pricing_text" />
+
+    <TextView
         android:id="@+id/settings_transmission"
         android:text="@string/car_transmission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settings_license_plate_edit" />
+        android:layout_below="@id/pricing_edittext" />
 
     <Spinner
         android:id="@+id/settings_transmission_spinner"

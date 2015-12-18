@@ -49,4 +49,26 @@
         android:layout_toRightOf="@id/key_location_edit"
         android:layout_alignBaseline="@id/key_location_edit" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Requests"
+        android:id="@+id/context"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/key_location_edit"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/context" >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/requests_list" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>
