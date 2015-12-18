@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by bill on 12/5/15.
  */
-abstract public class FriendActivity extends FragmentActivity {
+abstract public class FriendActivity extends AppCompatActivity {
 
     private JSONArray friendsJSON;
     protected ArrayList<String> friends;

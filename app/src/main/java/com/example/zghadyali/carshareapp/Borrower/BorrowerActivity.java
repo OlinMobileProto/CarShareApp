@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
-public class BorrowerActivity extends FragmentActivity {
+public class BorrowerActivity extends AppCompatActivity {
 
     public AccessToken accessToken;
     public String profileID;
