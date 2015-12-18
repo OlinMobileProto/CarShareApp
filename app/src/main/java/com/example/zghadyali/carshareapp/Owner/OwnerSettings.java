@@ -59,9 +59,29 @@ public class OwnerSettings extends Fragment {
 
         try {
             editCarMake.setText(cars.getString("make"));
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+        }
+        try {
             editCarModel.setText(cars.getString("model"));
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+        }
+        try {
             editLicensePlate.setText(cars.getString("licensePlate"));
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+        }
+        try {
             edithourlycharge.setText(cars.getString("moneyPolicy"));
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+        }
+        try {
             transmissionSpinner.setSelection((cars.getBoolean("isAutomatic") ? 1 : 0));
         } catch (JSONException e) {
             Log.e("MYAPP", "unexpected JSON exception", e);
@@ -77,8 +97,11 @@ public class OwnerSettings extends Fragment {
                 try {
                     newCarInfo.put("make", editCarMake.getText().toString());
                     newCarInfo.put("model", editCarModel.getText().toString());
+
                     newCarInfo.put("licensePlate", editLicensePlate.getText().toString());
+
                     newCarInfo.put("moneyPolicy", edithourlycharge.getText().toString());
+                    
                     newCarInfo.put("isAutomatic", transmissionSpinner.getSelectedItemPosition() != 0);
                 } catch (JSONException e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);
