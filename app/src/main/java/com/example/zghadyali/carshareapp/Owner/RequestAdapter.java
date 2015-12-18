@@ -98,12 +98,12 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         }
 
         colonIndex = fromTime.indexOf(":");
-        fromHourOfDay = Integer.valueOf(fromTime.substring(0, colonIndex));
-        fromMinute = Integer.valueOf(fromTime.substring(colonIndex + 1, fromTime.length()));
+        fromHourOfDay = Integer.valueOf(fromTime.substring(0, colonIndex-1));
+        fromMinute = Integer.valueOf(fromTime.substring(colonIndex, fromTime.length()));
 
         colonIndex = toTime.indexOf(":");
-        toHourOfDay = Integer.valueOf(toTime.substring(0, colonIndex));
-        toMinute = Integer.valueOf(toTime.substring(colonIndex + 1, fromTime.length()));
+        toHourOfDay = Integer.valueOf(toTime.substring(0, colonIndex-1));
+        toMinute = Integer.valueOf(toTime.substring(colonIndex, fromTime.length()));
 
         String convertFromTime = convertTime(fromHourOfDay, fromMinute);
         String convertToTime = convertTime(toHourOfDay, toMinute);
