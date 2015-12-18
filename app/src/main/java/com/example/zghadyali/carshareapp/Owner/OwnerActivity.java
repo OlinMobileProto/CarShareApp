@@ -42,7 +42,7 @@ public class OwnerActivity extends FriendActivity {
     private JSONArray requestsArray;
     private JSONArray pendingRequestsArray;
 
-    final private String PENDING_CODE = "0";
+    final private String PENDING_CODE = "PENDING";
 
     //Making Volley Request
     public void volley_data() {

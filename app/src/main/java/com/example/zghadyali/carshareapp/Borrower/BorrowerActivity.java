@@ -1,5 +1,8 @@
 package com.example.zghadyali.carshareapp.Borrower;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,8 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
 
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.SignUp.MainActivity;
@@ -28,8 +30,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class BorrowerActivity extends AppCompatActivity {
 
@@ -47,6 +52,10 @@ public class BorrowerActivity extends AppCompatActivity {
     public BorrowerTrips borrowerTrips;
     public JSONArray borrowerRequests;
     public ArrayList<Request> dispBorrowerRequests;
+    private String currentId;
+
+    final private String OWNER_APPROVED = "OWNER_ACCEPTED";
+    final private String BORROWER_APPROVED = "BORROWER_ACCEPTED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +107,21 @@ public class BorrowerActivity extends AppCompatActivity {
                         }
                     }).executeAsync();
         }
+        if (getIntent() != null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                if (extras.containsKey("id")) {
+                    currentId = extras.getString("id");
+                    if (extras.getBoolean("isStart")) {
+
+                    } else {
+                        BorrowerEndTrip borrowerEndTrip = new BorrowerEndTrip();
+                        transitionToFragment(borrowerEndTrip);
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
@@ -140,6 +164,62 @@ public class BorrowerActivity extends AppCompatActivity {
         transaction.replace(R.id.container, fragment);
         transaction.commit();
     }
+
+    public void setRequestAlarms(){
+        final VolleyRequests handler = new VolleyRequests(getApplicationContext());
+        handler.getborrowerRequests(new callback_requests() {
+            @Override
+            public void callback(JSONArray requests) {
+                try {
+                    for (int i = 0; i < requests.length(); i++) {
+                        JSONObject request = requests.getJSONObject(i);
+                        if (request.getString("approved").equals(OWNER_APPROVED)) {
+                            JSONObject requestBorrowerApproved = new JSONObject();
+                            try {
+                                requestBorrowerApproved.put("approved", BORROWER_APPROVED);
+                            } catch (Exception e) {
+                                Log.e("JSONException", e.getMessage());
+                            }
+                            String date = request.getString("date");
+                            String id = request.getString("ownerId");
+                            scheduleStartAlarm(date, request.getString("startTime"), id);
+                            scheduleEndAlarm(date, request.getString("endTime"), id);
+                            handler.editrequest(id, requestBorrowerApproved);
+                        }
+                    }
+                } catch (JSONException e) {
+                    Log.e("Error: ", e.getMessage());
+                }
+            }
+        }, profileID);
+    }
+
+    public void scheduleStartAlarm(String date, String time, String id) {
+        Long timeInMillis = getCalendar(date, time).getTimeInMillis() - 15*60*1000;
+        Intent intentAlarm = new Intent(this, StartTripAlarmReceiver.class);
+        intentAlarm.putExtra("id", id);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, PendingIntent.getBroadcast(this, 1, intentAlarm, 0));
+    }
+
+    public void scheduleEndAlarm(String date, String time, String id) {
+        Long timeInMillis = getCalendar(date, time).getTimeInMillis();
+        Intent intentAlarm = new Intent(this, EndTripAlarmReceiver.class);
+        intentAlarm.putExtra("id", id);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, PendingIntent.getBroadcast(this, 1, intentAlarm, 0));
+    }
+
+    public Calendar getCalendar(String date, String time){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.US);
+        try {
+            cal.setTime(sdf.parse(date + " " + time));
+        } catch (ParseException e){
+            Log.e("Error: ", e.getMessage());
+        }
+        return cal;
+    }
     
     public void getRequests(){
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
@@ -160,6 +240,10 @@ public class BorrowerActivity extends AppCompatActivity {
                 transitionToFragment(borrowerTrips);
             }
         }, profileID);
+    }
+
+    public String getCurrentId() {
+        return currentId;
     }
 
     public void updateCarList(String date, String starttime, String endtime) {

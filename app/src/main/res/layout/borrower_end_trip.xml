@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" >
+
+    <TextView
+        android:id="@+id/return_text"
+        android:text="@string/returning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="8dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/where_parked"
+        android:text="@string/where_parked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/return_text"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/where_parked_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/where_parked" />
+
+    <Button
+        android:id="@+id/confirm_park_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/where_parked_edit"
+        android:text="@string/confirm" />
+
+    <TextView
+        android:id="@+id/return_keys"
+        android:text="@string/return_keys"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/confirm_park_button"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/keys_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/return_keys" />
+
+    <Button
+        android:id="@+id/confirm_keys_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/keys_location"
+        android:text="@string/confirm" />
+
+    <TextView
+        android:id="@+id/payment_message"
+        android:text="@string/thank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/confirm_keys_button"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/payment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/launch_venmo"
+        android:layout_below="@id/payment_message" />
+
+</RelativeLayout>

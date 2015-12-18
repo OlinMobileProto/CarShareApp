@@ -21,8 +21,8 @@ import java.util.ArrayList;
  */
 public class RequestAdapter extends ArrayAdapter<Request> {
 
-    final private String ACCEPT = "1";
-    final private String DENY = "2";
+    final private String ACCEPT = "OWNER_ACCEPTED";
+    final private String DENY = "OWNER_DENIED";
     private ArrayList<Request> requests;
 
     public RequestAdapter(Context context, ArrayList<Request> requests) {

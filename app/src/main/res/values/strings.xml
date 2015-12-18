@@ -31,6 +31,15 @@
     <string name="date">Date</string>
     <string name="no_pending_requests">You have no pending requests</string>
     <string name="dash">&#160;-&#160;</string>
+    <string name="launch_venmo">Launch Venmo</string>
+    <string name="returning">Returning&#160;</string>
+    <string name="where_parked">Where did you park?</string>
+    <string name="car_parked">Parked in</string>
+    <string name="return_keys">Return the keys to</string>
+    <string name="confirm">Confirm</string>
+    <string name="thank">Thank&#160;</string>
+    <string name="car_of">\'s Car</string>
+    <string name="thank_you_message">&#160;for letting you borrow the car</string>
 
     <string-array name="transmission_choice_array">
         <item>Manual</item>
