@@ -59,7 +59,6 @@ public class BorrowerActivity extends AppCompatActivity {
             Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
             updateCarList();
-            getRequests();
         }
         else{
             Log.d("BORROWER CLASS: ", "I don't have any of that information right now");
@@ -76,7 +75,6 @@ public class BorrowerActivity extends AppCompatActivity {
                                 name = user_id.getString("name");
                                 profileID = user_id.getString("id");
                                 updateCarList();
-                                getRequests();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
@@ -101,13 +99,14 @@ public class BorrowerActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.trips:
-                transitionToFragment(borrowerTrips);
+                getRequests();
                 return true;
             case R.id.action_logout:
                 LoginManager.getInstance().logOut();
                 Log.d("Access token", accessToken.toString());
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                return true;
             case R.id.home:
                 transitionToFragment(borrowerHome);
                 return true;
@@ -133,14 +132,15 @@ public class BorrowerActivity extends AppCompatActivity {
             @Override
             public void callback(JSONArray requests) {
                 borrowerRequests = requests;
-                for (int i=0; i<borrowerRequests.length(); i++){
-                    try{
+                try {
+                    for (int i = 0; i < borrowerRequests.length(); i++) {
                         dispBorrowerRequests.add(new Request((JSONObject) borrowerRequests.get(i)));
-                    } catch (JSONException e){
-                        Log.e("Error: ", e.getMessage());
                     }
+                } catch (JSONException e) {
+                    Log.e("Error: ", e.getMessage());
                 }
-
+                borrowerTrips = new BorrowerTrips();
+                transitionToFragment(borrowerTrips);
             }
         }, profileID);
     }

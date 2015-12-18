@@ -1,5 +1,7 @@
 package com.example.zghadyali.carshareapp.Borrower;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 /**
@@ -8,22 +10,24 @@ import org.json.JSONObject;
 public class Request {
 
     private String id;
-    private String borrower_name;
-    private String owner_name;
+    private String borrowerName;
+    private String ownerName;
+    private String optMessage;
     private String date;
     private String fromTime;
     private String toTime;
-    private int status;
+    private String status;
 
     public Request(JSONObject object) {
         try{
             this.id = object.getString("requestId");
-            this.borrower_name = object.getString("borrowerName");
-            this.owner_name = object.getString("ownerName");
+            this.borrowerName = object.getString("borrowerName");
+            this.ownerName = object.getString("ownerName");
+            this.optMessage = object.getString("optmessage");
             this.date = object.getString("date");
             this.fromTime = object.getString("startTime");
             this.toTime = object.getString("endTime");
-            this.status = object.getInt("approved");
+            this.status = object.getString("approved");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,13 +39,12 @@ public class Request {
     }
 
     public String getBorrowerName() {
-        return borrower_name;
+        return borrowerName;
     }
 
     public String getOwnerName() {
-        return owner_name;
+        return ownerName;
     }
-
 
     public String getDate() {
         return date;
@@ -55,16 +58,20 @@ public class Request {
         return toTime;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
+    public String getOptMessage() {
+        return optMessage;
+    }
+
     public void setBorrowername(String newName) {
-        this.borrower_name = newName;
+        this.borrowerName = newName;
     }
 
     public void setOwnername(String newName) {
-        this.owner_name = newName;
+        this.ownerName = newName;
     }
 
 

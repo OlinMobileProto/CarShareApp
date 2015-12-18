@@ -34,10 +34,12 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.request_title);
+        TextView message = (TextView) convertView.findViewById(R.id.opt_message);
         TextView date = (TextView) convertView.findViewById(R.id.request_date);
         TextView time = (TextView) convertView.findViewById(R.id.request_time);
 
         name.setText("You requested " + request.getOwnerName());
+        message.setText(request.getOptMessage());
         date.setText(request.getDate());
         String dispTime = displayTime(request.getFromTime(), request.getToTime());
         time.setText(dispTime);

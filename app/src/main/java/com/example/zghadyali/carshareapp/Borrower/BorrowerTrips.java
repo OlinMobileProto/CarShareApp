@@ -3,6 +3,7 @@ package com.example.zghadyali.carshareapp.Borrower;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class BorrowerTrips extends Fragment {
     private TextView context;
     private ListView trips;
     private RequestAdapter requestAdapter;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +49,15 @@ public class BorrowerTrips extends Fragment {
             requestAdapter = new RequestAdapter(getContext(), borrowerActivity.dispBorrowerRequests);
             trips.setAdapter(requestAdapter);
         }
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                borrowerActivity.getRequests();
+                requestAdapter.notifyDataSetChanged();
+            }
+        });
 
 
 
