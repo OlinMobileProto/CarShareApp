@@ -18,6 +18,11 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_pending_requests"
+        android:icon="@drawable/ic_question_answer_white_48dp"
+        android:title="@string/action_pending_requests"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/action_logout"
         android:title="@string/action_logout"
         android:orderInCategory="100"
