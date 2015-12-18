@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.zghadyali.carshareapp.Borrower.*;
 import com.example.zghadyali.carshareapp.FriendActivity;
 import com.example.zghadyali.carshareapp.SignUp.MainActivity;
 import com.example.zghadyali.carshareapp.R;
@@ -24,6 +25,9 @@ import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Jordan on 11/18/15.
@@ -41,6 +45,12 @@ public class OwnerActivity extends FriendActivity {
     private JSONObject carInfo;
     private JSONArray requestsArray;
     private JSONArray pendingRequestsArray;
+
+    //Calendar related calls:
+    private Calendar calendar;
+    private int day, year,month;
+    private String date;
+    private ArrayList <Request> futurecurrentrequestsArray;
 
     final private String PENDING_CODE = "0";
 
@@ -73,7 +83,7 @@ public class OwnerActivity extends FriendActivity {
             name = getIntent().getExtras().getString("name");
             Log.d("PROFILE ID: ", profileID);
             Log.d("name", name);
-            volley_data();
+            getfuturecurrentRequests();
         }
         else{
             Log.d("OWNER CLASS: ", "I don't have any of that information right now");
@@ -89,13 +99,20 @@ public class OwnerActivity extends FriendActivity {
                                 Log.d("USER ID JSON", user_id.toString());
                                 name = user_id.getString("name");
                                 profileID = user_id.getString("id");
-                                volley_data();
+                                getfuturecurrentRequests();
                             } catch (Exception e){
                                 Log.e("Error: ", e.getMessage());
                             }
                         }
                     }).executeAsync();
         }
+
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        date = month + "/" + day + "/" + year;
     }
 
     @Override
@@ -113,7 +130,7 @@ public class OwnerActivity extends FriendActivity {
 
         switch (item.getItemId()) {
             case R.id.action_home:
-                transitionToFragment(ownerHome);
+                getfuturecurrentRequests();
                 return true;
             case R.id.action_settings:
                 transitionToFragment(ownerSettings);
@@ -155,7 +172,7 @@ public class OwnerActivity extends FriendActivity {
             @Override
             public void callback(JSONObject cars) {
                 carInfo = cars;
-                Log.d("OwnerActivity","carInfo updated: " + carInfo.toString());
+                Log.d("OwnerActivity", "carInfo updated: " + carInfo.toString());
             }
         }, profileID);
         return carInfo;
@@ -178,7 +195,7 @@ public class OwnerActivity extends FriendActivity {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("Error!", "no requests :(" +e.getMessage());
+                    Log.e("Error!", "no requests :(" + e.getMessage());
                 }
                 ownerRequests = new OwnerRequests();
                 transitionToFragment(ownerRequests);
@@ -186,9 +203,36 @@ public class OwnerActivity extends FriendActivity {
         }, profileID);
     }
 
+    public void getfuturecurrentRequests() {
+        Log.d("in the future current", "here");
+        VolleyRequests handler = new VolleyRequests(getApplicationContext());
+        futurecurrentrequestsArray = new ArrayList<com.example.zghadyali.carshareapp.Owner.Request>();
+        handler.getfuturecurrentrequests(new callback_requests() {
+            @Override
+            public void callback(JSONArray requests) {
+                try {
+                    for (int i = 0; i < requests.length(); i++) {
+                        JSONObject request = requests.getJSONObject(i);
+                        futurecurrentrequestsArray.add(new com.example.zghadyali.carshareapp.Owner.Request(request));
+                        Log.d("haifhasighai",request.toString());
+                        Log.d("date: ", date);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("Error!", "no requests :(" + e.getMessage());
+                }
+                volley_data();
+//                ownerHome = new OwnerHome();
+//                transitionToFragment(ownerHome);
+            }
+        }, profileID, date);
+    }
+
     public JSONArray getPendingRequestsArray() {
         return pendingRequestsArray;
     }
+
+    public ArrayList<Request> getFutureRequestsArray() { return futurecurrentrequestsArray; }
 
     public void transitionToHome() {
         transitionToFragment(ownerHome);

@@ -464,4 +464,32 @@ public class VolleyRequests {
                 });
         queue.add(request);
     }
+
+    public void getfuturecurrentrequests (final callback_requests callback, String ownerId, String date) {
+        String url = "http://52.33.226.47/requests_future/" + ownerId + "/"+date;
+        JsonArrayRequest request = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONArray requestInfo = new JSONArray();
+                        try{
+                            requestInfo = response;
+                        } catch (Exception e){
+                            Log.e("Error:", e.getMessage());
+                        }
+                        callback.callback(requestInfo);
+                        Log.d("available car resp: ", requestInfo.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
 }
