@@ -52,6 +52,7 @@ public class OwnerRequests extends Fragment {
             if (requestsJSON.length() == 0) {
                 textView.setText(R.string.no_pending_requests);
             } else {
+                textView.setText(R.string.pending_requests);
                 for (int i = 0; i < requestsJSON.length(); i++) {
                     try {
                         requests.add(new Request((JSONObject) requestsJSON.get(i)));
@@ -84,14 +85,21 @@ public class OwnerRequests extends Fragment {
         requestsJSON = ownerActivity.getPendingRequestsArray();
         requests = new ArrayList<>();
         if (requestsJSON != null) {
-            textView.setText(R.string.pending_requests);
-            for (int i = 0; i < requestsJSON.length(); i++) {
-                try {
-                    requests.add(new Request((JSONObject) requestsJSON.get(i)));
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (requestsJSON.length() == 0) {
+                textView.setText(R.string.no_pending_requests);
+            } else {
+                textView.setText(R.string.pending_requests);
+                for (int i = 0; i < requestsJSON.length(); i++) {
+                    try {
+                        requests.add(new Request((JSONObject) requestsJSON.get(i)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+            requestAdapter.notifyDataSetChanged();
+        } else {
+            textView.setText(R.string.no_pending_requests);
             requestAdapter.notifyDataSetChanged();
         }
     }

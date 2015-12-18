@@ -42,6 +42,8 @@ public class OwnerActivity extends FriendActivity {
     private JSONArray requestsArray;
     private JSONArray pendingRequestsArray;
 
+    final private String PENDING_CODE = "0";
+
     //Making Volley Request
     public void volley_data() {
         VolleyRequests handler = new VolleyRequests(getApplicationContext());
@@ -127,8 +129,6 @@ public class OwnerActivity extends FriendActivity {
                 return true;
             case R.id.action_pending_requests:
                 getRequests();
-//                makePendingRequests();
-//                transitionToFragment(ownerRequests);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -163,7 +163,7 @@ public class OwnerActivity extends FriendActivity {
                 try {
                     for (int i = 0; i < requestsArray.length(); i++) {
                         JSONObject request = requestsArray.getJSONObject(i);
-                        if (request.getString("approved").equals("0")) {
+                        if (request.getString("approved").equals(PENDING_CODE)) {
                             pendingRequestsArray.put(request);
                         }
                     }
@@ -175,20 +175,6 @@ public class OwnerActivity extends FriendActivity {
                 transitionToFragment(ownerRequests);
             }
         }, profileID);
-    }
-
-    public void makePendingRequests() {
-        try {
-            for (int i = 0; i < requestsArray.length(); i++) {
-                JSONObject request = (JSONObject) requestsArray.get(i);
-                if (request.getInt("approved") == 0) {
-                    pendingRequestsArray.put(request);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Error!", "no requests :(");
-        }
     }
 
     public JSONArray getPendingRequestsArray() {

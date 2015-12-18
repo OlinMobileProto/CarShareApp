@@ -39,17 +39,16 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.request_name);
+        TextView reason = (TextView) convertView.findViewById(R.id.request_reason_text);
         TextView date = (TextView) convertView.findViewById(R.id.date_text);
-        TextView from = (TextView) convertView.findViewById(R.id.from_text);
-        TextView to = (TextView) convertView.findViewById(R.id.to_text);
+        TextView time = (TextView) convertView.findViewById(R.id.time_text);
         Button approveButton = (Button) convertView.findViewById(R.id.approve_button);
-        final Button denyButton = (Button) convertView.findViewById(R.id.deny_button);
+        Button denyButton = (Button) convertView.findViewById(R.id.deny_button);
 
         name.setText(request.getName());
+        reason.setText(request.getReason());
         date.setText(request.getDate());
-        from.setText(R.string.from + request.getFromTime());
-        to.setText(R.string.to + request.getToTime());
-
+        time.setText(displayTime(request.getFromTime(), request.getToTime()));
         denyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +82,67 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         });
 
         return convertView;
+    }
+
+    public String displayTime(String fromTime, String toTime) {
+        int fromHourOfDay;
+        int fromMinute;
+        int toHourOfDay;
+        int toMinute;
+        int colonIndex;
+        try{
+            Log.d("TIME", fromTime);
+        } catch (Exception e) {
+            Log.e("ERROR", "sadness"+e.getMessage());
+            e.printStackTrace();
+        }
+
+        colonIndex = fromTime.indexOf(":");
+        fromHourOfDay = Integer.valueOf(fromTime.substring(0, colonIndex));
+        fromMinute = Integer.valueOf(fromTime.substring(colonIndex + 1, fromTime.length()));
+
+        colonIndex = toTime.indexOf(":");
+        toHourOfDay = Integer.valueOf(toTime.substring(0, colonIndex));
+        toMinute = Integer.valueOf(toTime.substring(colonIndex + 1, fromTime.length()));
+
+        String convertFromTime = convertTime(fromHourOfDay, fromMinute);
+        String convertToTime = convertTime(toHourOfDay, toMinute);
+
+        return convertFromTime + " - " + convertToTime;
+    }
+
+    public String convertTime(int hourOfDay, int minute) {
+        String res;
+        if (hourOfDay < 12) {
+            if (hourOfDay == 0) {
+                if (minute < 10) {
+                    res = (hourOfDay + 12) + ":" + "0" + minute + " AM";
+                } else {
+                    res = (hourOfDay + 12) + ":" + minute + " AM";
+                }
+            } else {
+                if (minute < 10) {
+                    res = hourOfDay + ":" + "0" + minute + " AM";
+                } else {
+                    res = hourOfDay + ":" + minute + " AM";
+                }
+            }
+        } else {
+            if (hourOfDay == 12) {
+                if (minute < 10) {
+                    res = hourOfDay + ":" + "0" + minute + " PM";
+                } else {
+                    res = hourOfDay + ":" + minute + " PM";
+                }
+            } else {
+                if (minute < 10) {
+                    res = (hourOfDay - 12) + ":" + "0" + minute + " PM";
+                } else {
+                    res = (hourOfDay - 12) + ":" + minute + " PM";
+                }
+            }
+        }
+        return res;
     }
 
 }
