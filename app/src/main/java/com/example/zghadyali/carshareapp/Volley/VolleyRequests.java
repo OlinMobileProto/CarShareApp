@@ -425,7 +425,7 @@ public class VolleyRequests {
                             Log.e("Error:", e.getMessage());
                         }
                         callback.callback(requestInfo);
-                        Log.d("car response: ", requestInfo.toString());
+                        Log.d("request response: ", requestInfo.toString());
                     }
                 },
                 new Response.ErrorListener() {
