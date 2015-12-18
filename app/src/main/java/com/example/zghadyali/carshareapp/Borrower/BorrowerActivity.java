@@ -138,9 +138,12 @@ public class BorrowerActivity extends AppCompatActivity {
         //This function takes as input a fragment, initializes the fragment manager and replaces
         //the container with the provided fragment
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
+        ft.replace(R.id.container, fragment);
+
+        // Start the animated transition.
+        ft.commit();
     }
 
     public void getRequests(){
