@@ -83,6 +83,14 @@ public class OwnerActivity extends FriendActivity {
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
+
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        date = month + "/" + day + "/" + year;
+
         if (getIntent().hasExtra("profileID") && getIntent().hasExtra("name")){
             profileID = getIntent().getExtras().getString("profileID");
             name = getIntent().getExtras().getString("name");
@@ -112,12 +120,6 @@ public class OwnerActivity extends FriendActivity {
                     }).executeAsync();
         }
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH) + 1;
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        date = month + "/" + day + "/" + year;
     }
 
     @Override
@@ -222,7 +224,7 @@ public class OwnerActivity extends FriendActivity {
                     for (int i = 0; i < requests.length(); i++) {
                         JSONObject request = requests.getJSONObject(i);
                         futurecurrentrequestsArray.add(new com.example.zghadyali.carshareapp.Owner.Request(request));
-                        Log.d("haifhasighai",request.toString());
+                        Log.d("haifhasighai", request.toString());
                         Log.d("date: ", date);
                     }
                 } catch (Exception e) {
