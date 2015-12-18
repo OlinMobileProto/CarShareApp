@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class BorrowerActivity extends AppCompatActivity {
 
@@ -140,7 +141,7 @@ public class BorrowerActivity extends AppCompatActivity {
         transaction.replace(R.id.container, fragment);
         transaction.commit();
     }
-    
+
     public void getRequests(){
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
         borrowerRequests = new JSONArray();
@@ -152,7 +153,10 @@ public class BorrowerActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < borrowerRequests.length(); i++) {
                         dispBorrowerRequests.add(new Request((JSONObject) borrowerRequests.get(i)));
+                        Log.d("REQUEST OBJECT: ", dispBorrowerRequests.get(i).toString());
                     }
+                    Collections.sort(dispBorrowerRequests);
+                    Collections.reverse(dispBorrowerRequests);
                 } catch (JSONException e) {
                     Log.e("Error: ", e.getMessage());
                 }

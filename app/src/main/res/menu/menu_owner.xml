@@ -28,4 +28,9 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/owner_history"
+        android:title="History"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 </menu>

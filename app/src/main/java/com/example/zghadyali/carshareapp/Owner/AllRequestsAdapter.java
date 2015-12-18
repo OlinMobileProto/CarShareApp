@@ -1,14 +1,14 @@
-package com.example.zghadyali.carshareapp.Borrower;
+package com.example.zghadyali.carshareapp.Owner;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.zghadyali.carshareapp.Borrower.*;
 import com.example.zghadyali.carshareapp.R;
 
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 /**
  * Created by Jordan on 12/15/15.
  */
-public class RequestAdapter extends ArrayAdapter<Request> {
+public class AllRequestsAdapter extends ArrayAdapter<Request> {
 
-    public RequestAdapter(Context context, ArrayList<Request> requests) {
+    public AllRequestsAdapter(Context context, ArrayList<Request> requests) {
         super(context, 0, requests);
     }
 
@@ -35,7 +35,7 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         TextView date = (TextView) convertView.findViewById(R.id.request_date);
         TextView time = (TextView) convertView.findViewById(R.id.request_time);
 
-        name.setText("You requested " + request.getOwnerName());
+        name.setText(request.getBorrowerName() +" requested your car");
         message.setText(request.getOptMessage());
         if (request.getStatus().equals("PENDING")){
             status.setText(request.getStatus());

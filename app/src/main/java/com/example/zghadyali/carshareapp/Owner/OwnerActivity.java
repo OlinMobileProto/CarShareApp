@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.zghadyali.carshareapp.Borrower.*;
 import com.example.zghadyali.carshareapp.FriendActivity;
 import com.example.zghadyali.carshareapp.SignUp.MainActivity;
 import com.example.zghadyali.carshareapp.R;
@@ -23,7 +24,12 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Jordan on 11/18/15.
@@ -34,6 +40,7 @@ public class OwnerActivity extends FriendActivity {
     private OwnerSettings ownerSettings = new OwnerSettings();
     private UpdateApprovedList updateApprovedList = new UpdateApprovedList();
     private OwnerRequests ownerRequests = new OwnerRequests();
+    private OwnerTrips ownerTrips;
 
     public AccessToken accessToken;
 //    public String profileID;
@@ -42,7 +49,10 @@ public class OwnerActivity extends FriendActivity {
     private JSONArray requestsArray;
     private JSONArray pendingRequestsArray;
 
-    final private String PENDING_CODE = "0";
+    private JSONArray ownerRequestsJSONArray;
+    public ArrayList<Request> dispOwnerRequests;
+    final private String PENDING_CODE = "PENDING";
+
 
     //Making Volley Request
     public void volley_data() {
@@ -130,6 +140,9 @@ public class OwnerActivity extends FriendActivity {
             case R.id.action_pending_requests:
                 getRequests();
                 return true;
+            case R.id.owner_history:
+                getAllRequests();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -155,7 +168,7 @@ public class OwnerActivity extends FriendActivity {
             @Override
             public void callback(JSONObject cars) {
                 carInfo = cars;
-                Log.d("OwnerActivity","carInfo updated: " + carInfo.toString());
+                Log.d("OwnerActivity", "carInfo updated: " + carInfo.toString());
             }
         }, profileID);
         return carInfo;
@@ -178,7 +191,7 @@ public class OwnerActivity extends FriendActivity {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("Error!", "no requests :(" +e.getMessage());
+                    Log.e("Error!", "no requests :(" + e.getMessage());
                 }
                 ownerRequests = new OwnerRequests();
                 transitionToFragment(ownerRequests);
@@ -188,6 +201,30 @@ public class OwnerActivity extends FriendActivity {
 
     public JSONArray getPendingRequestsArray() {
         return pendingRequestsArray;
+    }
+
+    public void getAllRequests() {
+        final VolleyRequests handler = new VolleyRequests(getApplicationContext());
+        ownerRequestsJSONArray = new JSONArray();
+        dispOwnerRequests = new ArrayList<Request>();
+        handler.getownerRequests(new callback_requests() {
+            @Override
+            public void callback(JSONArray requests) {
+                ownerRequestsJSONArray = requests;
+                try {
+                    for (int i = 0; i < ownerRequestsJSONArray.length(); i++) {
+                        dispOwnerRequests.add(new Request((JSONObject) ownerRequestsJSONArray.get(i)));
+                        Log.d("REQUEST OBJECT: ", dispOwnerRequests.get(i).toString());
+                    }
+                    Collections.sort(dispOwnerRequests);
+                    Collections.reverse(dispOwnerRequests);
+                } catch (JSONException e) {
+                    Log.e("Error: ", e.getMessage());
+                }
+                ownerTrips = new OwnerTrips();
+                transitionToFragment(ownerTrips);
+            }
+        }, profileID);
     }
 
     public void transitionToHome() {
