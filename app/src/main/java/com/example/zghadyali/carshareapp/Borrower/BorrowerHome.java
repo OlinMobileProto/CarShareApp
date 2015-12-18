@@ -67,6 +67,12 @@ public class BorrowerHome extends Fragment {
             }
         });
 
+        carsListView = (ListView) rootview.findViewById(R.id.cars_list);
+        carsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.text_view, borrowerActivity.carsList);
+        carsListView.setAdapter(carsAdapter);
+        Log.d("carsList", borrowerActivity.carsList.toString());
+        Log.d("carsIds", borrowerActivity.car_ids.toString());
+
         swipeRefreshLayout = (SwipeRefreshLayout) rootview.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
