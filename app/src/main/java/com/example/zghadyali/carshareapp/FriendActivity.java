@@ -1,6 +1,7 @@
 package com.example.zghadyali.carshareapp;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by bill on 12/5/15.
  */
-abstract public class FriendActivity extends AppCompatActivity{
+abstract public class FriendActivity extends FragmentActivity {
 
     private JSONArray friendsJSON;
     protected ArrayList<String> friends;
