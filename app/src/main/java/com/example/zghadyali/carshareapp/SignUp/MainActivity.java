@@ -181,9 +181,12 @@ public class MainActivity extends FriendActivity {
         //This function takes as input a fragment, initializes the fragment manager and replaces
         //the container with the provided fragment
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+        ft.replace(R.id.container, fragment);
+
+        // Start the animated transition.
+        ft.commit();
     }
 
 

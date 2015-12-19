@@ -29,11 +29,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Parent class of all fragments to modify the approved list.
+ * Parent abstract class of all fragments to modify the approved list.
  */
 public abstract class setALParent extends Fragment {
-
-    //TODO the add/remove buttons don't update with a previously-approved person for some reason
     private ListView friendsListView;
     private EditText searchFriends;
     private ApprovedListAdapter friendsAdapter;
@@ -75,13 +73,10 @@ public abstract class setALParent extends Fragment {
             }
         });
 
-
-
         // Live Search Functionality
         searchFriends.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
             }
 
             @Override
@@ -115,29 +110,6 @@ public abstract class setALParent extends Fragment {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
-//
-//                // Build the approvedJSONarray
-//                for (int k = 0; k < approvedListIDs.size(); k++ ){
-////                    try {
-//                        String thisID = approvedListIDs.get(k);
-////                        // Get the position of this friend
-////                        int friendPos = -1;
-////                        for (int j=0;j<friendsIDs.size();j++) {
-////                            if (friendsIDs.get(j).equals(thisID)) {
-////                                friendPos = j;
-////                            }
-////                        }
-////                        approvedJSONarray.put((thisActivity.friendsJSON).getJSONObject(friendPos));
-//                        approvedJSONarray.put(thisID);
-////                    } catch (JSONException e) {
-////                        Log.e("MYAPP", "unexpected JSON exception", e);
-////                        // Do something to recover ... or kill the app.
-////                    }
-//                }
-//                // Send the approved array to the server
-//                handler.addtoapproved(thisActivity.getProfileID(), approvedJSONarray);
-
                 transitionToNextFragment();
             }
         });
@@ -145,12 +117,24 @@ public abstract class setALParent extends Fragment {
         return rootview;
     }
 
+    /**
+     * Makes thisActivity equal to the subclass's activity.
+     */
     abstract protected void setupThisActivity();
 
+    /**
+     * Go to the next fragment after the user is done
+     */
     abstract protected void transitionToNextFragment();
 
+    /**
+     * Make a new fragment of this after swipe refresh is done in order to hide the refresh circle.
+     */
     abstract protected void makeNewFragment();
 
+    /**
+     * Refreshes the friends after the user swipes to refresh.
+     */
     public void updateFriends() {
         GraphRequestAsyncTask request = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -200,6 +184,11 @@ public abstract class setALParent extends Fragment {
         handler.removefromapproved(thisActivity.getProfileID(), id);
     }
 
+    /**
+     * Check if an id is approved
+     * @param id the string of the id to check
+     * @return true if it's approved, false if not
+     */
     public boolean IDIsApproved(String id) {
         return approvedListIDs.contains(id);
     }

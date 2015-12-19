@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 /**
  * Created by cynchen on 11/17/15.
+ *
+ * ALL OF THE SERVER RELATED REQUESTS
  */
 public class VolleyRequests {
 
@@ -28,6 +30,11 @@ public class VolleyRequests {
 
     //Post and Patch requests:
     //Person-related requests:
+
+    /**
+     *
+     *Create a person schema with name and user type
+     */
     public void makeperson(String id_name, String ownername, String user_type){
         String url = "http://52.33.226.47/person";
         JSONObject PersonInfo = new JSONObject();
@@ -53,6 +60,7 @@ public class VolleyRequests {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        //Do NOTHING WITH THE RESPONSE (NO RESPONSE AFTER POST)
                     }
                 },
                 new Response.ErrorListener() {
@@ -68,6 +76,9 @@ public class VolleyRequests {
 
 
     //BORROWER RELATED REQUESTS:
+    /**
+     * Make a borrower with their name when they click on borrower
+     */
     public void makeborrower(String id_name, String borrower_name){
         String url = "http://52.33.226.47/borrowers";
         JSONObject BorrowerInfo = new JSONObject();
@@ -103,39 +114,14 @@ public class VolleyRequests {
 
     }
 
-//    public void addtocanborrow(String borrower_name, String owner_name){
-//        String url = "http://52.33.226.47/borrowers/" + borrower_name + "/canborrow";
-//        JSONObject my_approved = new JSONObject();
-//        JSONArray list_owners = new JSONArray();
-//
-//        try{
-//            list_owners.put(owner_name);
-//            my_approved.put("users", list_owners);
-//        } catch (Exception e){
-//            Log.e("ERROR!", e.getMessage());
-//        }
-//        Log.d("JSONObject: ", my_approved.toString());
-//        JsonObjectRequest request = new JsonObjectRequest(
-//                Request.Method.POST,
-//                url,
-//                my_approved,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.e("Error!", error.getMessage());
-//                    }
-//                });
-//
-//        queue.add(request);
-//
-//    }
 
     //CAR RELATED REQUESTS:
+
+    /**
+     *
+     * @param id_name: facebook id of the owner
+     * @param ownername: facebook name of the owner
+     */
     public void makeownercar(String id_name, String ownername){
         String url = "http://52.33.226.47/cars";
         JSONObject CarInfo = new JSONObject();
@@ -171,7 +157,11 @@ public class VolleyRequests {
 
     }
 
-
+    /**
+     *
+     * @param id_name: facebook id of the car owner
+     * @param approved_people: json array of the approved people
+     */
     public void addtoapproved(String id_name, JSONArray approved_people){
         String url = "http://52.33.226.47/cars/" + id_name + "/approved";
         JSONObject approved_users = new JSONObject();
@@ -202,6 +192,9 @@ public class VolleyRequests {
 
     }
 
+    /**
+     * REMOVE SOMEONE FROM A CAR OWNER"S APPROVED LIST
+     */
     public void removefromapproved(String id_name, String borrower_name){
         String url = "http://52.33.226.47/cars/" + id_name + "/approved/" + borrower_name;
 
@@ -224,6 +217,9 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * Patch request to add more info about the car
+     */
     public void addcarinfo (String id_name, JSONObject owner_details){
         String url = "http://52.33.226.47/cars/" + id_name;
 
@@ -247,6 +243,12 @@ public class VolleyRequests {
 
     //CREATING AND PATCHING REQUESTS FOR CARS
     //Making a request for borrowing a car:
+
+    /**
+     * Post request for a car
+     * @param id_name: car owner's id name
+     * @param request_details: the request schema info
+     */
     public void createrequest (String id_name, JSONObject request_details){
         String url = "http://52.33.226.47/cars/" + id_name + "/requests";
         JsonObjectRequest request = new JsonObjectRequest(
@@ -266,7 +268,13 @@ public class VolleyRequests {
                 });
         queue.add(request);
     }
-    //Parching request for borrowing a car:
+
+    //Patching request for borrowing a car:
+
+    /**
+     * Edit any key in the request schema
+     * @param request_id: the request id
+     */
     public void editrequest (String request_id, JSONObject edit_request_details){
         String url = "http://52.33.226.47/requests/" + request_id;
         JsonObjectRequest request = new JsonObjectRequest(
@@ -289,9 +297,12 @@ public class VolleyRequests {
     }
 
     //GET REQUESTS:
+
+    /**
+     * Get request for user info
+     */
     public void getuser(final Callback callback, String facebook_id) {
         String url = "http://52.33.226.47/person/" + facebook_id;
-        JSONObject person = new JSONObject();
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -325,6 +336,9 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * Get request for car info
+     */
     public void getcarinfo (final callback_cars callback, String facebook_id) {
         String url = "http://52.33.226.47/cars/" + facebook_id;
         JsonObjectRequest request = new JsonObjectRequest(
@@ -353,6 +367,9 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * Get borrower information
+     */
     public void getborrowerinfo (final callback_cars callback, String facebook_id) {
         String url = "http://52.33.226.47/borrowers/" + facebook_id;
         JsonObjectRequest request = new JsonObjectRequest(
@@ -381,6 +398,9 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * GET ALL REQUESTS THAT THE OWNER IS CONNECTED TO
+     */
     public void getownerRequests (final callback_requests callback, String ownerId) {
         String url = "http://52.33.226.47/requests_owner/" + ownerId;
         JsonArrayRequest request = new JsonArrayRequest(
@@ -409,6 +429,11 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * GET ALL REQUESTS RELATED TO BORROWER
+     * @param callback
+     * @param borrowerId
+     */
     public void getborrowerRequests (final callback_requests callback, String borrowerId) {
         String url = "http://52.33.226.47/requests_borrower/" + borrowerId;
         JsonArrayRequest request = new JsonArrayRequest(
@@ -437,6 +462,9 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * Give borrower all cars that are available during a certain time
+     */
     public void getavailablecars (final callback_requests callback, String borrowerId, String date, String starttime, String endtime) {
         String url = "http://52.33.226.47/requests_cars/" + borrowerId + "/"+date +"/"+ starttime+"/" + endtime;
         JsonArrayRequest request = new JsonArrayRequest(
@@ -465,6 +493,9 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * Get all future/current requests
+     */
     public void getfuturecurrentrequests (final callback_requests callback, String ownerId, String date) {
         String url = "http://52.33.226.47/requests_future/" + ownerId + "/"+date;
         JsonArrayRequest request = new JsonArrayRequest(

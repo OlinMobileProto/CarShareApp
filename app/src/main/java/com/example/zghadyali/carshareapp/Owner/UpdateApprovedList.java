@@ -17,7 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment in the owner activity if the user wants to modify their approved list.
  */
 public class UpdateApprovedList extends setALParent {
 
@@ -30,11 +30,13 @@ public class UpdateApprovedList extends setALParent {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (thisActivity instanceof OwnerActivity) {
+            // Make the OwnerActivity-specific stuff available
             ownerActivity = (OwnerActivity) thisActivity;
         }
 
+        // Buttons
         doneButton.setText(R.string.update);
-        // Hide login button
+        // Hide the login button
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
         loginButton.setVisibility(View.GONE);
 
@@ -47,6 +49,9 @@ public class UpdateApprovedList extends setALParent {
         thisActivity = (OwnerActivity) getActivity();
     }
 
+    /**
+     * Go back to OwnerHome when this fragment is done.
+     */
     @Override
     protected void transitionToNextFragment() {
         ownerActivity.transitionToHome();
@@ -58,6 +63,9 @@ public class UpdateApprovedList extends setALParent {
         ownerActivity.transitionToFragment(updateApprovedList);
     }
 
+    /**
+     * Make sure we have the owner's previously-approved list from the server.
+     */
     private void buildApprovedList() {
         JSONObject carInfo = ownerActivity.getCarInfo();
         try {
