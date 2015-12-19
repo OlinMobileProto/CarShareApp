@@ -107,15 +107,27 @@ public class Request implements Comparable<Request> {
     public String getOwnerName() {
         return ownerName;
     }
-    
+
+    /**
+     * gets the request's date
+     * @return String of the request's date
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * gets the request's starting time
+     * @return String of the request's start time
+     */
     public String getFromTime() {
         return fromTime;
     }
 
+    /**
+     * gets the request's ending time
+     * @return String of the request's ending time
+     */
     public String getToTime() {
         return toTime;
     }
