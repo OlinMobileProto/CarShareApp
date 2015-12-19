@@ -27,11 +27,15 @@ import java.util.ArrayList;
 // the requests are organized so that upcoming requests appear at the top of the list
 public class BorrowerTrips extends Fragment {
 
+    //This is only used in your on create view, you don't need to set it class attribute
     private View rootView;
     private BorrowerActivity borrowerActivity;
+    //Same here
     private TextView context;
+    //Same here
     private ListView trips;
     private RequestAdapter requestAdapter;
+    //and same here
     private SwipeRefreshLayout swipeRefreshLayout;
 
 
@@ -43,9 +47,11 @@ public class BorrowerTrips extends Fragment {
         borrowerActivity = (BorrowerActivity) getActivity();
         if (borrowerActivity.dispBorrowerRequests.size() == 0){
             context = (TextView) rootView.findViewById(R.id.context);
+            //SHould be in Strings.xml
             context.setText("You have not made any requests right now");
         } else {
             trips = (ListView) rootView.findViewById(R.id.requests_list);
+            //dispBorrowerRequest should be private and should have a getter instead of accessing it directly
             requestAdapter = new RequestAdapter(getContext(), borrowerActivity.dispBorrowerRequests);
             trips.setAdapter(requestAdapter);
         }

@@ -39,9 +39,15 @@ import java.util.Date;
 //home fragment for the borrower is where the user makes requests for each car that they can borrowg
 public class BorrowerHome extends Fragment {
 
+    /**
+     * Citing this http://programmers.stackexchange.com/questions/143736/why-do-we-need-private-variables
+     * You should be using getters and setters if you need to access these outside the class
+     * and making these all private/protected
+     */
     public Button now;
     public ListView carsListView;
     public ArrayAdapter carsAdapter;
+    //This is only used in onCreateView, you can define it as a local variable there
     private SwipeRefreshLayout swipeRefreshLayout;
     private BorrowerActivity borrowerActivity;
 
@@ -51,6 +57,7 @@ public class BorrowerHome extends Fragment {
     private int set_month, set_year, set_day, set_from_hour, set_from_minute, set_to_hour, set_to_minute;
 
     //Default time
+    //All these are unused, remove them
     private int month_now,year_now,day_now,hour_now,minute_now;
     private String starttime_now,endtime_now, date_now;
 
@@ -86,14 +93,32 @@ public class BorrowerHome extends Fragment {
         });
 
         Log.d("Length of borrow list", String.valueOf(borrowerActivity.len));
+        /**
+         * BorrowerActivity.len should be private and should have a getter in order to
+         * access it
+         */
         if (borrowerActivity.len == 0){
             TextView context = (TextView) rootview.findViewById(R.id.context);
+            //This should be in Strings.xml
             context.setText("You are not approved to borrow any cars right now.");
             now.setVisibility(View.GONE);
         } else {
+            //Remove this log
             Log.d("HERE", "jiu");
             carsListView = (ListView) rootview.findViewById(R.id.cars_list);
-            CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity) getActivity()).name,((BorrowerActivity) getActivity()).profileID,((BorrowerActivity) getActivity()).car_ids,((BorrowerActivity) getActivity()).carsList, BorrowerHome.this, getActivity());
+            //For viewability sake youll want to break this into a few lines
+            CarsListCustomAdapter adapter = new CarsListCustomAdapter(
+                    /**
+                     * You called getActivity() earlier in this method and assigned it to a variable
+                     * so why not reference that variable here instead of calling getActivity().
+                     * While this is functional, all of these should also be private with getters
+                     * because of the reason I posted before
+                     */
+                    ((BorrowerActivity) getActivity()).name,
+                    ((BorrowerActivity) getActivity()).profileID,
+                    ((BorrowerActivity) getActivity()).car_ids,
+                    ((BorrowerActivity) getActivity()).carsList,
+                    BorrowerHome.this, getActivity());
             carsListView.setAdapter(adapter);
         }
 
@@ -101,6 +126,7 @@ public class BorrowerHome extends Fragment {
     }
 
 
+    //THis method is unused, you should remove it
     public void displayBeginTripDialog(String carId){
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -121,6 +147,10 @@ public class BorrowerHome extends Fragment {
                 Log.d("JSON CARS", cars.toString());
                 final JSONObject car = cars;
                 try {
+                    /**
+                     * Rather than casting each of these you can call
+                     * car.getString("parkedLocation")
+                     */
                     final String parked = (String) car.get("parkedLocation");
                     final String keys = (String) car.get("keysLocation");
                     parkLocation.setText(parked);
@@ -142,6 +172,12 @@ public class BorrowerHome extends Fragment {
 
     private void swipeUpdate() {
         //SETTING DEFAULT DATE AND TIME
+        /**
+         * Dates are some of the worst designed things in Java, but instead of this
+         * consider doing something like this
+         * http://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
+         * the SimpleDataFormat should really be used to generate the string values of dates
+         */
         calendar = Calendar.getInstance();
         year_now = calendar.get(Calendar.YEAR);
         month_now = calendar.get(Calendar.MONTH);
@@ -176,6 +212,7 @@ public class BorrowerHome extends Fragment {
         final LinearLayout optmessagetext = (LinearLayout) alertLayout.findViewById(R.id.optmessagesection);
         optmessagetext.setVisibility(View.GONE);
 
+        //Same thing with the dates here
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -188,6 +225,10 @@ public class BorrowerHome extends Fragment {
 
 
         date_request.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Just the date stuff again with this. Dates are actually the dumbest thing
+             * in java though
+             */
             @Override
             public void onClick(View v) {
                 DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -198,6 +239,7 @@ public class BorrowerHome extends Fragment {
                             set_year = setYear;
                             set_month = setMonth;
                             set_day = setDay;
+                            //setYear will always equal setYear
                         } else if (setYear == setYear && setMonth > month) {
                             date_request.setText((setMonth + 1) + "/" + setDay + "/" + setYear);
                             set_year = setYear;
@@ -215,6 +257,7 @@ public class BorrowerHome extends Fragment {
                     }
                 };
                 DatePickerDialog mDatePickerDialog = new DatePickerDialog(getActivity(), myDateListener, year, month, day);
+                //What is this for?
                 mDatePickerDialog.getDatePicker().setMinDate(new Date().getTime()-1000);
                 mDatePickerDialog.show();
 
@@ -227,6 +270,7 @@ public class BorrowerHome extends Fragment {
         displayTime(from_request, hour, minute);
         set_from_hour = hour;
         set_from_minute = minute;
+
 
         from_request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,6 +335,7 @@ public class BorrowerHome extends Fragment {
         });
 
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        //THis should be string.xml
         alert.setTitle("Set Time ");
         alert.setView(alertLayout);
         alert.setCancelable(true);
@@ -302,6 +347,7 @@ public class BorrowerHome extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final String date = date_request.getText().toString();
+                //This can also be done with Dates
                 final String from = set_from_hour + ":" + set_from_minute;
                 final String to = set_to_hour + ":" + set_to_minute;
 
@@ -321,6 +367,9 @@ public class BorrowerHome extends Fragment {
         dialog.show();
     }
 
+    /**
+     * Using dates would make this method pretty much unnecessary
+     */
     public void displayTime(EditText editText, int hourOfDay, int minute){
         if (hourOfDay < 12) {
             if (hourOfDay == 0){

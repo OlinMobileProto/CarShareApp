@@ -40,6 +40,10 @@ public class RequestAdapter extends ArrayAdapter<Request> {
 
         name.setText("You requested " + request.getOwnerName());
         message.setText(request.getOptMessage());
+        /**
+         * All these like "PENDING" Should be defined in a constants file somewhere
+         * rather than be hardcoded in here
+         */
         if (request.getStatus().equals("PENDING")){
             status.setText(request.getStatus());
         }
@@ -64,6 +68,7 @@ public class RequestAdapter extends ArrayAdapter<Request> {
     }
 
     //takes in a request, gets the hour and gets the minute and places it in a string for us to display for each request
+    //Just the date comments again
     public String displayTime(Request request){
         String convertFromTime = convertTime(request.getHour(request.getFromTime()), request.getMinute(request.getFromTime()));
         String convertToTime = convertTime(request.getHour(request.getToTime()), request.getMinute(request.getToTime()));
@@ -71,6 +76,7 @@ public class RequestAdapter extends ArrayAdapter<Request> {
     }
 
     // takes in 2 integers and returns a string that contains the time in 24 hour format
+    // Date comment again
     public String convertTime(int hourOfDay, int minute) {
         String res;
         if (hourOfDay < 12) {

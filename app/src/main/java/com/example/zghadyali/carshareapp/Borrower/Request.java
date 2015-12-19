@@ -30,6 +30,13 @@ public class Request implements Comparable<Request> {
 
     public Request(JSONObject object) {
         try{
+            /**
+             * It seems like a lot of these are used in other aspects of the code
+             * it would be best to define these string literals in a separate file that
+             * hold a lot of public static final Strings that all hold the values stored
+             * here. That way if you change something in the server that slightly changes
+             * the names you only have to change it in one spot.
+             */
             this.id = object.getString("requestId");
             this.borrowerName = object.getString("borrowerName");
             this.ownerName = object.getString("ownerName");
@@ -45,6 +52,7 @@ public class Request implements Comparable<Request> {
     }
 
     //gets the hour using the calendar object as an integer
+    //This method could also be refactored if dates are used
     public int getHour(String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
@@ -58,6 +66,7 @@ public class Request implements Comparable<Request> {
     }
 
     //gets the minute using the calendar object as an integer
+    //Same here
     public int getMinute(String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
@@ -70,6 +79,7 @@ public class Request implements Comparable<Request> {
     }
 
     //gets the date from the request as a Calendar object and converts it to a date
+    //Same here
     public Date getCalendarDate(String date, String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.US);
@@ -88,6 +98,7 @@ public class Request implements Comparable<Request> {
         return getCalendarDate(getDate(), getFromTime()).compareTo(request.getCalendarDate(request.getDate(), request.getFromTime()));
     }
 
+    // Getters and setters should be at the top of the class, but thats pretty minor
     public String getId() {
         return id;
     }

@@ -47,6 +47,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
     //List of car names that borrower can borrow from
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
+    //This is unused so it should be remove from the constructor too
     private BorrowerHome borrowerHome;
 
     //Calendar for alertdialog initializations
@@ -121,6 +122,11 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         return view;
     }
 
+    /**
+     * Is this the same as in BorrowerHome? If so it would be nice to have structured
+     * the code in the a way that you could have reused this code. As opposed to
+     * duplicate it
+     **/
     // displays the alert dialog that allows the user to specify the date and times they will be borrowing
     // the car for
     public void displayAlertDialog(String car, String carId) {
@@ -222,6 +228,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
                             set_from_hour = setHourOfDay;
                             set_from_minute = setMinute;
                         } else {
+                            //This could be in string.xml
                             Toast toast = Toast.makeText(context, "The time you chose is not valid", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -258,6 +265,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         });
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        //These could be strings.xml
         alert.setTitle("Request " + car);
         alert.setView(alertLayout);
         alert.setCancelable(true);
@@ -328,6 +336,13 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
     }
 
     //takes an EditText field and an hourOfDay and minute and displays it clean
+
+    /**
+     * It would be good to refactor this so that you only have this method written
+     * once, maybe in a common utility class less code reused is better so that way
+     * if you discover a bug you only have to change it in one spot
+     * Also same thing with dates here
+     */
     public void displayTime(EditText editText, int hourOfDay, int minute){
         if (hourOfDay < 12) {
             if (hourOfDay == 0){

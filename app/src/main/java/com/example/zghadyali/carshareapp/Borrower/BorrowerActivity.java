@@ -171,7 +171,7 @@ public class BorrowerActivity extends AppCompatActivity {
         //the container with the provided fragment
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        //Sweet
+        //Sweet animations
         ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
         ft.replace(R.id.container, fragment);
 
@@ -183,6 +183,7 @@ public class BorrowerActivity extends AppCompatActivity {
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
         borrowerRequests = new JSONArray();
         dispBorrowerRequests = new ArrayList<Request>();
+        //Capitalize this class
         handler.getborrowerRequests(new callback_requests() {
             @Override
             public void callback(JSONArray requests) {
