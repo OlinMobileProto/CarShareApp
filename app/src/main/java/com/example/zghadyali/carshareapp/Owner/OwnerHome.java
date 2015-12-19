@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 /**
- * Created by Jordan on 11/18/15.
+ * Owner home page fragment. Shows car/keys location and upcoming requests
  */
 public class OwnerHome extends Fragment {
 
@@ -127,6 +127,9 @@ public class OwnerHome extends Fragment {
         return view;
     }
 
+    /**
+     * Updates the upcoming requests. Called when screen is swiped to refresh
+     */
     private void swipeUpdate() {
         //SETTING DEFAULT DATE AND TIME
         final OwnerActivity owneractivity = ((OwnerActivity)getActivity());

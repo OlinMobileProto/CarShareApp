@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Jordan on 12/15/15.
+ * Request object
  */
 public class Request implements Comparable<Request> {
 
@@ -40,18 +40,34 @@ public class Request implements Comparable<Request> {
 
     }
 
+    /**
+     * Returns the hour given a string of time HH:mm
+     * @param time a string containing time formatted HH:mm
+     * @return int representing the hour
+     */
     public int getHour(String time){
         int colon_index = time.indexOf(":");
         int HourOfDay = Integer.valueOf(time.substring(0, colon_index));
         return HourOfDay;
     }
 
+    /**
+     * Returns the minute given a string of time HH:mm
+     * @param time a string containing time formatted HH:mm
+     * @return int representing the minute
+     */
     public int getMinute(String time){
         int colon_index = time.indexOf(":");
         int minute = Integer.valueOf(time.substring(colon_index + 1, time.length()));
         return minute;
     }
 
+    /**
+     * Given a string of a date (MM/dd/yyyy) and a string of a time (HH:mm), returns a Date object
+     * @param date string representing a date formatted (MM/dd/yyyy)
+     * @param time string representing a time formatted (HH:mm)
+     * @return Date representing the given date and time
+     */
     public Date getCalendarDate(String date, String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.US);
@@ -68,26 +84,50 @@ public class Request implements Comparable<Request> {
         return getCalendarDate(getDate(), getFromTime()).compareTo(request.getCalendarDate(request.getDate(), request.getFromTime()));
     }
 
+    /**
+     * gets the id of the request
+     * @return String of request's ID
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * gets the request's borrower's name
+     * @return String of the request's borrower's name
+     */
     public String getBorrowerName() {
         return borrowerName;
     }
 
+    /**
+     * gets the request's owner's name
+     * @return String of the request's owner's name
+     */
     public String getOwnerName() {
         return ownerName;
     }
 
+    /**
+     * gets the request's date
+     * @return String of the request's date
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * gets the request's starting time
+     * @return String of the request's start time
+     */
     public String getFromTime() {
         return fromTime;
     }
 
+    /**
+     * gets the request's ending time
+     * @return String of the request's ending time
+     */
     public String getToTime() {
         return toTime;
     }

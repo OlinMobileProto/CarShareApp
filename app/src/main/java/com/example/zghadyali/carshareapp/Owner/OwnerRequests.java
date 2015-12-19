@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Jordan on 12/14/15.
+ * Fragment to display an owner's pending requests and allows the owner to accept/deny requests
  */
 public class OwnerRequests extends Fragment {
 
@@ -80,6 +80,9 @@ public class OwnerRequests extends Fragment {
         return view;
     }
 
+    /**
+     * Updates the list of the owner's pending requests. Called when screen is swiped to refresh.
+     */
     public void swipeUpdate() {
         ownerActivity.getRequests();
         requestsJSON = ownerActivity.getPendingRequestsArray();
