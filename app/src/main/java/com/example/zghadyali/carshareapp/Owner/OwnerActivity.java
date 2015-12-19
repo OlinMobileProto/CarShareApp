@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Calendar;
 
 /**
- * Created by Jordan on 11/18/15.
+ * Activity for Owner use
  */
 public class OwnerActivity extends FriendActivity {
 
@@ -162,6 +162,10 @@ public class OwnerActivity extends FriendActivity {
         }
     }
 
+    /**
+     * transitions to the input fragment
+     * @param fragment Fragment to transition to
+     */
     public void transitionToFragment(Fragment fragment){
         //This function takes as input a fragment, initializes the fragment manager and replaces
         //the container with the provided fragment
@@ -174,10 +178,18 @@ public class OwnerActivity extends FriendActivity {
         ft.commit();
     }
 
+    /**
+     * Returns the JSONArray of requests
+     * @return JSONArray of requests
+     */
     public JSONArray getRequestsArray() {
         return requestsArray;
     }
 
+    /**
+     * makes a Volley Request to get the owner's car info
+     * @return JSONObject of the owner's car
+     */
     public JSONObject getCarInfo() {
         VolleyRequests handler = new VolleyRequests(getApplicationContext());
 
@@ -191,6 +203,9 @@ public class OwnerActivity extends FriendActivity {
         return carInfo;
     }
 
+    /**
+     * gets all of the owner's pending requests
+     */
     public void getRequests() {
         VolleyRequests handler = new VolleyRequests(getApplicationContext());
         handler.getownerRequests(new callback_requests() {
@@ -216,6 +231,9 @@ public class OwnerActivity extends FriendActivity {
         }, profileID);
     }
 
+    /**
+     * makes a Volley request to get all of the owner's approved future requests
+     */
     public void getfuturecurrentRequests() {
         Log.d("in the future current", "here");
         VolleyRequests handler = new VolleyRequests(getApplicationContext());
@@ -241,10 +259,17 @@ public class OwnerActivity extends FriendActivity {
         }, profileID, date);
     }
 
+    /**
+     * returns the JSONArray of the owner's pending requests
+     * @return JSONArray of the owner's pending requests
+     */
     public JSONArray getPendingRequestsArray() {
         return pendingRequestsArray;
     }
 
+    /**
+     * gets all of an owner's requests
+     */
     public void getAllRequests() {
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
         ownerRequestsJSONArray = new JSONArray();
@@ -268,8 +293,16 @@ public class OwnerActivity extends FriendActivity {
             }
         }, profileID);
     }
+
+    /**
+     * returns an ArrayList of Requests representing of the owner's future requests
+     * @return an ArrayList of Requests representing of the owner's future requests
+     */
     public ArrayList<Request> getFutureRequestsArray() { return futurecurrentrequestsArray; }
 
+    /**
+     * transitions to the owner's home fragment
+     */
     public void transitionToHome() {
         transitionToFragment(ownerHome);
     }
