@@ -34,7 +34,10 @@ import java.util.Calendar;
 import java.util.Collections;
 
 // this is the borrower activity that the user is directed to if they exist on the server and are a
-// borrower. We get all of the cars this 
+// borrower. We get all of the cars this borrower can borrow and we give them the ability to request
+// the cars by providing the date, time they will take the car, and time they will return the car.
+// We check if the date is before the current date or the time is before the current time and that the
+// time you return is after the time you were going to leave.
 
 public class BorrowerActivity extends AppCompatActivity {
 

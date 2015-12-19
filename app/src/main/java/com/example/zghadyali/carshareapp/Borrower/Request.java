@@ -13,6 +13,10 @@ import java.util.Locale;
 /**
  * Created by Jordan on 12/15/15.
  */
+
+// request object implemented using a JSON object for each request. This object is how we use each request
+// later on in the app. We have several getter functions for this object
+
 public class Request implements Comparable<Request> {
 
     private String id;
@@ -40,6 +44,7 @@ public class Request implements Comparable<Request> {
 
     }
 
+    //gets the hour using the calendar object as an integer
     public int getHour(String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
@@ -52,6 +57,7 @@ public class Request implements Comparable<Request> {
         return cal.get(Calendar.HOUR_OF_DAY);
     }
 
+    //gets the minute using the calendar object as an integer
     public int getMinute(String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
@@ -63,6 +69,7 @@ public class Request implements Comparable<Request> {
         return cal.get(Calendar.MINUTE);
     }
 
+    //gets the date from the request as a Calendar object and converts it to a date
     public Date getCalendarDate(String date, String time){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.US);
@@ -74,6 +81,8 @@ public class Request implements Comparable<Request> {
         return cal.getTime();
     }
 
+    //by using the date, we can compare the objects and order the requests such that the ones in the future
+    // (the ones the user cares more about) appear at the top in the list view
     @Override
     public int compareTo(Request request) {
         return getCalendarDate(getDate(), getFromTime()).compareTo(request.getCalendarDate(request.getDate(), request.getFromTime()));
