@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.Date;
 
+//home fragment for the borrower is where the user makes requests for each car that they can borrowg
 public class BorrowerHome extends Fragment {
 
     public Button now;
@@ -94,7 +95,6 @@ public class BorrowerHome extends Fragment {
             carsListView = (ListView) rootview.findViewById(R.id.cars_list);
             CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity) getActivity()).name,((BorrowerActivity) getActivity()).profileID,((BorrowerActivity) getActivity()).car_ids,((BorrowerActivity) getActivity()).carsList, BorrowerHome.this, getActivity());
             carsListView.setAdapter(adapter);
-            displayBeginTripDialog("1660443104180437");
         }
 
         return rootview;

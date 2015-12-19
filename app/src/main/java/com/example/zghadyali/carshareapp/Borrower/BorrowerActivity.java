@@ -34,7 +34,10 @@ import java.util.Calendar;
 import java.util.Collections;
 
 // this is the borrower activity that the user is directed to if they exist on the server and are a
-// borrower. We get all of the cars this 
+// borrower. We get all of the cars this borrower can borrow and we give them the ability to request
+// the cars by providing the date, time they will take the car, and time they will return the car.
+// We check if the date is before the current date or the time is before the current time and that the
+// time you return is after the time you were going to leave.
 
 public class BorrowerActivity extends AppCompatActivity {
 
@@ -58,10 +61,11 @@ public class BorrowerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrower);
 
+
         //SETTING DEFAULT DATE AND TIME
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
+        month = calendar.get(Calendar.MONTH)+1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -70,6 +74,7 @@ public class BorrowerActivity extends AppCompatActivity {
         date = month + "/" + day + "/" + year;
         starttime = hour + ":" + minute;
         endtime = (hour+1) + ":" + minute;
+
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
@@ -175,6 +180,10 @@ public class BorrowerActivity extends AppCompatActivity {
 
     public void updateCarList(String date, String starttime, String endtime) {
 
+        final String new_date = date;
+        final String new_starttime = starttime;
+        final String new_endtime = endtime;
+
         //Get all of the available cars:
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
         handler.getavailablecars(new callback_requests() {
@@ -205,6 +214,8 @@ public class BorrowerActivity extends AppCompatActivity {
                                     e.getMessage();
                                 }
                                 Log.d("BORROWER'S CARS", carsList.toString());
+                                Log.d("asuisuiuf", new_date);
+                                handler.editrequestalldone(profileID, new_date, new_starttime);
                                 borrowerHome = new BorrowerHome();
                                 borrowerTrips = new BorrowerTrips();
                                 transitionToFragment(borrowerHome);

@@ -112,7 +112,8 @@ public class MainActivity extends FriendActivity {
         }
     }
 
-
+    // sets up the login button so that when the user clicks it they log in and we check the server
+    // to see if they have signed up before or if they are a new user
     public void loginSetup(LoginButton button) {
             button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override

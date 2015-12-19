@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for the listview in a setAL class.
+ * Shows the friends' name and a dynamic button to add/remove them from the approved list.
+ */
 public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
@@ -34,9 +38,8 @@ public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public long getItemId(int pos) {
-//        return list.get(pos).getId();
+        // Return 0 if your list items do not have an Id variable.
         return 0;
-        //just return 0 if your list items do not have an Id variable.
     }
 
     @Override
@@ -54,10 +57,13 @@ public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
         // Displays the actual friend name instead of the id
         listItemText.setText(setAL.getThisActivity().getFriendNameFromID(thisID));
 
+        // Store if this person is approved already in a boolean
         final boolean isApproved = setAL.IDIsApproved(thisID);
 
-        //Handle buttons and add onClickListeners
+        // Button
         Button addDelBtn = (Button)view.findViewById(R.id.add_del_btn);
+
+        // Dynamically set the button text
         if (isApproved) {
             addDelBtn.setText(R.string.remove_button);
         }
@@ -83,6 +89,10 @@ public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
         return view;
     }
 
+    /**
+     * Allows this list to be updated from another class.
+     * @param newList the new list to use instead of the old one
+     */
     public void setNewList(ArrayList<String> newList) {
         this.list = newList;
         notifyDataSetChanged();
