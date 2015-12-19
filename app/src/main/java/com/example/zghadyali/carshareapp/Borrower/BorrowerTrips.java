@@ -23,9 +23,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+// displays all of the requests the borrower has made using our custom adapter for each request
+// the requests are organized so that upcoming requests appear at the top of the list
 public class BorrowerTrips extends Fragment {
 
     private View rootView;
@@ -34,6 +33,7 @@ public class BorrowerTrips extends Fragment {
     private ListView trips;
     private RequestAdapter requestAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

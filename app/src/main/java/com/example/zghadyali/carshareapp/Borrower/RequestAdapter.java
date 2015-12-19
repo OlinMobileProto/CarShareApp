@@ -16,6 +16,9 @@ import java.util.ArrayList;
 /**
  * Created by Jordan on 12/15/15.
  */
+
+// this is the request adapter that takes in all of the requests and displays them. This adapter
+// does not do anything else other than displaying each request
 public class RequestAdapter extends ArrayAdapter<Request> {
 
     public RequestAdapter(Context context, ArrayList<Request> requests) {
@@ -60,12 +63,14 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         return convertView;
     }
 
+    //takes in a request, gets the hour and gets the minute and places it in a string for us to display for each request
     public String displayTime(Request request){
         String convertFromTime = convertTime(request.getHour(request.getFromTime()), request.getMinute(request.getFromTime()));
         String convertToTime = convertTime(request.getHour(request.getToTime()), request.getMinute(request.getToTime()));
         return convertFromTime + " - " + convertToTime;
     }
 
+    // takes in 2 integers and returns a string that contains the time in 24 hour format
     public String convertTime(int hourOfDay, int minute) {
         String res;
         if (hourOfDay < 12) {

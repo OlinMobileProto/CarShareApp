@@ -35,6 +35,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+// this adapter is used to display the cars the borrower can borrow. When the user clicks the request
+// button a dialog opens where the user can specify the date, time they are leaving, and time they will
+// be returning with the car. Do a lot of stuff to display time and date in a way that looks nice to the user
+// while still being in a format that we can work with
 public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
     //Needs borrower name (name), borrower profileID (profileID), list of cars they are allowed to borrow from (cars_ids)
     private String name, profileID;
@@ -117,7 +121,8 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         return view;
     }
 
-
+    // displays the alert dialog that allows the user to specify the date and times they will be borrowing
+    // the car for
     public void displayAlertDialog(String car, String carId) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -322,6 +327,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         dialog.show();
     }
 
+    //takes an EditText field and an hourOfDay and minute and displays it clean
     public void displayTime(EditText editText, int hourOfDay, int minute){
         if (hourOfDay < 12) {
             if (hourOfDay == 0){
