@@ -14,7 +14,7 @@ import com.example.zghadyali.carshareapp.R;
 import java.util.ArrayList;
 
 /**
- * Created by Jordan on 12/15/15.
+ * Same as RequestAdapter for BorrowerTrips, but for OwnerTrips
  */
 public class AllRequestsAdapter extends ArrayAdapter<Request> {
 
