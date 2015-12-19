@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
+// this is the borrower activity that the user is directed to if they exist on the server and are a
+// borrower. We get all of the cars this 
 public class BorrowerActivity extends FragmentActivity {
 
     public AccessToken accessToken;

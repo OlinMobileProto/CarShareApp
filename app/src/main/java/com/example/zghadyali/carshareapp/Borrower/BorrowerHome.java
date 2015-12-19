@@ -26,9 +26,12 @@ import android.widget.Toast;
 
 import com.example.zghadyali.carshareapp.R;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
+import com.example.zghadyali.carshareapp.Volley.callback_cars;
 import com.example.zghadyali.carshareapp.Volley.callback_requests;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -57,7 +60,6 @@ public class BorrowerHome extends Fragment {
         View rootview = inflater.inflate(R.layout.borrower_home, container, false);
 
         borrowerActivity = (BorrowerActivity) getActivity();
-
         Log.d("BORROWER HOME STATUS: ", "you are now in the borrower home fragment");
         now = (Button) rootview.findViewById(R.id.now_button);
         now.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +94,50 @@ public class BorrowerHome extends Fragment {
             carsListView = (ListView) rootview.findViewById(R.id.cars_list);
             CarsListCustomAdapter adapter = new CarsListCustomAdapter(((BorrowerActivity) getActivity()).name,((BorrowerActivity) getActivity()).profileID,((BorrowerActivity) getActivity()).car_ids,((BorrowerActivity) getActivity()).carsList, BorrowerHome.this, getActivity());
             carsListView.setAdapter(adapter);
-
+            displayBeginTripDialog("1660443104180437");
         }
 
         return rootview;
+    }
+
+
+    public void displayBeginTripDialog(String carId){
+        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        final View alertLayout = inflater.inflate(R.layout.begin_trip, null);
+
+        final EditText parkLocation = (EditText) alertLayout.findViewById(R.id.parked_location);
+        parkLocation.setInputType(InputType.TYPE_NULL);
+        inputManager.hideSoftInputFromWindow(parkLocation.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        final EditText keyLocation = (EditText) alertLayout.findViewById(R.id.key_location);
+        keyLocation.setInputType(InputType.TYPE_NULL);
+        inputManager.hideSoftInputFromWindow(keyLocation.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        final VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
+        handler.getcarinfo(new callback_cars() {
+            @Override
+            public void callback(JSONObject cars) {
+                Log.d("JSON CARS", cars.toString());
+                final JSONObject car = cars;
+                try {
+                    final String parked = (String) car.get("parkedLocation");
+                    final String keys = (String) car.get("keysLocation");
+                    parkLocation.setText(parked);
+                    keyLocation.setText(keys);
+                } catch (JSONException e) {
+                    Log.e("Error: ", e.getMessage());
+                }
+            }
+        }, carId);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Begin your trip ");
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+        alert.setPositiveButton("Dismiss", null);
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 
     private void swipeUpdate() {

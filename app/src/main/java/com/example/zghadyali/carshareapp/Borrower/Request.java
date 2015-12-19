@@ -41,15 +41,26 @@ public class Request implements Comparable<Request> {
     }
 
     public int getHour(String time){
-        int colon_index = time.indexOf(":");
-        int HourOfDay = Integer.valueOf(time.substring(0, colon_index));
-        return HourOfDay;
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
+        try{
+            cal.setTime(sdf.parse(time));
+        } catch (ParseException e){
+            e.getMessage();
+        }
+        Log.d("HOUR: ", String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
+        return cal.get(Calendar.HOUR_OF_DAY);
     }
 
     public int getMinute(String time){
-        int colon_index = time.indexOf(":");
-        int minute = Integer.valueOf(time.substring(colon_index + 1, time.length()));
-        return minute;
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.US);
+        try{
+            cal.setTime(sdf.parse(time));
+        } catch (ParseException e){
+            e.getMessage();
+        }
+        return cal.get(Calendar.MINUTE);
     }
 
     public Date getCalendarDate(String date, String time){

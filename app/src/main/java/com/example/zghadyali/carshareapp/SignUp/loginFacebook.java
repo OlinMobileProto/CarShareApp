@@ -12,6 +12,8 @@ import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
+// fragment that is launched first from MainActivity. Just creates the Facebook login button and logs
+// the user in
 public class loginFacebook extends Fragment {
 
     public LoginButton loginButton;

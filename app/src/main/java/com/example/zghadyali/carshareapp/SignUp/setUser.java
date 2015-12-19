@@ -15,6 +15,10 @@ import com.example.zghadyali.carshareapp.SignUp.MainActivity;
 import com.example.zghadyali.carshareapp.SignUp.setApprovedList;
 import com.example.zghadyali.carshareapp.Volley.VolleyRequests;
 
+// fragment the user goes to after logging in if they do not exist on the server already. The first
+// step in the user sign up flow. They sign up as a car owner or borrower. This is a binary decision
+// so a user cannot be an owner and a borrower and this decision will define which activity launches
+// when they open the app every subsequent time they open the app
 public class setUser extends Fragment {
 
     private Button setOwner;

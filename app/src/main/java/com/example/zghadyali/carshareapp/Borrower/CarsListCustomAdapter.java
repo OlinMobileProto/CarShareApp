@@ -117,6 +117,7 @@ public class CarsListCustomAdapter extends BaseAdapter implements ListAdapter {
         return view;
     }
 
+
     public void displayAlertDialog(String car, String carId) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
