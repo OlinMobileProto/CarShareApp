@@ -28,12 +28,16 @@ import java.util.Calendar;
  */
 public class OwnerHome extends Fragment {
 
+    //This could be a local variable in only the onCreateView
     private View view;
+    //This is unused
     private TextView carLocation;
     private EditText editCarLocation;
+    //THis is unused
     private TextView keyLocation;
     private EditText editKeyLocation;
     private String profileID;
+    //These three are only used in onCReateView so they can be local variables as well
     private JSONObject cars;
     private Button update_carlocation;
     private Button update_keylocation;
@@ -61,6 +65,7 @@ public class OwnerHome extends Fragment {
         update_carlocation = (Button) view.findViewById(R.id.car_location_update);
         update_keylocation = (Button) view.findViewById(R.id.key_location_update);
         try {
+            //These should be in a constants file as well
             editCarLocation.setText(cars.getString("parkedLocation"));
             editKeyLocation.setText(cars.getString("keysLocation"));
         } catch (JSONException e) {
@@ -83,6 +88,7 @@ public class OwnerHome extends Fragment {
 
         if (owneractivity.getFutureRequestsArray().size() == 0){
             TextView context = (TextView) view.findViewById(R.id.context);
+            //Strings.xml
             context.setText("You have no upcoming requests!");
         } else {
             Log.d("HERE", "jiu");
@@ -98,6 +104,7 @@ public class OwnerHome extends Fragment {
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
                 JSONObject new_carlocation = new JSONObject();
                 try {
+                    //Put this in a constatns file
                     new_carlocation.put("parkedLocation", editCarLocation.getText().toString());
                 } catch (Exception e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);
@@ -113,6 +120,7 @@ public class OwnerHome extends Fragment {
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
                 JSONObject new_keylocation = new JSONObject();
                 try {
+                    //Put "keysLocation" Constants file
                     new_keylocation.put("keysLocation", editKeyLocation.getText().toString());
                 } catch (JSONException e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);

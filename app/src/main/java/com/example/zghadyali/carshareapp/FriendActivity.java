@@ -41,6 +41,7 @@ abstract public class FriendActivity extends AppCompatActivity {
      * Get the facebook friend data from Facebook.
      */
     public void setupFriends() {
+        //The left side of this equal sign is unnecessary.
         GraphRequestAsyncTask request = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me/friends",

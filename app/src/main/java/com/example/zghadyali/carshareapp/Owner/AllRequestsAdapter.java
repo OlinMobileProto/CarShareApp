@@ -17,7 +17,11 @@ import java.util.ArrayList;
  * Same as RequestAdapter for BorrowerTrips, but for OwnerTrips
  */
 public class AllRequestsAdapter extends ArrayAdapter<Request> {
-
+    /**
+     * Since this is almost entirely the same as RequestAdapter could you just define one
+     * and then figure out a way to either conditionally change the things that are
+     * different or pass in the different things? I think its just the textView differences
+     */
     public AllRequestsAdapter(Context context, ArrayList<Request> requests) {
         super(context, 0, requests);
     }
@@ -35,16 +39,21 @@ public class AllRequestsAdapter extends ArrayAdapter<Request> {
         TextView date = (TextView) convertView.findViewById(R.id.request_date);
         TextView time = (TextView) convertView.findViewById(R.id.request_time);
 
+        //This should be in string.xml, well the second part
         name.setText(request.getBorrowerName() +" requested your car");
         message.setText(request.getOptMessage());
+        //THese should be in a constants file so you only have to change it in one
+        //spot if its changes
         if (request.getStatus().equals("PENDING")){
             status.setText(request.getStatus());
         }
         if (request.getStatus().equals("OWNER_ACCEPTED")){
+            //Strings.xml
             status.setText("ACCEPTED");
             status.setTextColor(Color.GREEN);
         }
         if (request.getStatus().equals("OWNER_DENIED")){
+            //Strings.xml
             status.setText("DENIED");
             status.setTextColor(Color.RED);
         }
@@ -66,6 +75,10 @@ public class AllRequestsAdapter extends ArrayAdapter<Request> {
         return convertFromTime + " - " + convertToTime;
     }
 
+    /**
+     * Just the same date comments as in Borrower, these could be a lot shorter
+     * if you used Date
+     */
     public String convertTime(int hourOfDay, int minute) {
         String res;
         if (hourOfDay < 12) {

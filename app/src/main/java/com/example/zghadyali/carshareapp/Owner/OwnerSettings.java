@@ -22,13 +22,18 @@ import org.json.JSONObject;
  */
 public class OwnerSettings extends Fragment {
 
+    //This can be converted to a local variable
     private View view;
+    //Are you ever using this?
     private TextView carMake;
     private EditText editCarMake;
+    //Is this being used
     private TextView carModel;
     private EditText editCarModel;
+    //is ths being used?
     private TextView licensePlate;
     private EditText editLicensePlate;
+    //Is this being used?
     private TextView hourlycharge;
     private EditText edithourlycharge;
     private Spinner transmissionSpinner;
@@ -58,6 +63,7 @@ public class OwnerSettings extends Fragment {
         Log.d("Stuff:", cars.toString());
 
         try {
+            //All these that are referenced in getString should be constants in a file
             editCarMake.setText(cars.getString("make"));
         } catch (JSONException e) {
             Log.e("MYAPP", "unexpected JSON exception", e);
@@ -82,6 +88,7 @@ public class OwnerSettings extends Fragment {
             // Do something to recover ... or kill the app.
         }
         try {
+            //Swag sweet turnary statement
             transmissionSpinner.setSelection((cars.getBoolean("isAutomatic") ? 1 : 0));
         } catch (JSONException e) {
             Log.e("MYAPP", "unexpected JSON exception", e);
@@ -95,6 +102,7 @@ public class OwnerSettings extends Fragment {
                 VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
                 JSONObject newCarInfo = new JSONObject();
                 try {
+                    //These should also be in a constants file
                     newCarInfo.put("make", editCarMake.getText().toString());
                     newCarInfo.put("model", editCarModel.getText().toString());
 

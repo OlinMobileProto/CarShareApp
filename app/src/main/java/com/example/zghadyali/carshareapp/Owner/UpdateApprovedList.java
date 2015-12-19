@@ -69,6 +69,7 @@ public class UpdateApprovedList extends setALParent {
     private void buildApprovedList() {
         JSONObject carInfo = ownerActivity.getCarInfo();
         try {
+            //This could be in a constant file
             JSONArray approvedJSON = carInfo.getJSONArray("approvedList");
             Log.d("approvedJSON: ", approvedJSON.toString());
             for (int i = 0; i < approvedJSON.length(); i++) {

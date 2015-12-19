@@ -26,6 +26,7 @@ import java.util.ArrayList;
  */
 public class OwnerRequests extends Fragment {
 
+    //These three things are only used in onCReateView, they can be local variables
     private View view;
 
     private SwipeRefreshLayout swipeRefreshLayout;

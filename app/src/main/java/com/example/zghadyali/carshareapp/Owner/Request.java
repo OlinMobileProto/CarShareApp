@@ -13,6 +13,9 @@ import java.util.Locale;
 /**
  * Request object
  */
+/**
+ * Is this the exact same code as the one in Borrower? It could be reused if so
+ */
 public class Request implements Comparable<Request> {
 
     private String id;
@@ -26,6 +29,9 @@ public class Request implements Comparable<Request> {
 
     public Request(JSONObject object) {
         try{
+            /**
+             * These should all be in constants files
+             */
             this.id = object.getString("requestId");
             this.borrowerName = object.getString("borrowerName");
             this.ownerName = object.getString("ownerName");
@@ -45,6 +51,8 @@ public class Request implements Comparable<Request> {
      * @param time a string containing time formatted HH:mm
      * @return int representing the hour
      */
+    //Just again with the date stuff, its tough at first, but it would make
+    //A lot of these methods simpler
     public int getHour(String time){
         int colon_index = time.indexOf(":");
         int HourOfDay = Integer.valueOf(time.substring(0, colon_index));

@@ -51,6 +51,9 @@ public class Request implements Comparable<Request> {
 
     }
 
+    /**
+     * Just again the date stuff here could be done better
+     */
     //gets the hour using the calendar object as an integer
     //This method could also be refactored if dates are used
     public int getHour(String time){

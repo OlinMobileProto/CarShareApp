@@ -50,6 +50,7 @@ public class OwnerActivity extends FriendActivity {
 
     private JSONArray ownerRequestsJSONArray;
     public ArrayList<Request> dispOwnerRequests;
+    //You reference this elsewhere, you should put it in one constants file somewhere
     final private String PENDING_CODE = "PENDING";
 
     //Calendar related calls:
@@ -63,6 +64,7 @@ public class OwnerActivity extends FriendActivity {
     public void volley_data() {
         VolleyRequests handler = new VolleyRequests(getApplicationContext());
 
+        //calback_cars should be capitalized
         handler.getcarinfo(new callback_cars() {
             @Override
             public void callback(JSONObject cars) {
@@ -91,6 +93,8 @@ public class OwnerActivity extends FriendActivity {
 
         date = month + "/" + day + "/" + year;
 
+        //These might also be nice to put in a constants file, since they are used
+        //In two separate files adn two places
         if (getIntent().hasExtra("profileID") && getIntent().hasExtra("name")){
             profileID = getIntent().getExtras().getString("profileID");
             name = getIntent().getExtras().getString("name");
@@ -171,6 +175,7 @@ public class OwnerActivity extends FriendActivity {
         //the container with the provided fragment
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        //ANIMATION FOR THE WINNNN!!!!!!!!!
         ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
         ft.replace(R.id.container, fragment);
 
@@ -245,6 +250,7 @@ public class OwnerActivity extends FriendActivity {
                     for (int i = 0; i < requests.length(); i++) {
                         JSONObject request = requests.getJSONObject(i);
                         futurecurrentrequestsArray.add(new com.example.zghadyali.carshareapp.Owner.Request(request));
+                        //Remove this
                         Log.d("haifhasighai", request.toString());
                         Log.d("date: ", date);
                     }

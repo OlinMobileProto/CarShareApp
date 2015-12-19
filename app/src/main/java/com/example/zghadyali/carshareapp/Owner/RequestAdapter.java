@@ -19,6 +19,14 @@ import java.util.ArrayList;
 /**
  * Request Adapter for request objects
  */
+
+/**
+ * This is super similar to the other RequestAdapter class. It would be cool
+ * if you could have combined these into one class that either conditionally change
+ * what is different in the constructor or in the methods that differ
+ * If these do need to be different you should probably name them something different
+ * so its easier to distinguish between them
+ */
 public class RequestAdapter extends ArrayAdapter<Request> {
 
     final private String ACCEPT = "1";

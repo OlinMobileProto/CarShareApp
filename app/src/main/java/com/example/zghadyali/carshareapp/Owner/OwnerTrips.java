@@ -28,11 +28,14 @@ import java.util.ArrayList;
  */
 public class OwnerTrips extends Fragment {
 
+    //This could be a local variable in onCreateView
     private View rootView;
     private OwnerActivity ownerActivity;
+    //This could be a local variable in onCreateView
     private TextView context;
     private ListView trips;
     private AllRequestsAdapter allRequestsAdapter;
+    //This could be a local variable in onCreateView
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -41,8 +44,10 @@ public class OwnerTrips extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.borrower_trips, container, false);
         ownerActivity = (OwnerActivity) getActivity();
+        //DispOwnerRequests should be a private variable witha  getter that is used here
         if (ownerActivity.dispOwnerRequests.size() == 0){
             context = (TextView) rootView.findViewById(R.id.context);
+            //This should be in Strings.xml
             context.setText("You have not responded to any requests right now");
         } else {
             trips = (ListView) rootView.findViewById(R.id.requests_list);
