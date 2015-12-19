@@ -296,6 +296,30 @@ public class VolleyRequests {
         queue.add(request);
     }
 
+    /**
+     * PATCH ALL REQUESTS THAT HAVE EXPIRED ALREADY
+     */
+    public void editrequestalldone ( String borrowerId, String date, String endtime){
+        String url = "http://52.33.226.47/requests_to_done/" + borrowerId + "/" + date + "/" + endtime;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PATCH,
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+//                        Log.e("Error!", error.getMessage());
+                    }
+                });
+        queue.add(request);
+    }
+
     //GET REQUESTS:
 
     /**
