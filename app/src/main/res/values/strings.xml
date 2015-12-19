@@ -6,6 +6,7 @@
     <string name="action_pending_requests">Pending requests</string>
     <string name="car_location_question">Where is your car parked?</string>
     <string name="key_location_question">Where can borrowers find your keys?</string>
+    <string name="facebook_app_id">BLAH</string>
     <string name="hourly_rate_question">What hourly rate do you charge?</string>
     <string name="dollar">$</string>
     <string name="per_hour">/ hour</string>

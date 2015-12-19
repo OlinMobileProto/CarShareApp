@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -39,14 +40,27 @@ import java.util.Collections;
 // We check if the date is before the current date or the time is before the current time and that the
 // time you return is after the time you were going to leave.
 
+/**
+ * The convention for adding comments describing a method or class is to use this
+ * style of comments, there are a lot of auto documentation generators that will
+ * automatically read comments if they are in this form. No worries though, just
+ * a tip for the future
+ */
 public class BorrowerActivity extends AppCompatActivity {
 
+    /**
+     * Citing this http://programmers.stackexchange.com/questions/143736/why-do-we-need-private-variables
+     * You should be using getters and setters if you need to access these outside the class
+     * and making these all private/protected
+     */
     public AccessToken accessToken;
     public String profileID;
     public String name, date, starttime, endtime;
     private int month, year, day, hour, minute;
     private Calendar calendar;
+    //You can remove this unused variable
     public JSONObject borrower_cars;
+
     public JSONArray car_ids;
     public JSONArray carsJSON;
     public ArrayList<String> carsList;
@@ -70,7 +84,12 @@ public class BorrowerActivity extends AppCompatActivity {
 
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
-
+        /**
+         * Dates are some of the worst designed things in Java, but instead of this
+         * consider doing something like this
+         * http://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
+         * the SimpleDataFormat should really be used to generate the string values of dates
+         */
         date = month + "/" + day + "/" + year;
         starttime = hour + ":" + minute;
         endtime = (hour+1) + ":" + minute;
@@ -87,7 +106,10 @@ public class BorrowerActivity extends AppCompatActivity {
             updateCarList(date, starttime, endtime);
         }
         else{
+            //Nitpick, but you might consider this to be an info log that is saying
+            //There is no stored info about the user
             Log.d("BORROWER CLASS: ", "I don't have any of that information right now");
+            //YOu can remove the left side of this equals sign and the code will workt he same
             GraphRequestAsyncTask userid_request = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/me",
@@ -117,6 +139,7 @@ public class BorrowerActivity extends AppCompatActivity {
         return true;
     }
 
+    //THis method is wicked clean, nice work
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -142,11 +165,13 @@ public class BorrowerActivity extends AppCompatActivity {
         }
     }
 
+    //It looks like this method is just used in this class so it should be private
     public void transitionToFragment(Fragment fragment){
         //This function takes as input a fragment, initializes the fragment manager and replaces
         //the container with the provided fragment
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        //Sweet
         ft.setCustomAnimations(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
         ft.replace(R.id.container, fragment);
 
