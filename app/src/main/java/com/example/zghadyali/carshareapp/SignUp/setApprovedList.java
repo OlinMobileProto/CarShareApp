@@ -14,7 +14,7 @@ import com.facebook.login.widget.LoginButton;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment in the owner sign up flow when the user initially sets their approved list.
  */
 public class setApprovedList extends setALParent {
 
@@ -31,8 +31,10 @@ public class setApprovedList extends setALParent {
             mainActivity = (MainActivity) thisActivity;
         }
 
+        // Buttons
         doneButton.setText(R.string.next);
 
+        // Facebook Login/Logout Button
         loginButton = (LoginButton) rootview.findViewById(R.id.login_button);
         loginButton.setFragment(this);
         //should always be logging you out and log out should return you to first screen
@@ -63,6 +65,9 @@ public class setApprovedList extends setALParent {
         mainActivity.transitionToFragment(setAL);
     }
 
+    /**
+     * Go to the next step in the signup process.
+     */
     @Override
     protected void transitionToNextFragment() {
         setCarInfo = new SetCarInfo();
