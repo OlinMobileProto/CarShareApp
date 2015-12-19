@@ -40,10 +40,13 @@ import org.json.JSONObject;
 public class MainActivity extends FriendActivity {
 
     private loginFacebook loginfb;
+    //This is unused
     private Payment venmoPayment = new Payment();
+    //THis is unused
     private View view;
     private CallbackManager callbackManager;
     private AccessToken accessToken;
+    //THis is unused
     private JSONObject userid;
     private String profileName;
     private setUser setuser;
@@ -90,6 +93,7 @@ public class MainActivity extends FriendActivity {
                                         }
                                         else if (user_status == 0){
                                             Log.d("STATUS: ","Could not find you on the server, clearing data");
+                                            //This should be in constants
                                             getApplicationContext().getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit();
                                             loginfb = new loginFacebook();
                                             transitionToFragment(loginfb);
@@ -134,6 +138,7 @@ public class MainActivity extends FriendActivity {
                                         try {
                                             final JSONObject user_id = response.getJSONObject();
                                             Log.d("USER ID JSON", user_id.toString());
+                                            //THese should be in a constants file
                                             profileName = user_id.getString("name");
                                             profileID = user_id.getString("id");
                                             handler.getuser(new Callback() {
@@ -194,6 +199,7 @@ public class MainActivity extends FriendActivity {
 
 
     @Override
+    //Remove this commented out code
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 //        final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));

@@ -16,9 +16,14 @@ import java.util.ArrayList;
 /**
  * The fragment in the owner sign up flow when the user initially sets their approved list.
  */
+//Capitalize this class
 public class setApprovedList extends setALParent {
 
     private MainActivity mainActivity;
+    /**
+     * This is sort of odd that the setApprovedList class has an attribute
+     * that is a setApprovedList
+     */
     private setApprovedList setAL;
 
     @Override

@@ -27,6 +27,7 @@ public class SetCarInfo extends Fragment {
     private EditText keyLocation;
     private EditText hourlyRate;
     private MainActivity mainActivity;
+    //THese two are unused
     private JSONObject setcarinfo;
     private Button carinfo_next;
 
@@ -54,6 +55,7 @@ public class SetCarInfo extends Fragment {
 
                 JSONObject setcarinfo = new JSONObject();
                 try {
+                    //These should all be in a constants file
                     setcarinfo.put("parkedLocation", carparkedlocation);
                 } catch (Exception e) {
                     Log.e("ERROR!", e.getMessage());

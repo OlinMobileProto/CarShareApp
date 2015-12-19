@@ -14,10 +14,18 @@ import java.util.Arrays;
 
 // fragment that is launched first from MainActivity. Just creates the Facebook login button and logs
 // the user in
+//Capitalize this class
 public class loginFacebook extends Fragment {
 
+    /**
+     * Citing this http://programmers.stackexchange.com/questions/143736/why-do-we-need-private-variables
+     * You should be using getters and setters if you need to access these outside the class
+     * and making these all private/protected
+     */
     public LoginButton loginButton;
+    //This is unused
     public setUser setuser;
+    //THis could be a local variable
     private MainActivity mainActivity;
 
     @Override

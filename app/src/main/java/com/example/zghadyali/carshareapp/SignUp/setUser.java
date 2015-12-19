@@ -63,6 +63,7 @@ public class setUser extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //THis coudl be rewritten as isOwner for clearity
                 if (isOwner != null && isOwner){
                     setAL = new setApprovedList();
                     VolleyRequests handler = new VolleyRequests(getActivity().getApplicationContext());
@@ -83,6 +84,7 @@ public class setUser extends Fragment {
                     //Makes borrower schema in the server database
                     handler.makeborrower(mainActivity.getProfileID(), mainActivity.getProfileName());
                     Intent borrower_intent = new Intent(getActivity().getApplicationContext(), BorrowerActivity.class);
+                    //These could all be in constants files
                     borrower_intent.putExtra("profileID", mainActivity.getProfileID());
                     borrower_intent.putExtra("name", mainActivity.getProfileName());
                     borrower_intent.putExtra("friends", mainActivity.getFriends());
@@ -90,7 +92,7 @@ public class setUser extends Fragment {
                     borrower_intent.putExtra("friendsJSON", mainActivity.getFriendsJSON().toString());
                     startActivity(borrower_intent);
                 } else{
-
+                    //You could remove this else block since its empty
                 }
             }
         });
