@@ -61,10 +61,11 @@ public class BorrowerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrower);
 
+
         //SETTING DEFAULT DATE AND TIME
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
+        month = calendar.get(Calendar.MONTH)+1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -73,6 +74,7 @@ public class BorrowerActivity extends AppCompatActivity {
         date = month + "/" + day + "/" + year;
         starttime = hour + ":" + minute;
         endtime = (hour+1) + ":" + minute;
+
 
         accessToken = AccessToken.getCurrentAccessToken();
         Log.d("LOGGEDIN ACCESS TOKEN: ", accessToken.getToken());
@@ -178,6 +180,10 @@ public class BorrowerActivity extends AppCompatActivity {
 
     public void updateCarList(String date, String starttime, String endtime) {
 
+        final String new_date = date;
+        final String new_starttime = starttime;
+        final String new_endtime = endtime;
+
         //Get all of the available cars:
         final VolleyRequests handler = new VolleyRequests(getApplicationContext());
         handler.getavailablecars(new callback_requests() {
@@ -208,6 +214,8 @@ public class BorrowerActivity extends AppCompatActivity {
                                     e.getMessage();
                                 }
                                 Log.d("BORROWER'S CARS", carsList.toString());
+                                Log.d("asuisuiuf", new_date);
+                                handler.editrequestalldone(profileID, new_date, new_starttime);
                                 borrowerHome = new BorrowerHome();
                                 borrowerTrips = new BorrowerTrips();
                                 transitionToFragment(borrowerHome);

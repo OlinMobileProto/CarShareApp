@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Jordan on 12/15/15.
+ * Request Adapter for request objects
  */
 public class RequestAdapter extends ArrayAdapter<Request> {
 
@@ -25,6 +25,11 @@ public class RequestAdapter extends ArrayAdapter<Request> {
     final private String DENY = "2";
     private ArrayList<Request> requests;
 
+    /**
+     * constructer for RequestAdapter
+     * @param context context from the fragment/activity
+     * @param requests ArrayList of request objects to be displayed in the RequestAdapter
+     */
     public RequestAdapter(Context context, ArrayList<Request> requests) {
         super(context, 0, requests);
         this.requests = requests;
@@ -84,6 +89,12 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         return convertView;
     }
 
+    /**
+     * Given starting and ending String times, return a String of the range of the two times
+     * @param fromTime String of the starting time formatted HH:mm
+     * @param toTime String of the ending time formatted HH:mm
+     * @return String formatted HH:mm - HH:mm
+     */
     public String displayTime(String fromTime, String toTime) {
         int fromHourOfDay;
         int fromMinute;
@@ -111,6 +122,12 @@ public class RequestAdapter extends ArrayAdapter<Request> {
         return convertFromTime + " - " + convertToTime;
     }
 
+    /**
+     * Converts an hour int and a minute int to a String representing the time formatted HH:mm
+     * @param hourOfDay int representing hours
+     * @param minute int representing minutes
+     * @return String representing the input hour and minutes formatted HH:mm
+     */
     public String convertTime(int hourOfDay, int minute) {
         String res;
         if (hourOfDay < 12) {

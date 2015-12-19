@@ -21,10 +21,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by bill on 12/5/15.
+ * Parent activity for activities that needs access to facebook friend data.
  */
 abstract public class FriendActivity extends AppCompatActivity {
-
     private JSONArray friendsJSON;
     protected ArrayList<String> friends;
     protected ArrayList<String> friendsIDs;
@@ -38,6 +37,9 @@ abstract public class FriendActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
+    /**
+     * Get the facebook friend data from Facebook.
+     */
     public void setupFriends() {
         GraphRequestAsyncTask request = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -75,7 +77,11 @@ abstract public class FriendActivity extends AppCompatActivity {
         ).executeAsync();
     }
 
-
+    /**
+     * Gets the name of a friend from their id.
+     * @param id The friend's id
+     * @return String of the friend's name
+     */
     public String getFriendNameFromID(String id) {
         for (int i = 0; i < friendsJSON.length(); i++) {
             try {
@@ -91,49 +97,35 @@ abstract public class FriendActivity extends AppCompatActivity {
         return "FRIEND ID NOT FOUND";
     }
 
+    /**** FRIEND GETTERS AND SETTERS ****/
     public ArrayList<String> getFriendsIDs() {
         return friendsIDs;
     }
-
     public void setFriendsIDs(ArrayList<String> newList) {
         friendsIDs = newList;
     }
-
-    public void addToFriendsIDs(String s) {
-        friendsIDs.add(s);
-    }
-
     public ArrayList<String> getBorrowerFriendsIDs() {
         return borrowerFriendsIDs;
     }
-
-    public void setBorrowerFriendsIDs(ArrayList<String> newList) {
-        borrowerFriendsIDs = newList;
-    }
-
     public ArrayList<String> getFriends() {
         return friends;
     }
-
     public void setFriends(ArrayList<String> newList) {
         friends = newList;
     }
-
-    public void addToFriends(String s) {
-        friends.add(s);
-    }
-
     public String getProfileID() {
         return profileID;
     }
-
     public JSONArray getFriendsJSON() {
         return friendsJSON;
     }
 
+    /**
+     * Adds this id to the borrowerfriendsIDs list if they're a borrower on the server.
+     * @param id The id to check
+     */
     private void addIfBorrower(final String id) {
         final VolleyRequests handler = new VolleyRequests(this.getApplicationContext());
-//        final boolean[] borrowerStatus = new boolean[1];
         GraphRequestAsyncTask userid_request = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me",
@@ -142,10 +134,6 @@ abstract public class FriendActivity extends AppCompatActivity {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         try {
-//                            JSONObject user_id = response.getJSONObject();
-//                            Log.d("USER ID JSON", user_id.toString());
-//                            profileName = user_id.getString("name");
-//                            profileID = user_id.getString("id");
                             handler.getuser(new Callback() {
                                 @Override
                                 public void callback(Integer user_status) {
@@ -159,13 +147,11 @@ abstract public class FriendActivity extends AppCompatActivity {
                                     }
                                 }
                             }, id);
-//                            userid = response.getJSONObject();
                         } catch (Exception e) {
                             Log.e("Error: ", e.getMessage());
                         }
                     }
                 }
         ).executeAsync();
-//        return borrowerStatus[0];
     }
 }

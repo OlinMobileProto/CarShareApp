@@ -31,10 +31,12 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
-// sign up activity, first thing that runs when the user opens the app
-// user logs in using Facebook log in and we check whether or not they already exist on the server
-// as a user. If they do, we direct them to the appropriate Borrower/Owner activity. Otherwise we
-// continue the sign-up flow
+/**
+ * Sign up activity, first thing that runs when the user opens the app
+ * user logs in using Facebook log in and we check whether or not they already exist on the server
+ * as a user. If they do, we direct them to the appropriate Borrower/Owner activity. Otherwise we
+ * continue the sign-up flow.
+ */
 public class MainActivity extends FriendActivity {
 
     private loginFacebook loginfb;
