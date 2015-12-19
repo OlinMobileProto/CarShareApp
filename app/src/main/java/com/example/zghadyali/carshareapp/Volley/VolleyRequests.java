@@ -17,7 +17,7 @@ import org.json.JSONObject;
 /**
  * Created by cynchen on 11/17/15.
  *
- * ALL OF THE SERVER RELATED REQUESTS
+ * ALL OF THE SERVER RELATED REQUESTS AS VOLLEY REQUESTS
  */
 public class VolleyRequests {
 
