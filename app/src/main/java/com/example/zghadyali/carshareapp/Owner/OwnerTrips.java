@@ -24,7 +24,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for the Owner's History. Shows the history of the owner's requests
  */
 public class OwnerTrips extends Fragment {
 
