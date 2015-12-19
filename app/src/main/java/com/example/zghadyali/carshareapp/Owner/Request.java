@@ -132,31 +132,58 @@ public class Request implements Comparable<Request> {
         return toTime;
     }
 
+    /**
+     * gets the status of the request
+     * @return String of the request's status
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * gets the request's optional message
+     * @return String of the request's message
+     */
     public String getOptMessage() {
         return optMessage;
     }
 
+    /**
+     * sets the request's borrower's name
+     * @param newName String name to set for the request's borrower
+     */
     public void setBorrowername(String newName) {
         this.borrowerName = newName;
     }
 
+    /**
+     * sets the request's owner's name
+     * @param newName String name to set for the request's owner
+     */
     public void setOwnername(String newName) {
         this.ownerName = newName;
     }
 
-
+    /**
+     * sets the request's date
+     * @param newDate String date MM/dd/yyyy to set for the request's date
+     */
     public void setDate(String newDate) {
         this.date = newDate;
     }
 
+    /**
+     * sets the request's starting time
+     * @param newFromTime String time hh:mm to set for request's start time
+     */
     public void setFromTime(String newFromTime) {
         this.fromTime = newFromTime;
     }
 
+    /**
+     * sets the request's ending time
+     * @param newToTime String time hh:mm to set for request's end time
+     */
     public void setToTime(String newToTime) {
         this.toTime = newToTime;
     }

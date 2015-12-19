@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Jordan on 12/1/15.
+ * Fragment of the Owner's Setting page, where the Owner can edit their car's information
  */
 public class OwnerSettings extends Fragment {
 
