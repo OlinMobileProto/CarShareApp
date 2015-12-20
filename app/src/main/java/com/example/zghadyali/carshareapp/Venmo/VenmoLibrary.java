@@ -20,6 +20,9 @@ import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * Was this code that you wrote?
+ */
 public class VenmoLibrary {
     private static final String VENMO_PACKAGE = "com.venmo";
     private static final String VENMO_ACTIVITY = "com.venmo.ComposeActivity";

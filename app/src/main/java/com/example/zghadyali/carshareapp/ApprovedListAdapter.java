@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * Adapter for the listview in a setAL class.
  * Shows the friends' name and a dynamic button to add/remove them from the approved list.
  */
+
+/**
+ * This is really nice code. Good job
+ */
 public class ApprovedListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;

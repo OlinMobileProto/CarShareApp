@@ -19,6 +19,14 @@ import org.json.JSONObject;
  *
  * ALL OF THE SERVER RELATED REQUESTS AS VOLLEY REQUESTS
  */
+
+/**
+ * Big comment with this file is to basically put string literals you use in
+ * multiple places either in a constants file or at the top of this class as
+ * private static final Strings, that way if something changes its easy to change
+ * There are also a lot of try catches that I don't beleive will ever actually
+ * catch anythin
+ */
 public class VolleyRequests {
 
     public RequestQueue queue;
@@ -36,6 +44,8 @@ public class VolleyRequests {
      *Create a person schema with name and user type
      */
     public void makeperson(String id_name, String ownername, String user_type){
+        //Probably want to put these endpoints and fields as constants at the top
+        //of the file or if they are used elsewhere, in separate constant file
         String url = "http://52.33.226.47/person";
         JSONObject PersonInfo = new JSONObject();
         try{
@@ -163,6 +173,7 @@ public class VolleyRequests {
      * @param approved_people: json array of the approved people
      */
     public void addtoapproved(String id_name, JSONArray approved_people){
+        //I would definitely put this Domaina s a variable at the top of the class
         String url = "http://52.33.226.47/cars/" + id_name + "/approved";
         JSONObject approved_users = new JSONObject();
 
@@ -373,6 +384,9 @@ public class VolleyRequests {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONObject cars = new JSONObject();
+                        //What is this try catch going to catch? It will only catch
+                        //Exceptions thrown by the line in the try and that line will not
+                        //through an error
                         try{
                             cars = response;
                         } catch (Exception e){
@@ -394,6 +408,9 @@ public class VolleyRequests {
     /**
      * Get borrower information
      */
+    /**
+     * This is unused and shoudl be removed
+     */
     public void getborrowerinfo (final callback_cars callback, String facebook_id) {
         String url = "http://52.33.226.47/borrowers/" + facebook_id;
         JsonObjectRequest request = new JsonObjectRequest(
@@ -404,6 +421,9 @@ public class VolleyRequests {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONObject borrower_info = new JSONObject();
+                        /**
+                         * Same question here witht eh try catch
+                         */
                         try{
                             borrower_info = response;
                         } catch (Exception e){

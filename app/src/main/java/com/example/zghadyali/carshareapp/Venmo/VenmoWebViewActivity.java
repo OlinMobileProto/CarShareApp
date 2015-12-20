@@ -72,10 +72,12 @@ public class VenmoWebViewActivity extends Activity {
             mContext = c;
             mActivity = (Activity)c;
         }
-        
+
+		//This is unused, remove it
         public void paymentSuccessful(String signed_request) {
         	Intent i = new Intent();
         	i.putExtra("signedrequest", signed_request);
+			//Activity.RESULT_OK can be referenced like that rather than on the instance
     		mActivity.setResult(mActivity.RESULT_OK, i);
     		mActivity.finish();
         }
@@ -86,7 +88,8 @@ public class VenmoWebViewActivity extends Activity {
     		mActivity.setResult(mActivity.RESULT_OK, i);
     		mActivity.finish();
         }
-        
+
+		//This is also unused, remove it
         public void cancel() {
         	Intent i = new Intent();
         	mActivity.setResult(mActivity.RESULT_CANCELED);

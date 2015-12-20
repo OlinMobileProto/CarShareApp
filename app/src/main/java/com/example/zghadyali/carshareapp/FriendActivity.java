@@ -87,6 +87,7 @@ abstract public class FriendActivity extends AppCompatActivity {
         for (int i = 0; i < friendsJSON.length(); i++) {
             try {
                 JSONObject friend = friendsJSON.getJSONObject(i);
+                //These should be defined as constants somewhere
                 String thisID = friend.getString("id");
                 if (thisID.equals(id)) {
                     return friend.getString("name");

@@ -1,5 +1,6 @@
 package com.example.zghadyali.carshareapp.Venmo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import com.example.zghadyali.carshareapp.Venmo.VenmoLibrary;
  */
 public class Payment extends Fragment {
 
+    //Both of these are only used in the oncreateView and could just be local
+    //variables
     private View view;
     private Button button;
 
@@ -35,6 +38,9 @@ public class Payment extends Fragment {
                 String note = "Thanks!";
                 String txn = "pay";
                 final int REQUEST_CODE_VENMO_APP_SWITCH = Integer.parseInt(getString(R.string.appId));
+                //This shouldn't be version controlled, but its value should
+                //be a private static final String  at the top of this class since
+                //it is referenced in many places
                 String app_secret = getString(R.string.appSecret);
                 if(VenmoLibrary.isVenmoInstalled(getContext())) {
                     Intent venmoIntent = VenmoLibrary.openVenmoPayment(appId, appName, recipient, amount, note, txn);
@@ -64,6 +70,7 @@ public class Payment extends Fragment {
                     VenmoLibrary.VenmoResponse response = (new VenmoLibrary()).validateVenmoPaymentResponse(signedrequest, app_secret);
                     if (response.getSuccess().equals("1")) {
                         //Payment successful.  Use data from response object to display a success message
+                        //These can be unused
                         String note = response.getNote();
                         String amount = response.getAmount();
                     }
@@ -71,8 +78,13 @@ public class Payment extends Fragment {
                     String error_message = data.getStringExtra("error_message");
                     //An error ocurred.  Make sure to display the error_message to the user
                 }
+                /**
+                 * RESULT_CANCELED is a static member of Activity, so you don't need to
+                 * call getActivity(), you can instead do Activity.RESULT_CANCELED
+                 */
             } else if (resultCode == getActivity().RESULT_CANCELED) {
                 //The user cancelled the payment
+
             }
         }
     }

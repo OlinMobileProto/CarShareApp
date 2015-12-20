@@ -31,7 +31,12 @@ import java.util.ArrayList;
 /**
  * Parent abstract class of all fragments to modify the approved list.
  */
+
+/**
+ * Sweet, this is a really good use of inheritance
+ */
 public abstract class setALParent extends Fragment {
+    //This could just be a local variable in the onCreateView
     private ListView friendsListView;
     private EditText searchFriends;
     private ApprovedListAdapter friendsAdapter;
@@ -148,6 +153,7 @@ public abstract class setALParent extends Fragment {
                             friendsIDs = new ArrayList<String>();
                             JSONObject res = response.getJSONObject();
                             Log.d("res",res.toString());
+                            //These json fields shoudl be delcared in one spot
                             Log.d("friendsJSON: ", res.getJSONArray("data").toString());
                             if (res.getJSONArray("data") != null) {
                                 int len = res.getJSONArray("data").length();
